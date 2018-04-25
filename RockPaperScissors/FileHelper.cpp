@@ -61,7 +61,7 @@ char FileHelper::readchar(ifstream& file) {
 bool FileHelper::checkNextChar(ifstream& file, const char* charTocheck) {
 
 	char ActualnextChar;
-	int len = strlen(charTocheck);
+	size_t len = strlen(charTocheck);
 
 	file.get(ActualnextChar);
 

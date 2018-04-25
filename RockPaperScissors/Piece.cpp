@@ -126,27 +126,29 @@ char Piece::getCharFromMyPiece()
 	{
 		return 'R';
 	}
-
-	if (getPieceType() == pieceType::PAPER)
+	else if (getPieceType() == pieceType::PAPER)
 	{
 		return 'P';
 	}
 
-	if (getPieceType() == pieceType::SCISSORS)
+	else if (getPieceType() == pieceType::SCISSORS)
 	{
 		return 'S';
 	}
 
-	if (getPieceType() == pieceType::BOMB)
+	else if (getPieceType() == pieceType::BOMB)
 	{
 		return 'B';
 	}
 
-	if (getPieceType() == pieceType::FLAG)
+	else if (getPieceType() == pieceType::FLAG)
 	{
 		return 'F';
 	}
-	// TODO Handle Joker
+	else {
+		return 'U';
+	}
+	
 }
 
 Piece::Piece()

@@ -17,7 +17,7 @@ BoardSquareInfo::BoardSquareInfo(BoardPoint i_PointInfo, const char * i_DisplayN
 void BoardSquareInfo::SetDisplayName(const char * i_DisplayName)
 {
 	strcpy_s(displayName, i_DisplayName);
-	int strEndIndex = strlen(i_DisplayName);
+	size_t strEndIndex = strlen(i_DisplayName);
 	displayName[strEndIndex] = '\0';
 }
 
