@@ -26,9 +26,6 @@
     <ClCompile Include="Piece.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerProperties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,9 +56,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Piece.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">

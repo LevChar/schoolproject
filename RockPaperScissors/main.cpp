@@ -15,7 +15,7 @@ using namespace std;
 
 int main(int argc, const char *argv[])
 {
-	
+
 	GameConfig gameSettings;
 	gameSettings.InitializeSettings(argc, argv);
 

@@ -1,7 +1,6 @@
 #ifndef __Piece_H
 #define __Piece_H
 
-#include "PlayerProperties.h"
 #include "BoardPoint.h"
 
 class Piece

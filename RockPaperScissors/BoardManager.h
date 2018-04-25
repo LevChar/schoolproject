@@ -3,7 +3,6 @@
 
 #include "BoardSquareInfo.h"
 #include "BoardPoint.h"
-#include "PlayerProperties.h"
 #include "BoardPrint.h"
 #include <Windows.h>
 #include "GameConfig.h"

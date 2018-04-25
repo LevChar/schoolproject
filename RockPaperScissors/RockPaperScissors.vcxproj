@@ -123,7 +123,6 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Piece.cpp" />
-    <ClCompile Include="PlayerProperties.cpp" />
     <ClCompile Include="GameConfig.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
@@ -136,7 +135,6 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="General.h" />
     <ClInclude Include="Piece.h" />
-    <ClInclude Include="PlayerProperties.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>

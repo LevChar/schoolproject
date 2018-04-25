@@ -13,9 +13,7 @@ private:
 	int weGotAWinner;
 	FileHelper fp;
 	GameConfig gameRunSettings;
-	//BoardFactory *boardFactory;
 	BoardManager boardManager;
-	//PlayerProperties players[AMOUNT_OF_PLAYERS];
 	int winReason;
 	int loadedPosProperly;
 	int loadedMoveProperly;

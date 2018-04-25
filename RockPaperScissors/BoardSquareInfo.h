@@ -18,7 +18,7 @@ public:
 	
 	void SetSquareType(BoardSquareInfo::eSquareType i_SqureType);
 	void SetDisplayName(const char* i_DisplayName);
-
+	
 	void SetPointInfo(BoardPoint i_PointInfo);
 
 	void SetCurrentPiece1(Piece i_Piece);

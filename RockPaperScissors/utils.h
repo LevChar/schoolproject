@@ -26,7 +26,7 @@ void setTextColor(int foreground_color);
 void gotoxy(int x, int y);
 void gotoxyAux(int col, int row);
 void hidecursor();
-bool converStringToInt(int *backInt, const char * str);
 void clearScreen();
 
+bool converStringToInt(int *backInt, const char * str);
 #endif // ! __utils_H

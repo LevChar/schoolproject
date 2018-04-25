@@ -221,7 +221,7 @@ int FileHelper::readPositioningFileFromDirectory(string fileName, int playerNumb
 
 int FileHelper::readMoveFileFromDirectory(string _fileName1, string _fileName2, int& playerWithError, BoardManager* boardManager, int& innerIssue, int & _weGotAWinner) {
 
-	int numOfArgsRd = 0, row1Player = 1, row2Player = 1, playerNumber, current_read_state = READ_PIECE;
+	int numOfArgsRd = 0, row1Player = 1, row2Player = 1, current_read_state = READ_PIECE;
 	int moveAndJockerData[6] = { -1,-1,-1,-1,-1,-1 };
 	char tempBuff, jNewRep = -1;
 	bool switchPlayer = false;
