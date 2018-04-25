@@ -364,7 +364,7 @@ void BoardManager::movePiece(int * arr, int _playerNumber,char jokerNewForm)
 				}
 			}
 			else {
-				bp.PrintMove(arr[2], arr[3], (eSquareType)2, -1, (Piece::pieceType)(-1), 2, Piece::pieceType::UNKNOWN, pieceJoker);
+				bp.PrintMove(arr[2], arr[3], (eSquareType)2, -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
 			}
 			
 		}
