@@ -10,11 +10,12 @@ class Piece
 	//enum class moveDirections :int;
 
 public:
-	enum class pieceType { ROCK, PAPER, SCISSORS, BOMB, JOKER, FLAG, NONE,UNKNOWN };
+	enum class pieceType { ROCK, PAPER, SCISSORS, BOMB, JOKER, FLAG, NONE,UNKNOWN	 };
 	enum class moveDirections : int { NONE, LEFT, RIGHT, UP, DOWN };
 
 	void deleteMySelf();
 	void  setPlyaerNumber(int _playerNumber);
+
 	int getPlayerNumber();
 	int getPieceTypeInInt(pieceType i_pieceType);
 	pieceType getPieceType();
