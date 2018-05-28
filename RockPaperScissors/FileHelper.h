@@ -19,6 +19,10 @@ class FileHelper {
 	bool continueReadingFile = true;
 
 	bool validateFileOpened(ifstream& file, string filename);
+	bool checkNextChar(ifstream& file, const char* charTocheck);
+	int readNumber(ifstream& file);
+	char readchar(ifstream& file);
+	char getNextchar(ifstream& file);
 
 public:
 
@@ -28,15 +32,9 @@ public:
 
 	int readPositioningFileFromDirectory(string fileName, int playerNumber, BoardManager* boardManager);
 	int readMoveFileFromDirectory(string _fileName1, string _fileName2, int& playerWithError, BoardManager* boardManager, int& innerIssue, int & _weGotAWinner);
-
-	
-	bool checkNextChar(ifstream& file, const char* charTocheck);
-	int readNumber(ifstream& file);
-	char readchar(ifstream& file);
-	char getNextchar(ifstream& file);
-
 	int CheckMovesCanOpen(string _fileName1, string _fileName2);
 	void printGameFinalResults(int winner, int reason, int badposPl1Row, int badposPl2Row, BoardManager boardManager, int _UseOption);
+
 	int validatePiece(char currentPiece, int col, int row);
 	int validateMove(int* arr, char Jrep);
 	bool checkFlagwasSet();
