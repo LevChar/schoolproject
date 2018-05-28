@@ -18,20 +18,9 @@ class FileHelper {
 	int current_player;
 	bool continueReadingFile = true;
 
+	bool validateFileOpened(ifstream& file, string filename);
 
 public:
-
-	//TODO - next time use the c'tor and d'tor to load files, should change the way the board manager
-	//calls the FP
-
-	/*
-	FileHelper(const char* posFileName, int playerNumber, BoardManager* boardManager) :
-
-	inFile1(posFileName),
-	current_player(playerNumber)
-
-	{}
-	*/
 
 	FileHelper();
 	~FileHelper();
@@ -39,7 +28,8 @@ public:
 
 	int readPositioningFileFromDirectory(string fileName, int playerNumber, BoardManager* boardManager);
 	int readMoveFileFromDirectory(string _fileName1, string _fileName2, int& playerWithError, BoardManager* boardManager, int& innerIssue, int & _weGotAWinner);
-	bool validateFileOpened(ifstream& file, string filename);
+
+	
 	bool checkNextChar(ifstream& file, const char* charTocheck);
 	int readNumber(ifstream& file);
 	char readchar(ifstream& file);
