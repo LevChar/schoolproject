@@ -333,7 +333,7 @@ int FileHelper::readMoveFileFromDirectory(string _fileName1, string _fileName2, 
 
 			if (_weGotAWinner == -1) {
 				if (checkMoveApplicable(moveAndJockerData)) { // TODO we need to return an error for inapplicable move.
-					cout << "Player" << FileHelper::current_player << " "  <<moveAndJockerData[0] << " " << moveAndJockerData[1] << " " << moveAndJockerData[2] << " " << moveAndJockerData[3] << " " << moveAndJockerData[4] << " " << moveAndJockerData[5] << " " << moveAndJockerData[6] << endl;
+					//cout << "Player" << FileHelper::current_player << " "  <<moveAndJockerData[0] << " " << moveAndJockerData[1] << " " << moveAndJockerData[2] << " " << moveAndJockerData[3] << " " << moveAndJockerData[4] << " " << moveAndJockerData[5] << " " << moveAndJockerData[6] << endl;
 					innerIssue = boardManager->checkMovePiece(moveAndJockerData, FileHelper::current_player, jNewRep, _weGotAWinner);
 				}
 				else {

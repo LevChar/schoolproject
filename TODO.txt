@@ -1,0 +1,9 @@
+Tasks:
+
+1. Arie: Add the option for console in argv|argc "-console"
+		-If they put console then there shouldn't be any additional parmaters.
+		-Any additional paramaters will lead to error/print to the screen of usage.
+		-if there is no console then we are in file mode and all the regular roles apply.
+2. Dolev: When moving across 10 10 9 9, there is no print to screen for unmoveable move.
+		 Also stange moves are not printing to screen as well 8 9 - 3 3.
+3. Dolev: There is no move on screen when moving across - need to check the output file and the actual move itself.
