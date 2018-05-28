@@ -98,6 +98,16 @@ int GamePlayHelper::getNumOfRowsRead()
 	return numOfRowsRead;
 }
 
+int GamePlayHelper::getCurrentPlayer()
+{
+	return current_player;
+}
+
+void GamePlayHelper::setCurrentPlayer(int playerNumber)
+{
+	current_player = playerNumber;
+}
+
 GamePlayHelper::GamePlayHelper()
 {
 }
@@ -105,4 +115,45 @@ GamePlayHelper::GamePlayHelper()
 
 GamePlayHelper::~GamePlayHelper()
 {
+}
+
+bool GamePlayHelper::checkMoveApplicable(int * arr)
+{
+	bool applicable = 0;
+	if (abs(arr[0] - arr[2]) == 1) {
+		applicable = 1;
+	}
+
+	if (abs(arr[1] - arr[3]) == 1) {
+		if (applicable == 1) {
+			applicable = 0;
+		}
+		else
+			applicable = 1;
+	}
+	return applicable;
+}
+
+int GamePlayHelper::validateMove(int* arr, char Jrep) {
+
+	if (arr[0] > M || arr[1] > N || arr[2] > M || arr[3] > N || arr[4] > M || arr[5] > N)
+		return MISSPLACEMENT;
+
+	if (Jrep != 'R' && Jrep != 'S' && Jrep != 'P' && Jrep != 'B' && Jrep != 'F' && Jrep != -1)
+		return NO_SUCH_PEACE;
+
+	return SUCCESS;
+}
+
+
+// TODO ARIE NEED TO CHECK.
+void GamePlayHelper::resetForNewData(int* result_array, int& argumentCounter, char& jNewRep, int& current_state) {
+
+	for (int i = 0; i < 6; i++)
+		result_array[i] = -1;
+
+	argumentCounter = 0;
+	jNewRep = -1;
+	current_state = RS1;
+	
 }
