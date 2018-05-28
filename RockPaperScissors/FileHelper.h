@@ -23,6 +23,10 @@ class FileHelper {
 	int readNumber(ifstream& file);
 	char readchar(ifstream& file);
 	char getNextchar(ifstream& file);
+	void resetForNewFile();
+	bool checkEnterBeforeNextLine(ifstream& file);
+	bool checkFlagwasSet();
+	
 
 public:
 
@@ -37,12 +41,11 @@ public:
 
 	int validatePiece(char currentPiece, int col, int row);
 	int validateMove(int* arr, char Jrep);
-	bool checkFlagwasSet();
+	
 	bool checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstream*& currentFile, int& r_of_p1, int& r_of_p2, bool& switch_player);
 	void resetForNewData(int* result_array, int& argumentCounter, char& jNewRep, int& current_state);
 	bool checkMoveApplicable(int *arr);
-	void resetForNewFile();
-	bool checkEnterBeforeNextLine(ifstream& file);
+	
 
 };
 
