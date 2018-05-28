@@ -4,6 +4,9 @@
 #include "General.h"
 #include "utils.h"
 
+using std::cout;
+using std::endl;
+
 //TODO
 //add validation tests
 //check cases of delay without number or player without number
@@ -16,6 +19,11 @@ int GameConfig::getShowMode()
 bool GameConfig::getIsQuiteMode()
 {
 	return isQuietMode;
+}
+
+bool GameConfig::getIsConsoleMode()
+{
+	return isConsoleMode;
 }
 
 int GameConfig::getSlected_Player()
@@ -48,11 +56,17 @@ void GameConfig::setDelay(int myDelay)
 	delay = myDelay;
 }
 
+void GameConfig::setIsConsoleMode(bool isConsoleModeStatus){
+
+	isConsoleMode = isConsoleModeStatus;
+}
+
 GameConfig::GameConfig() :
 
-	isQuietMode(SHOW),
+	isQuietMode(false),
+	isConsoleMode(false),
 	showMode(ALL),
-	delay(50)
+	delay(500)
 {}
 
 GameConfig::~GameConfig() {}
@@ -61,35 +75,38 @@ void GameConfig::InitializeSettings(int args_size, const char** arguments) {
 
 	for (int i = 1; i < args_size; i++) {
 
+		if (!strcmp(arguments[i], "-console")) {
+
+			isConsoleMode = true;
+			showMode = PLAYER;
+
+			cout << "console" << endl;
+			system("pause");
+			break;
+		}
+
 		if (!strcmp(arguments[i], "-quiet")) {
 
-			isQuietMode = QUIET;
+			isQuietMode = true;
 			showMode = TURN_OFF;
 			delay = 0;
 			break;
 		}
 
+		if (!strcmp(arguments[i], "-show-all"))		
+			break; //the default mode - set by the c'tor
+	
 
-		if (!strcmp(arguments[i], "-show-all")) {
-			isQuietMode = SHOW;
-			showMode = ALL;
-			delay = 50;
-		}
-
-
-		if (!strcmp(arguments[i], "-show-only-known-info")) {
-			isQuietMode = SHOW;
+		if (!strcmp(arguments[i], "-show-only-known-info")) 			
 			showMode = KNOWN;
-		}
 
 		if (!strcmp(arguments[i], "-show")) {
-			isQuietMode = SHOW;
+		
 			showMode = PLAYER;
 
-			i++;
-
-			if (i >= args_size)
+			if (++i >= args_size) //check if there is another argument
 				break;
+
 			else {
 
 				int player_to_show_selection;
@@ -104,9 +121,7 @@ void GameConfig::InitializeSettings(int args_size, const char** arguments) {
 
 		if (!strcmp(arguments[i], "-delay")) {
 
-			i++;
-
-			if (i >= args_size)
+			if (++i >= args_size) //check if there is another argument
 				break;
 
 			else {

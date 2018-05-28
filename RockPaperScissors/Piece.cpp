@@ -5,6 +5,11 @@
 //#include "General.h"
 //using namespace std;
 
+bool operator>(const Piece& piece1, const Piece& piece2) {
+
+	//write the operator and test it
+
+}
 
 void Piece::deleteMySelf()
 {

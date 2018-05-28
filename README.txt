@@ -21,3 +21,9 @@ Bugs:
 - Static const is being used in CPP.
 - We didn't finialize all the warnings.
 - Moving Joker and changing his form (need to review if it is possible)
+
+
+
+-------------------------------------------------------------project 2----------------------------------------------------------
+
+1. default delay for console mode set to 50 ms as in excercise 1

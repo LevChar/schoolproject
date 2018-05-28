@@ -22,8 +22,7 @@ enum afterMoveWasSentIssues {
 	HEY_YOU_ARE_TRYING_TO_MOVE_INTO_YOUR_OWN_PIECE
 };
 
-enum { SHOW = 0, QUIET = 1 };
-enum { ALL = 0, KNOWN = 1, PLAYER = 2, TURN_OFF = 4 };
+enum gameMode{ ALL = 0, KNOWN = 1, PLAYER = 2, TURN_OFF = 4 };
 
 static const int MAX_DISPLAY_NAME_LEN = 5; // the max len of a display name of an object in the board 
 static const int AMOUNT_OF_PLAYERS = 2; // Number of players
