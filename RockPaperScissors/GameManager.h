@@ -4,14 +4,14 @@
 #include "GameConfig.h"
 #include "FileHelper.h"
 #include "BoardPrint.h"
-
+#include "FileGameHelper.h"
 class GameManager
 {
 private:
 	int innerFile1Error, innerFile2Error;
 	int reason;
 	int weGotAWinner;
-	FileHelper fp;
+	FileGameHelper fp;
 	GameConfig gameRunSettings;
 	BoardManager boardManager;
 	int winReason;

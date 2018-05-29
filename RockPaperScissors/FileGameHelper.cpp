@@ -161,7 +161,7 @@ int FileGameHelper::readPositioningFileFromDirectory(string fileName, int player
 
 	inFile.close();
 
-	if (checkFlagwasSet())
+	if (checkFlagwasSetSon())
 		return SUCCESS;
 
 	else
@@ -283,7 +283,7 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 		return ((!validateFileOpened(inFile1, _fileName1)) && !validateFileOpened(inFile2, _fileName2)) ? BOTH_FILES_OPEN_ERROR :
 		!validateFileOpened(inFile1, _fileName1) ? FILE1_OPEN_ERROR : FILE2_OPEN_ERROR;
 
-	resetForNewData(moveAndJockerData, numOfArgsRd, jNewRep, current_read_state);
+	resetForNewDataSon(moveAndJockerData, numOfArgsRd, jNewRep, current_read_state);
 
 	while (continueReadingFile) {
 
@@ -396,7 +396,7 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 
 			GamePlayHelper::getNumOfRowsRead();
 			switchPlayer = true;
-			resetForNewData(moveAndJockerData, numOfArgsRd, jNewRep, current_read_state);
+			resetForNewDataSon(moveAndJockerData, numOfArgsRd, jNewRep, current_read_state);
 
 			break;
 		}
@@ -521,4 +521,104 @@ void FileGameHelper::resetForNewDataSon(int* result_array, int& argumentCounter,
 
 	GamePlayHelper::resetForNewData(result_array, argumentCounter, jNewRep, current_state);
 	continueReadingFile = true;
+}
+
+int FileGameHelper::CheckMovesCanOpen(string _fileName1, string _fileName2)
+{
+	int canOpenStatus;
+
+	ifstream inFile1(_fileName1), inFile2(_fileName2);
+
+	if (!validateFileOpened(inFile1, _fileName1) || !validateFileOpened(inFile2, _fileName2))
+	{
+		if (!validateFileOpened(inFile1, _fileName1))
+		{
+			canOpenStatus = FILE1_OPEN_ERROR;
+		}
+		else {
+			canOpenStatus = FILE2_OPEN_ERROR;
+		}
+
+	}
+	else if (!validateFileOpened(inFile1, _fileName1) && !validateFileOpened(inFile2, _fileName2))
+	{
+		canOpenStatus = BOTH_FILES_OPEN_ERROR;
+	}
+	else
+		canOpenStatus = SUCCESS;
+
+	return canOpenStatus;
+}
+
+void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1Row, int badposPl2Row, BoardManager boardManager, int _UseOption) {
+
+	ofstream outFile("rps.output", ios::trunc);
+
+	outFile << "Winner: " << winner << endl;
+	outFile << "Reason: ";
+
+	if (_UseOption == 1) {
+		if (reason == ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN) {
+			if (winner == 0) {
+				outFile << "All moving PIECEs of both players are eaten." << endl;
+			}
+			else {
+				outFile << "All moving PIECEs of the opponent are eaten." << endl;
+			}
+		}
+		else if (reason == ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED) {
+
+			if (winner == 0) {
+				outFile << "All flags of both players are captured." << endl;
+			}
+			else {
+				outFile << "All flags of the opponent are captured." << endl;
+			}
+		}
+		else if (reason == A_TIE_BOTH_MOVES_INPUT_FILES_DONE_WITHOUT_A_WINNER) {
+			outFile << "A tie - both Moves input files done without a winner." << endl;
+		}
+		else if (reason == BAD_POSITIONING_INPUT_FILE_FOR_PLAYER_LINE) {
+			if (winner == 1) {
+				outFile << "Bad Positioning input file for player 2 - line " << badposPl2Row << endl;
+			}
+			else {
+				outFile << "Bad Positioning input file for player 1 - line " << badposPl1Row << endl;
+			}
+		}
+		else if (reason == BAD_POSITIONING_INPUT_FOR_BOTH_PLAYERS) {
+			outFile << "Bad Positioning input file for both players - player1: line " << badposPl1Row << ", player 2: line " << badposPl2Row << endl;
+		}
+		else {
+			outFile << endl;
+		}
+		// bad moves input file for player another else if.
+	}
+	else if (_UseOption == 2) {
+		if (reason == HEY_THIS_IS_NOT_YOUR_PIECE) {
+			cout << "Player" << winner << "won because the opponent tried to move a piece which is not his." << endl;
+		}
+		else if (reason == HEY_YOU_DONT_HAVE_A_PIECE_HERE) {
+			cout << "Player" << winner << "'won because the opponent tried nothing (pieceless location)." << endl;
+		}
+		else if (reason == HEY_YOU_ARE_TRYING_TO_MOVE_INTO_YOUR_OWN_PIECE) {
+			cout << "Player" << winner << "'won because the opponent moved into his own piece." << endl;
+		}
+		else if (reason == HEY_THIS_PIECE_IS_NOT_MOVEABLE) {
+			cout << "Player" << winner << "'won because the opponent moved unmoveable piece." << endl;
+		}
+	}
+
+	outFile << endl;
+
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < M; j++)
+		{
+			outFile << boardManager.getCurrentPieceInChar(j, i);
+		}
+		outFile << endl;
+	}
+	outFile.close();
+
 }

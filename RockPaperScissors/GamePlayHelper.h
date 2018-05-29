@@ -27,7 +27,7 @@ public:
 	int getCurrentPlayer();
 	void setCurrentPlayer(int playerNumber);
 
-	virtual void f() = 0;
+	virtual void f() = 0; // for testing
 
 	GamePlayHelper();
 	~GamePlayHelper();

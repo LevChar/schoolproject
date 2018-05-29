@@ -8,7 +8,7 @@
 bool operator>(const Piece& piece1, const Piece& piece2) {
 
 	//write the operator and test it
-
+	return true; // From Dolev: I can compile because of the error of nothing being returned. - do what ever you want afterwards.
 }
 
 void Piece::deleteMySelf()

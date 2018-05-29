@@ -121,7 +121,6 @@
     <ClCompile Include="BoardSquareInfo.cpp" />
     <ClCompile Include="ConsoleGameHelper.cpp" />
     <ClCompile Include="FileGameHelper.cpp" />
-    <ClCompile Include="FileHelper.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GamePlayHelper.cpp" />
     <ClCompile Include="main.cpp" />
@@ -136,7 +135,6 @@
     <ClInclude Include="BoardSquareInfo.h" />
     <ClInclude Include="ConsoleGameHelper.h" />
     <ClInclude Include="FileGameHelper.h" />
-    <ClInclude Include="FileHelper.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GamePlayHelper.h" />
     <ClInclude Include="General.h" />

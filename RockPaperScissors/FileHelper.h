@@ -37,15 +37,15 @@ public:
 
 	bool checkMoveApplicable(int *arr);
 	int validateMove(int* arr, char Jrep);
+
 	int readPositioningFileFromDirectory(string fileName, int playerNumber, BoardManager* boardManager);
 	int readMoveFileFromDirectory(string _fileName1, string _fileName2, int& playerWithError, BoardManager* boardManager, int& innerIssue, int & _weGotAWinner);
+
 	int CheckMovesCanOpen(string _fileName1, string _fileName2);
 	void printGameFinalResults(int winner, int reason, int badposPl1Row, int badposPl2Row, BoardManager boardManager, int _UseOption);
 
+
 	int validatePiece(char currentPiece, int col, int row);
-	
-	
-	
 	void resetForNewData(int* result_array, int& argumentCounter, char& jNewRep, int& current_state);
 	
 	
