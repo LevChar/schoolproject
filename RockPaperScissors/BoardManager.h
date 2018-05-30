@@ -43,7 +43,7 @@ public:
 	//Piece::pieceType convertCharToPieceType(char _piece);
 	void innerComabat(int _col, int _row, int& _weGotAWinner);
 	void setWinReason(int reason);
-	
+	 
 	void decreaseFlagCounter(int _playerNumber);
 	void increaseFlagCounter(int _playerNumber);
 	void setFlagCounterPlayer1(int _flagCounterPlayer1);
