@@ -5,6 +5,13 @@
 //#include "General.h"
 //using namespace std;
 
+bool operator==(const Piece& piece1, const Piece& piece2) {
+
+	if (piece1._last_known_rep == piece2._last_known_rep)
+		return true;
+	return false;
+}
+
 bool operator>(const Piece& piece1, const Piece& piece2) {
 
 	//write the operator and test it
