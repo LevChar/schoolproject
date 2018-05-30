@@ -11,27 +11,37 @@ GameManager::GameManager(GameConfig i_GameRunSettings) :
 	boardManager(i_GameRunSettings)
 
 {
-	// InitializePlayers(); // We will be used later on when the game will hold the players.
-	//boardFactory = new BoardFactory(&boardManager, players);
-	loadedPosProperly = LoadToBoard(&boardManager);
-	loadedMoveProperly = fp.CheckMovesCanOpen(movFileNameA, movFileNameB);
+
+	if (!i_GameRunSettings.getIsConsoleMode()) {
+		// InitializePlayers(); // We will be used later on when the game will hold the players.
+		//boardFactory = new BoardFactory(&boardManager, players);
+		loadedPosProperly = LoadToBoard(&boardManager);
+		loadedMoveProperly = fp.CheckMovesCanOpen(movFileNameA, movFileNameB);
 
 
-	if (loadedPosProperly == 0 && loadedMoveProperly == 0) { // 0 = Able to open.
-		weGotAWinner = CheckForWinners(reason);
+		if (loadedPosProperly == 0 && loadedMoveProperly == 0) { // 0 = Able to open.
+			weGotAWinner = CheckForWinners(reason);
+		}
+
+		// TODO if we didnt have an issue during the load then we will print the board according to the settings.
+		if (weGotAWinner != -1) {
+			if (innerFile1Error > 0 || innerFile2Error > 0) {
+				EndManager(boardManager, weGotAWinner, loadedPosProperly, innerFile1Error, innerFile2Error, 1);
+			}
+			else if (loadedPosProperly < 0) {
+				EndManager(boardManager, weGotAWinner, loadedPosProperly, innerFile1Error, innerFile2Error, 1);
+			}
+			else {
+				EndManager(boardManager, weGotAWinner, reason, innerFile1Error, innerFile2Error, 1);
+			}
+		}
 	}
-
-	// TODO if we didnt have an issue during the load then we will print the board according to the settings.
-	if (weGotAWinner != -1) {
-		if (innerFile1Error > 0 || innerFile2Error > 0) {
-			EndManager(boardManager, weGotAWinner, loadedPosProperly, innerFile1Error, innerFile2Error, 1);
-		}
-		else if (loadedPosProperly < 0) {
-			EndManager(boardManager, weGotAWinner, loadedPosProperly, innerFile1Error, innerFile2Error, 1);
-		}
-		else {
-			EndManager(boardManager, weGotAWinner, reason, innerFile1Error, innerFile2Error, 1);
-		}
+	else {
+		cp.consoleInsertPos();
+		//function to request the information from the user.
+		//validate that the information was inserted properly.
+		//start fights if there are.
+		//check for winners.
 	}
 }
 

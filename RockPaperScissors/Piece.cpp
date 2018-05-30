@@ -14,39 +14,18 @@ bool operator==(const Piece& piece1, const Piece& piece2) {
 
 bool operator>(const Piece& piece1, const Piece& piece2) {
 
-	if (piece1._last_known_rep == Piece::pieceType::BOMB)
-		return true;
-
-	if (piece1._last_known_rep == Piece::pieceType::ROCK) {
-		if (piece2._last_known_rep == Piece::pieceType::SCISSORS)
-			return true;
-	}
-
-	if (piece1._last_known_rep == Piece::pieceType::PAPER) {
-		if (piece2._last_known_rep == Piece::pieceType::ROCK)
-			return true;
-	}
-
-	if (piece1._last_known_rep == Piece::pieceType::SCISSORS) {
-		if (piece2._last_known_rep == Piece::pieceType::PAPER)
-			return true;
-	}
-
-	//all the other cases, including if piece 1 is flag -> the left is smaller
-	return false;
-}
-
-bool operator<(const Piece& piece1, const Piece& piece2) {
-
-	return(piece2 > piece1);
+	//write the operator and test it
+	return true; // From Dolev: I can compile because of the error of nothing being returned. - do what ever you want afterwards.
 }
 
 void Piece::deleteMySelf()
 {
 	isAlive = 0;
+	isJoker = 0;
 	isFlag = 0;
 	playerNumber = 0;
-	_last_known_rep =_pieceType = pieceType::NONE;
+	_pieceType = pieceType::NONE;
+
 }
 
 void Piece::setPlyaerNumber(int _playerNumber)
@@ -61,8 +40,10 @@ int Piece::getPlayerNumber()
 
 int Piece::getPieceTypeInInt(pieceType i_pieceType)
 {
+	
 	return 1;
 }
+
 
 void Piece::setPieceTypeFromChar(char _CharPieceType)
 {
@@ -121,6 +102,15 @@ void Piece::setPieceType(pieceType i_pieceType)
 	_pieceType = i_pieceType;
 }
 
+void Piece::setIsJoker(int _isJoker)
+{
+	isJoker = _isJoker;
+}
+
+bool Piece::getIsJoker()
+{
+	return isJoker;
+}
 
 void Piece::setIsFlag(int _isFlag)
 {
@@ -179,9 +169,30 @@ Piece::Piece()
 {
 	_last_known_rep = _pieceType = Piece::pieceType::NONE;
 	isMoveable = 0;
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+	_pieceType = pieceType::NONE;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 	playerNumber = 0;
+	isJoker = 0;
 	isAlive = 0;
 	isFlag = 0;
 }
 
+<<<<<<< Updated upstream
 Piece::~Piece(){}
+=======
+<<<<<<< Updated upstream
+Piece::~Piece(){}
+=======
+
+Piece::~Piece()
+{
+
+
+}
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes

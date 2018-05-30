@@ -80,8 +80,8 @@ void GameConfig::InitializeSettings(int args_size, const char** arguments) {
 			isConsoleMode = true;
 			showMode = PLAYER;
 
-			cout << "console" << endl;
-			system("pause");
+			//cout << "console" << endl;
+			//system("pause");
 			break;
 		}
 

@@ -5,6 +5,7 @@
 #include "FileHelper.h"
 #include "BoardPrint.h"
 #include "FileGameHelper.h"
+#include "ConsoleGameHelper.h"
 class GameManager
 {
 private:
@@ -12,6 +13,7 @@ private:
 	int reason;
 	int weGotAWinner;
 	FileGameHelper fp;
+	ConsoleGameHelper cp;
 	GameConfig gameRunSettings;
 	BoardManager boardManager;
 	int winReason;
