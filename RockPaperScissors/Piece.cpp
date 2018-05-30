@@ -179,15 +179,11 @@ char Piece::getCharFromMyPiece()
 
 Piece::Piece()
 {
+	_last_known_rep = _pieceType = Piece::pieceType::NONE;
 	isMoveable = 0;
-	_last_known_rep=_pieceType = pieceType::NONE;
 	playerNumber = 0;
 	isAlive = 0;
 	isFlag = 0;
 }
 
-Piece::~Piece()
-{
-
-
-}
+Piece::~Piece(){}
