@@ -254,7 +254,7 @@ bool GameManager::LoadMovesToBoard(BoardManager * _boardManager)
 
 	resultsFile1 = fp.readMoveFileFromDirectory(movFileNameA, movFileNameB, playerNumberWithIssue, _boardManager, innerMoveFileIssue, weGotAWinner);
 
-	return 1;
+	return true;
 }
 
 void GameManager::FightAfterLoad()

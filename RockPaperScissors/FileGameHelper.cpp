@@ -377,8 +377,10 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 				return GamePlayHelper::getNumOfRowsRead();
 
 			if (_weGotAWinner == -1) {
-				if (GamePlayHelper::checkMoveApplicable(moveAndJockerData)) { // TODO we need to return an error for inapplicable move.
-															  //cout << "Player" << FileHelper::current_player << " "  <<moveAndJockerData[0] << " " << moveAndJockerData[1] << " " << moveAndJockerData[2] << " " << moveAndJockerData[3] << " " << moveAndJockerData[4] << " " << moveAndJockerData[5] << " " << moveAndJockerData[6] << endl;
+				if (GamePlayHelper::checkMoveApplicable(moveAndJockerData)) { 
+					
+					// TODO we need to return an error for inapplicable move.
+					//cout << "Player" << FileHelper::current_player << " "  <<moveAndJockerData[0] << " " << moveAndJockerData[1] << " " << moveAndJockerData[2] << " " << moveAndJockerData[3] << " " << moveAndJockerData[4] << " " << moveAndJockerData[5] << " " << moveAndJockerData[6] << endl;
 					innerIssue = boardManager->checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer(), jNewRep, _weGotAWinner);
 				}
 				else {
@@ -395,9 +397,7 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 		}
 	}
 
-
 	return SUCCESS;
-
 }
 
 
@@ -582,6 +582,11 @@ void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1
 		else if (reason == BAD_POSITIONING_INPUT_FOR_BOTH_PLAYERS) {
 			outFile << "Bad Positioning input file for both players - player1: line " << badposPl1Row << ", player 2: line " << badposPl2Row << endl;
 		}
+
+		else if (reason == BAD_MOVE_FILE_FOR_PLAYER_LINE) {
+			outFile << "Bad Moves input file for player" <<  <<"-line " << badposPl1Row << ", player 2: line " << badposPl2Row << endl;
+		}
+
 		else {
 			outFile << endl;
 		}
