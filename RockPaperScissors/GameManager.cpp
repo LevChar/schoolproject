@@ -39,11 +39,10 @@ GameManager::GameManager(GameConfig i_GameRunSettings) :
 	}
 	else {
 		loadFromConsole(&boardManager);
-		
-		//function to request the information from the user.
-		//validate that the information was inserted properly.
-		//start fights if there are.
-		//check for winners.
+		weGotAWinner = CheckForWinners(reason);
+		if (weGotAWinner != -1) {
+				EndManager(boardManager, weGotAWinner, reason, 0, 0, 1);
+		}
 	}
 }
 

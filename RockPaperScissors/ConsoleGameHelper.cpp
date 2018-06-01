@@ -4,6 +4,60 @@
 //boardManager->loadPosFromFile(piece, col, row, playerNumber, pieceValidation);
 
 
+void ConsoleGameHelper::increasePieceArray(char _validationPiece, int playerNumber)
+{
+	if (playerNumber == 1) {
+		switch (_validationPiece)
+		{
+		case 'R':
+			downCounterOfPiecesPlayer1[0]++;
+			break;
+		case 'P':
+			downCounterOfPiecesPlayer1[1]++;
+			break;
+		case 'S':
+			downCounterOfPiecesPlayer1[2]++;
+			break;
+		case 'B':
+			downCounterOfPiecesPlayer1[3]++;
+			break;
+		case 'J':
+			downCounterOfPiecesPlayer1[4]++;
+			break;
+		case 'F':
+			downCounterOfPiecesPlayer1[5]++;
+			break;
+		default:
+			break;
+		}
+	}
+	else {
+		switch (_validationPiece)
+		{
+		case 'R':
+			downCounterOfPiecesPlayer2[0]++;
+			break;
+		case 'P':
+			downCounterOfPiecesPlayer2[1]++;
+			break;
+		case 'S':
+			downCounterOfPiecesPlayer2[2]++;
+			break;
+		case 'B':
+			downCounterOfPiecesPlayer2[3]++;
+			break;
+		case 'J':
+			downCounterOfPiecesPlayer2[4]++;
+			break;
+		case 'F':
+			downCounterOfPiecesPlayer2[5]++;
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 {
 	cout << "Both players, please enter.... " << endl;
@@ -12,7 +66,7 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 	int pRow;
 	char presentationPiece;
 	char validationPiece;
-	char input_validation;
+	int input_validation;
 
 	int completed = 0;
 	int completedPlayer = 0;
@@ -34,20 +88,23 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 			cin >> pCol;
 			cin >> pRow;
 			validationPiece = presentationPiece;
-
+			system("cls");
 			if (presentationPiece == 'J') {
 				cin >> validationPiece;
 			}
 
 			input_validation = validatePieceConsole(validationPiece, pCol, pRow,1);
 
-			if (!input_validation) {
+			if (input_validation) {
 
 				//if player try to put 2 pices @ the same square we will get false here
 				completedPlayer = _boardManager->loadPosFromFile(presentationPiece, pCol, pRow, 1, validationPiece);
 
 				if (completedPlayer == 1) {
 					GamePlayHelper::setCurrentPlayer(2);
+				}
+				else {
+					increasePieceArray(presentationPiece, 1);
 				}
 			}
 		}
@@ -64,20 +121,23 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 			cin >> pCol;
 			cin >> pRow;
 			validationPiece = presentationPiece;
-
+			system("cls");
 			if (presentationPiece == 'J') {
 				cin >> validationPiece;
 			}
 
 			input_validation = validatePieceConsole(validationPiece, pCol, pRow, 2);
 
-			if (!input_validation) {
+			if (input_validation) {
 
 				//if player try to put 2 pices @ the same square we will get false here
 				completedPlayer = _boardManager->loadPosFromFile(presentationPiece, pCol, pRow, 2, validationPiece);
 
 				if (completedPlayer == 1) {
 					GamePlayHelper::setCurrentPlayer(1);
+				}
+				else {
+					increasePieceArray(presentationPiece, 2);
 				}
 			}
 		}
@@ -186,6 +246,13 @@ bool ConsoleGameHelper::validatePieceChar(char _validationPiece, int _playerNumb
 	for (int i = 0; i <= 5; i++) {
 		if (downCounterOfPiecesPlayer1[i] < 0 || downCounterOfPiecesPlayer2[i] < 0) {
 			cout << "Too many pieces of the same kind, please try again" << endl;
+			cout << endl;
+			if (downCounterOfPiecesPlayer1[i] <= 0) {
+				downCounterOfPiecesPlayer1[i]++;
+			}
+			else if (downCounterOfPiecesPlayer1[i] <= 0) {
+				downCounterOfPiecesPlayer2[i]++;
+			}
 			status = 0;
 		}
 
@@ -195,12 +262,13 @@ bool ConsoleGameHelper::validatePieceChar(char _validationPiece, int _playerNumb
 
 bool ConsoleGameHelper::checkIfFinsihedLoading()
 {
-	bool finished = 1;
+	int counter = 0;
+
 	for (int i = 0; i <= 5; i++) {
-		if (downCounterOfPiecesPlayer1[i] != 0 && downCounterOfPiecesPlayer2[i] != 0) {
-			cout << "Too many pieces of the same kind, please try again" << endl;
-			finished = 0;
+		if (downCounterOfPiecesPlayer1[i] == 0 && downCounterOfPiecesPlayer2[i] == 0) {
+			counter++;
 		}
 	}
-	return finished;
+
+	return counter == 6 ? TRUE:FALSE;
 }
