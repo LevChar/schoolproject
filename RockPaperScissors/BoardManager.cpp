@@ -291,7 +291,7 @@ void BoardManager::movePiece(int * arr, int _playerNumber,char jokerNewForm)
 
 	if (_playerNumber == 1)
 	{
-		pieceJoker  = gameBoard[arr[0]][arr[1]].GetCurrentPiece1().getIsJoker();
+		pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
 		tempPiece = gameBoard[arr[0]][arr[1]].GetCurrentPiece1();
 		gameBoard[arr[0]][arr[1]].deleteCurrentPiece1();
 		gameBoard[arr[2]][arr[3]].SetCurrentPiece1(tempPiece);
@@ -319,7 +319,7 @@ void BoardManager::movePiece(int * arr, int _playerNumber,char jokerNewForm)
 
 		if (jokerNewForm != 'N')
 		{
-			pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece1().getIsJoker();
+			pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
 			tempPiece = gameBoard[arr[4]][arr[5]].GetCurrentPiece1();
 			tempPiece.setPieceTypeFromChar(jokerNewForm);
 			gameBoard[arr[4]][arr[5]].deleteCurrentPiece1();
@@ -339,7 +339,7 @@ void BoardManager::movePiece(int * arr, int _playerNumber,char jokerNewForm)
 	}
 	else if (_playerNumber == 2)
 	{
-		pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece2().getIsJoker();
+		pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
 		tempPiece = gameBoard[arr[0]][arr[1]].GetCurrentPiece2();
 		gameBoard[arr[0]][arr[1]].deleteCurrentPiece2();
 		gameBoard[arr[2]][arr[3]].SetCurrentPiece2(tempPiece);
@@ -368,7 +368,7 @@ void BoardManager::movePiece(int * arr, int _playerNumber,char jokerNewForm)
 
 		if (jokerNewForm != 'N')
 		{
-			pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece2().getIsJoker();
+			pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
 			tempPiece = gameBoard[arr[4]][arr[5]].GetCurrentPiece2();
 			tempPiece.setPieceTypeFromChar(jokerNewForm);
 			
@@ -402,9 +402,8 @@ char BoardManager::getCurrentPieceInChar(int col, int row)
 		return ' ';
 }
 
-
-
-Piece BoardManager::convertCharToPiece(char _piece, int playerNumber, int _isJokerOrFlag, bool _isMoveable) // 0 regular 1 Joker 2 Flag
+// 0 regular 1 Joker 2 Flag
+Piece BoardManager::convertCharToPiece(char _piece, int playerNumber, int _isJokerOrFlag, bool _isMoveable) 
 {
 	Piece tempPiece;
 
@@ -413,7 +412,7 @@ Piece BoardManager::convertCharToPiece(char _piece, int playerNumber, int _isJok
 	tempPiece.setisMoveable(_isMoveable);
 	if (_isJokerOrFlag == 1) 
 	{
-		tempPiece.setIsJoker(_isJokerOrFlag);
+		tempPiece.setLastKnownPieceType(Piece::pieceType::JOKER);
 	}
 	else if (_isJokerOrFlag == 2) 
 	{

@@ -288,10 +288,20 @@ void GameManager::FightAfterLoad(BoardManager * _boardManager, int & _weGotAWinn
 	}
 }
 
-void GameManager::enterCombat(BoardManager *_boardManager, int _col, int _row, int& _weGotAWinner)
-{
-	Piece pieceA = _boardManager->getSquareInfo(_col, _row)->GetCurrentPiece1();
-	Piece pieceB = _boardManager->getSquareInfo(_col, _row)->GetCurrentPiece2();
+void GameManager::enterCombat(BoardManager *_boardManager, int _col, int _row, int& _weGotAWinner){
+
+	Piece& pieceA = _boardManager->getSquareInfo(_col, _row)->GetCurrentPiece1ByRef();
+	Piece& pieceB = _boardManager->getSquareInfo(_col, _row)->GetCurrentPiece2ByRef();
+
+	if (pieceA == Piece::pieceType::JOKER) {
+		
+		pieceA.incTimesJokerExsposed();
+	}
+
+	if (pieceB == Piece::pieceType::JOKER) {
+
+		pieceB.incTimesJokerExsposed();
+	}
 
 	if (pieceA == pieceB || pieceA == Piece::pieceType::BOMB || pieceB == Piece::pieceType::BOMB) {
 

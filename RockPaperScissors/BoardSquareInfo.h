@@ -29,7 +29,8 @@ public:
 
 	Piece GetCurrentPiece1();
 	Piece GetCurrentPiece2();
-
+	Piece& GetCurrentPiece1ByRef();
+	Piece& GetCurrentPiece2ByRef();
 	BoardPoint GetPointInfo();
 	BoardSquareInfo();
 	BoardSquareInfo(BoardPoint i_PointInfo, const char* i_DisplayName, BoardSquareInfo::eSquareType i_SqureType, Piece _emptyPiece);

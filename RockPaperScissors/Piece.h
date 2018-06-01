@@ -18,13 +18,16 @@ public:
 	int getPieceTypeInInt(pieceType i_pieceType);
 	bool getisMoveable();
 	char getCharFromMyPiece();
+	bool getTimesJokerExsposed();
 	void deleteMySelf();
-	void  setPlyaerNumber(int _playerNumber);
+	void setPlyaerNumber(int _playerNumber);
 	void setPieceTypeFromChar(char _CharPieceType);
 	void setPieceType(pieceType i_pieceType);
 	void setIsFlag(int _isFlag);
 	void setisMoveable(bool _isMoveable);
-	
+	void setLastKnownPieceType(pieceType LastKnown_pieceType);
+	void incTimesJokerExsposed();
+
 	friend bool operator==(const Piece& piece1, const Piece& piece2);
 	friend bool operator==(const Piece& piece, const Piece::pieceType type);
 	friend bool operator>(const Piece& piece1, const Piece& piece2);
@@ -39,6 +42,7 @@ private:
 	bool isFlag;
 	bool isAlive;
 	int playerNumber;
+	int timesJokerExposed;
 
 	//PlayerProperties *myPlayer;
 	//BoardPoint pieceBoardPoint;

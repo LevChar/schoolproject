@@ -138,6 +138,11 @@ void Piece::setLastKnownPieceType(pieceType LastKnown_pieceType)
 	_last_known_rep = LastKnown_pieceType;
 }
 
+void Piece::incTimesJokerExsposed(){
+
+	timesJokerExposed++;
+}
+
 void Piece::setIsFlag(int _isFlag)
 {
 	isFlag = _isFlag;
@@ -197,14 +202,19 @@ char Piece::getCharFromMyPiece()
 	
 }
 
+bool Piece::getTimesJokerExsposed()
+{
+	return timesJokerExposed;
+}
+
 Piece::Piece()
 {
 	_last_known_rep = _pieceType = Piece::pieceType::NONE;
 	isMoveable = 0;
-	_last_known_rep=_pieceType = pieceType::NONE;
 	playerNumber = 0;
 	isAlive = 0;
 	isFlag = 0;
+	timesJokerExposed = 0;
 }
 
 Piece::~Piece()

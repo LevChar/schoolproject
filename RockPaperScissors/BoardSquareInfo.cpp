@@ -48,12 +48,21 @@ Piece BoardSquareInfo::GetCurrentPiece1()
 	return currentPiece1;
 }
 
+Piece BoardSquareInfo::GetCurrentPiece2()
+{
+	return currentPiece2;
+}
 void BoardSquareInfo::SetCurrentPiece1(Piece i_Piece)
 {
 	currentPiece1 = i_Piece;
 }
 
-Piece BoardSquareInfo::GetCurrentPiece2()
+Piece& BoardSquareInfo::GetCurrentPiece1ByRef()
+{
+	return currentPiece1;
+}
+
+Piece& BoardSquareInfo::GetCurrentPiece2ByRef()
 {
 	return currentPiece2;
 }

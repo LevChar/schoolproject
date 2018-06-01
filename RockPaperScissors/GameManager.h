@@ -44,7 +44,7 @@ public:
 	void loadFromConsole(BoardManager *_boardManager);
 	bool LoadMovesToBoard(BoardManager* _boardManager);
 	void FightAfterLoad(BoardManager* _boardManager, int& _weGotAWinner);
-	void enter(BoardManager* _boardManager, int _col, int _row, int& _weGotAWinner);
+	void enterCombat(BoardManager* _boardManager, int _col, int _row, int& _weGotAWinner);
 	GameManager(GameConfig i_GameRunSettings);
 	int CheckForWinners(int &_reason);
 	~GameManager();
