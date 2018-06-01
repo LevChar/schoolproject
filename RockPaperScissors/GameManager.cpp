@@ -1,6 +1,7 @@
 #include "GameManager.h"
 
 GameManager::GameManager(GameConfig i_GameRunSettings) :
+
 	innerFile1Error(0),
 	innerFile2Error(0),
 	reason(-1),
@@ -46,8 +47,7 @@ GameManager::GameManager(GameConfig i_GameRunSettings) :
 	}
 }
 
-void GameManager::startTheGame()
-{
+void GameManager::startTheGame(){
 
 	FightAfterLoad(&boardManager, weGotAWinner);
 
@@ -66,14 +66,13 @@ void GameManager::startTheGame()
 		bp.printBoardInSpecial(boardManager, gameRunSettings.getSlected_Player());
 	}
 	
-
 	if (weGotAWinner != -1) {
 		EndManager(boardManager, weGotAWinner, winReason, -1, -1, 1);
 	}
 
 	else {
 		LoadMovesToBoard(&boardManager);
-		// I AM HERE
+
 		if (innerMoveFileIssue != 0) {
 			EndManager(boardManager, weGotAWinner, innerMoveFileIssue, -1, -1, 2);
 		}
@@ -184,20 +183,6 @@ int GameManager::getLoadedPosProperly()
 {
 	return loadedPosProperly;
 }
-
-//void GameManager::printBoard(BoardManager boardManager)
-//{
-//	boardManager.printBoard();
-//}
-
-//We will be used later on when the game will hold the players.
-/*void GameManager::InitializePlayers()
-{
-players[0].setPlayerName(Player1);
-players[1].setPlayerName(Player2);
-
-}
-*/
 
 int GameManager::LoadToBoard(BoardManager* boardManager)
 {
@@ -341,8 +326,8 @@ void GameManager::enterCombat(BoardManager *_boardManager, int _col, int _row, i
 		_boardManager->decreaseMovingPiecesPlayer1();
 	}
 
-if (_weGotAWinner == -1)
-	{
+if (_weGotAWinner == -1){
+
 		if ((_boardManager->getMovingPiecesCounterPlayer1() == 0) && (_boardManager->getMovingPiecesCounterPlayer2() == 0))
 		{
 			_weGotAWinner = 0;
@@ -360,7 +345,8 @@ if (_weGotAWinner == -1)
 		}
 	}
 
-	if (_weGotAWinner == -1) {
+if (_weGotAWinner == -1) {
+
 		if (_boardManager->getFlagCounterPlayer1() == 0 && _boardManager->getFlagCounterPlayer1()) {
 			_weGotAWinner = 0;
 			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);

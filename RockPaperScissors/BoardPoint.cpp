@@ -1,16 +1,12 @@
 #include "BoardPoint.h"
 
-
 BoardPoint::BoardPoint(int i_Row, int i_Col) :
-	row(i_Row), column(i_Col)
-{
 
-}
+	row(i_Row), 
+	column(i_Col)
+{}
 
-
-BoardPoint::~BoardPoint()
-{
-}
+BoardPoint::~BoardPoint(){}
 
 int BoardPoint::GetRow()
 {
@@ -31,4 +27,3 @@ void BoardPoint::SetColumn(int i_Column)
 {
 	column = i_Column;
 }
-

@@ -1,10 +1,5 @@
 #include "Piece.h"
 
-// test
-//#include <iostream>
-//#include "General.h"
-//using namespace std;
-
 bool operator==(const Piece& piece, const Piece::pieceType type) {
 
 	if (piece.getPieceType() == type)
@@ -69,16 +64,12 @@ int Piece::getPlayerNumber()
 }
 
 int Piece::getPieceTypeInInt(pieceType i_pieceType)
-{
-	
+{	
 	return 1;
 }
 
-
 void Piece::setPieceTypeFromChar(char _CharPieceType)
 {
-
-
 	if ( (_CharPieceType == 'R') )
 	{
 		setPieceType(pieceType::ROCK);
@@ -109,7 +100,6 @@ void Piece::setPieceTypeFromChar(char _CharPieceType)
 		setPieceType(pieceType::FLAG);
 	}
 
-	//
 	if ((_CharPieceType == 'r'))
 	{
 		setPieceType(pieceType::ROCK);
@@ -162,7 +152,6 @@ Piece::pieceType Piece::getPieceType() const
 
 Piece::pieceType Piece::getLastKnownRep() const
 {
-
 	return _last_known_rep;
 }
 
@@ -199,7 +188,6 @@ char Piece::getCharFromMyPiece()
 	else {
 		return 'U';
 	}
-	
 }
 
 bool Piece::getTimesJokerExsposed()
@@ -217,8 +205,4 @@ Piece::Piece()
 	timesJokerExposed = 0;
 }
 
-Piece::~Piece()
-{
-
-
-}
+Piece::~Piece(){}

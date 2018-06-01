@@ -1,11 +1,9 @@
 #include "BoardManager.h"
 
-
 // test
 //using namespace std;
 //#include <iostream>
 // test
-
 
 BoardManager::BoardManager(GameConfig _gameRunSettings)
 {
@@ -134,7 +132,6 @@ int BoardManager::loadPosFromFile(char _piece, int _col, int _row, int playerNum
 		}
 	}
 
-
 	return proceed;
 }
 
@@ -226,10 +223,8 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 				else {
 					movePiece(arr, playerNumber);
 					issue = HEY_ALL_IS_FINE;
-				}
-				
+				}				
 			}
-
 		}
 	}
 
@@ -363,7 +358,6 @@ void BoardManager::movePiece(int * arr, int _playerNumber,char jokerNewForm)
 			else {
 				bp.PrintMove(arr[2], arr[3], (eSquareType)2, -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
 			}
-			
 		}
 
 		if (jokerNewForm != 'N')
@@ -438,188 +432,62 @@ Piece BoardManager::convertCharToPiece(char _piece, int playerNumber, int _isJok
 //	
 //}
 
-void BoardManager::innerComabat(int _col, int _row, int& _weGotAWinner)
-{
+void BoardManager::innerComabat(int _col, int _row, int& _weGotAWinner){
 
-	int pieceA = int(gameBoard[_col][_row].GetCurrentPiece1().getPieceType());
-	int pieceB = int(gameBoard[_col][_row].GetCurrentPiece2().getPieceType());
+	Piece& pieceA = gameBoard[_col][_row].GetCurrentPiece1ByRef();
+	Piece& pieceB = gameBoard[_col][_row].GetCurrentPiece2ByRef();
 
-	// Reusage of code need remodeling with new design.
-	switch (pieceA)
-	{
-	case int(pieceType::ROCK) : {
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
-			bp.eraseFromBoard(_col, _row);
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::BOMB) : { //NOT MOVING PIECE
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			break;
-		}
-		case int(pieceType::FLAG) : { // NOT MOVING PIECE | AUTO WIN
-			decreaseFlagCounter(gameBoard[_col][_row].GetCurrentPiece2().getPlayerNumber());
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			break;
-		}
-		}
-		break;
-	}
-	case int(pieceType::PAPER) : {
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
-			break;
-		}
-		case int(pieceType::BOMB) : { // NOT A MOVING PIECE
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			break;
-		}
-		case int(pieceType::FLAG) : { // NOT A MOVING PEIECE | AUTO WIN
-			decreaseFlagCounter(gameBoard[_col][_row].GetCurrentPiece2().getPlayerNumber());
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			break;
-		}
-		}
-		break;
-	}
-	case int(pieceType::SCISSORS) : {
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::BOMB) : { // NOT A MOVING PEIECE 
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			break;
-		}
-		case int(pieceType::FLAG) : { // NOT A MOVING PEIECE | AUTO WIN
-			decreaseFlagCounter(gameBoard[_col][_row].GetCurrentPiece2().getPlayerNumber());
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			break;
-		}
-		}
-		break;
-	}
-	case int(pieceType::BOMB) : {// NOT A MOVING PEIECE
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::BOMB) : {// NOT A MOVING PEIECE
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			break;
-		}
-		case int(pieceType::FLAG) : { // NOT A MOVING PEIECE
-			// THIS CANNOT BE! WE CANNOT MOVE FLAG OR BOMB.
-			break;
-		}
-		}
-		break;
-	}
-	case int(pieceType::FLAG) : { // NOT A MOVING PEIECE | AUTO WIN
+	if (pieceA == Piece::pieceType::JOKER) {
 
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			decreaseFlagCounter(gameBoard[_col][_row].GetCurrentPiece1().getPlayerNumber());
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			decreaseFlagCounter(gameBoard[_col][_row].GetCurrentPiece1().getPlayerNumber());
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			decreaseFlagCounter(gameBoard[_col][_row].GetCurrentPiece1().getPlayerNumber());
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			break;
-		}
-		case int(pieceType::BOMB) : {
-			// THIS CANNOT BE! WE CANNOT MOVE FLAG OR BOMB.
-
-			break;
-		}
-		case int(pieceType::FLAG) : {
-			// THIS CANNOT BE! WE CANNOT MOVE FLAGS.
-
-			break;
-		}
-		}
-		break;
-	}
-	default: //cout << "error"; //test
-		break;
+		pieceA.incTimesJokerExsposed();
 	}
 
-	
+	if (pieceB == Piece::pieceType::JOKER) {
+
+		pieceB.incTimesJokerExsposed();
+	}
+
+	if (pieceA == pieceB || pieceA == Piece::pieceType::BOMB || pieceB == Piece::pieceType::BOMB) {
+
+		gameBoard[_col][_row].deleteCurrentPiece1();
+		decreaseMovingPiecesPlayer1();
+		gameBoard[_col][_row].deleteCurrentPiece2();
+		decreaseMovingPiecesPlayer2();
+		bp.eraseFromBoard(_col, _row);
+		return;
+	}
+
+	if (pieceA == Piece::pieceType::FLAG || pieceB == Piece::pieceType::FLAG) {
+
+		if (pieceA == Piece::pieceType::FLAG) {
+
+			gameBoard[_col][_row].deleteCurrentPiece1();
+			decreaseMovingPiecesPlayer1();
+		}
+
+		else {
+
+			gameBoard[_col][_row].deleteCurrentPiece2();
+			decreaseMovingPiecesPlayer2();
+		}
+
+		return;
+	}
+
+	if (pieceA > pieceB) {
+
+		gameBoard[_col][_row].deleteCurrentPiece2();
+		decreaseMovingPiecesPlayer2();
+		return;
+	}
+
+	else {
+
+		gameBoard[_col][_row].deleteCurrentPiece1();
+		decreaseMovingPiecesPlayer1();
+		return;
+	}
+
 	if (_weGotAWinner == -1)
 	{
 		if ((getMovingPiecesCounterPlayer1() == 0) && (getMovingPiecesCounterPlayer2() == 0))

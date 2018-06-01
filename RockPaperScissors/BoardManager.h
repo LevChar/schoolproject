@@ -52,6 +52,7 @@ public:
 	int getFlagCounterPlayer2();
 
 private:
+
 	GameConfig i_gameRunSettings;
 	int winReason;
 	//1 - All flags of the opponent are captured
