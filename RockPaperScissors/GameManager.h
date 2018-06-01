@@ -41,6 +41,7 @@ public:
 	//void printBoard(BoardManager boardManager);
 	// void InitializePlayers(); //We will be used later on when the game will hold the players.
 	int LoadToBoard(BoardManager* _boardManager);
+	void loadFromConsole(BoardManager *_boardManager);
 	bool LoadMovesToBoard(BoardManager* _boardManager);
 	void FightAfterLoad(BoardManager* _boardManager, int& _weGotAWinner);
 	void enterCombat(BoardManager* _boardManager, int _col, int _row, int& _weGotAWinner);

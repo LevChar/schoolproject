@@ -27,3 +27,4 @@ Bugs:
 -------------------------------------------------------------project 2----------------------------------------------------------
 
 1. default delay for console mode set to 50 ms as in excercise 1
+2. To check input same location Example: R 5 5 then P 5 5 same player.

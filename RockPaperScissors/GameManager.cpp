@@ -37,7 +37,8 @@ GameManager::GameManager(GameConfig i_GameRunSettings) :
 		}
 	}
 	else {
-		cp.consoleInsertPos();
+		loadFromConsole(&boardManager);
+		
 		//function to request the information from the user.
 		//validate that the information was inserted properly.
 		//start fights if there are.
@@ -253,6 +254,11 @@ int GameManager::LoadToBoard(BoardManager* boardManager)
 	}
 
 	return loadStatus;
+}
+
+void GameManager::loadFromConsole(BoardManager * _boardManager)
+{
+	cp.consoleInsertPos(_boardManager);
 }
 
 bool GameManager::LoadMovesToBoard(BoardManager * _boardManager)

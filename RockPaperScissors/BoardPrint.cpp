@@ -14,6 +14,7 @@ void BoardPrint::hidecursor()
 	SetConsoleCursorInfo(consoleHandle, &info);
 }
 
+
 void BoardPrint::printBoard(BoardManager gameBoard) {
 
 	int row = 0;

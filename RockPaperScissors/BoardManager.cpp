@@ -164,6 +164,7 @@ void BoardManager::decreaseMovingPiecesPlayer2()
 	movingPiecesCounterPlayer2--;
 }
 
+
 int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, int & i_weGotAWinner)
 {
 	int issue = HEY_ALL_IS_FINE;
@@ -286,6 +287,7 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 	return issue;
 
 }
+*/
 
 void BoardManager::movePiece(int * arr, int _playerNumber,char jokerNewForm)
 {
@@ -405,6 +407,8 @@ char BoardManager::getCurrentPieceInChar(int col, int row)
 		return ' ';
 }
 
+
+
 Piece BoardManager::convertCharToPiece(char _piece, int playerNumber, int _isJokerOrFlag, bool _isMoveable) // 0 regular 1 Joker 2 Flag
 {
 	Piece tempPiece;
@@ -422,6 +426,7 @@ Piece BoardManager::convertCharToPiece(char _piece, int playerNumber, int _isJok
 	}
 	return tempPiece;
 }
+
 
 //test
 //void BoardManager::printBoard()

@@ -10,11 +10,13 @@ class ConsoleGameHelper : GamePlayHelper
 	
 
 public:
-	void consoleInsertPos();
+	
 	void f() override {}; // for testing
-
+	void consoleInsertPos(BoardManager * _boardManager);
 	ConsoleGameHelper();
 	~ConsoleGameHelper();
+	bool validatePieceConsole(char validationPiece, int pCol, int pRow, int playNumber);
+
 
 };
 
