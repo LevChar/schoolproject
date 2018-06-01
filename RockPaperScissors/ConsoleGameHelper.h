@@ -15,8 +15,8 @@ public:
 	void consoleInsertPos(BoardManager * _boardManager);
 	ConsoleGameHelper();
 	~ConsoleGameHelper();
-	bool validatePieceConsole(char validationPiece, int pCol, int pRow, int playNumber);
-
-
+	bool validatePieceConsole(char _validationPiece, int pCol, int pRow, int playNumber);
+	bool validatePieceChar(char _validationPiece, int _playerNumber);
+	bool checkIfFinsihedLoading();
 };
 
