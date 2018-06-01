@@ -13,14 +13,14 @@ public:
 
 	enum class pieceType { ROCK, PAPER, SCISSORS, BOMB, JOKER, FLAG, NONE,UNKNOWN	 };
 	enum class moveDirections : int { NONE, LEFT, RIGHT, UP, DOWN };
-	enum class strength { WEAKER=-1, SAME_POWER,STRONGER,BOMB_BOTH_DIE };
-
+	
 	void deleteMySelf();
 	void  setPlyaerNumber(int _playerNumber);
 
 	int getPlayerNumber();
 	int getPieceTypeInInt(pieceType i_pieceType);
-	pieceType getPieceType();
+	pieceType getPieceType() const;
+	pieceType getLastKnownRep() const;
 	void setPieceTypeFromChar(char _CharPieceType);
 	void setPieceType(pieceType i_pieceType);
 	void setIsFlag(int _isFlag);
@@ -31,6 +31,7 @@ public:
 	~Piece();
 
 	friend bool operator==(const Piece& piece1, const Piece& piece2);
+	friend bool operator==(const Piece& piece, const Piece::pieceType type);
 	friend bool operator>(const Piece& piece1, const Piece& piece2);
 	friend bool operator<(const Piece& piece1, const Piece& piece2);
 

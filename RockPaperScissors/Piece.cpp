@@ -5,6 +5,13 @@
 //#include "General.h"
 //using namespace std;
 
+bool operator==(const Piece& piece, const Piece::pieceType type) {
+
+	if (piece.getPieceType() == type)
+		return true;
+
+	return false;
+}
 
 bool operator==(const Piece& piece1, const Piece& piece2) {
 
@@ -126,6 +133,11 @@ void Piece::setPieceType(pieceType i_pieceType)
 }
 
 
+void Piece::setLastKnownPieceType(pieceType LastKnown_pieceType)
+{
+	_last_known_rep = LastKnown_pieceType;
+}
+
 void Piece::setIsFlag(int _isFlag)
 {
 	isFlag = _isFlag;
@@ -137,11 +149,17 @@ void Piece::setisMoveable(bool _isMoveable)
 }
 
 
-Piece::pieceType Piece::getPieceType()
+Piece::pieceType Piece::getPieceType() const
 {
 	return _pieceType;
 }
 
+
+Piece::pieceType Piece::getLastKnownRep() const
+{
+
+	return _last_known_rep;
+}
 
 bool Piece::getisMoveable()
 {

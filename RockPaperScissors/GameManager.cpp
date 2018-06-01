@@ -284,188 +284,48 @@ void GameManager::FightAfterLoad(BoardManager * _boardManager, int & _weGotAWinn
 
 void GameManager::enterCombat(BoardManager *_boardManager, int _col, int _row, int& _weGotAWinner)
 {
-	int pieceA = int(_boardManager->getSquareInfo(_col, _row)->GetCurrentPiece1().getPieceType());
-	int pieceB = int(_boardManager->getSquareInfo(_col, _row)->GetCurrentPiece2().getPieceType());
+	Piece pieceA = _boardManager->getSquareInfo(_col, _row)->GetCurrentPiece1();
+	Piece pieceB = _boardManager->getSquareInfo(_col, _row)->GetCurrentPiece2();
 
-	// Reusage of code need remodeling with new design.
-	switch (pieceA)
-	{
-	case int(pieceType::ROCK) : {
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::BOMB) : { //NOT MOVING PIECE
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			break;
-		}
-		case int(pieceType::FLAG) : { // NOT MOVING PIECE | AUTO WIN
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseFlagCounter(intPlayer2);
-			break;
-		}
-		}
-		break;
-	}
-	case int(pieceType::PAPER) : {
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
-			break;
-		}
-		case int(pieceType::BOMB) : { // NOT A MOVING PIECE
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			break;
-		}
-		case int(pieceType::FLAG) : { // NOT A MOVING PEIECE | AUTO WIN
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseFlagCounter(intPlayer2);
+	if (pieceA == pieceB || pieceA == Piece::pieceType::BOMB || pieceB == Piece::pieceType::BOMB) {
 
-			break;
-		}
-		}
-		break;
-	}
-	case int(pieceType::SCISSORS) : {
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::BOMB) : { // NOT A MOVING PEIECE 
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			break;
-		}
-		case int(pieceType::FLAG) : { // NOT A MOVING PEIECE | AUTO WIN
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseFlagCounter(intPlayer2);
-			break;
-		}
-		}
-		break;
-	}
-	case int(pieceType::BOMB) : {// NOT A MOVING PEIECE
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
-			break;
-		}
-		case int(pieceType::BOMB) : {// NOT A MOVING PEIECE
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			break;
-		}
-		case int(pieceType::FLAG) : { // NOT A MOVING PEIECE | AUTO WIN
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseFlagCounter(intPlayer2);
-			break;
-		}
-		}
-		break;
-	}
-	case int(pieceType::FLAG) : { // NOT A MOVING PEIECE | AUTO WIN
-
-		switch (pieceB)
-		{
-		case int(pieceType::ROCK) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseFlagCounter(intPlayer1);
-			break;
-		}
-		case int(pieceType::PAPER) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseFlagCounter(intPlayer1);
-			break;
-		}
-		case int(pieceType::SCISSORS) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseFlagCounter(intPlayer1);
-			break;
-		}
-		case int(pieceType::BOMB) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseFlagCounter(intPlayer1);
-			break;
-		}
-		case int(pieceType::FLAG) : {
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseFlagCounter(intPlayer1);
-			_boardManager->decreaseFlagCounter(intPlayer2);
-			break;
-		}
-		}
-		break;
-	}
-	default: cout << "error"; //test
-		break;
+		_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
+		_boardManager->decreaseMovingPiecesPlayer1();
+		_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
+		_boardManager->decreaseMovingPiecesPlayer2();
+		return;
 	}
 
-	if (_weGotAWinner == -1)
+	if (pieceA == Piece::pieceType::FLAG || pieceB == Piece::pieceType::FLAG) {
+		
+		if (pieceA == Piece::pieceType::FLAG) {
+
+			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
+			_boardManager->decreaseMovingPiecesPlayer1();
+		}
+
+		else {
+
+			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
+			_boardManager->decreaseMovingPiecesPlayer2();
+		}
+
+		return;
+	}
+
+	if (pieceA > pieceB) {
+
+		_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
+		_boardManager->decreaseMovingPiecesPlayer2();
+	}
+
+	else {
+
+		_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
+		_boardManager->decreaseMovingPiecesPlayer1();
+	}
+
+if (_weGotAWinner == -1)
 	{
 		if ((_boardManager->getMovingPiecesCounterPlayer1() == 0) && (_boardManager->getMovingPiecesCounterPlayer2() == 0))
 		{
