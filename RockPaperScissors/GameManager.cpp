@@ -49,7 +49,7 @@ GameManager::GameManager(GameConfig i_GameRunSettings) :
 
 void GameManager::startTheGame(){
 
-	FightAfterLoad(&boardManager, weGotAWinner);
+	FightAfterLoad();
 
 	bp.hidecursor();
 
@@ -257,26 +257,25 @@ bool GameManager::LoadMovesToBoard(BoardManager * _boardManager)
 	return 1;
 }
 
-void GameManager::FightAfterLoad(BoardManager * _boardManager, int & _weGotAWinner)
+void GameManager::FightAfterLoad()
 {
-
 	for (int i = 0; i < N; i++)
 	{
 		for (int j = 0; j < M; j++)
 		{
-			if (((_boardManager->getSquareInfo(j, i)->GetCurrentPiece1().getPlayerNumber()) == 1) &&
-				((_boardManager->getSquareInfo(j, i)->GetCurrentPiece2().getPlayerNumber()) == 2))
+			if ((boardManager.getSquareInfo(j, i)->GetCurrentPiece1().getPlayerNumber() == 1) &&
+				(boardManager.getSquareInfo(j, i)->GetCurrentPiece2().getPlayerNumber() == 2))
 			{
-				enterCombat(_boardManager, j, i, weGotAWinner);
+				enterCombat(j, i);
 			}
 		}
 	}
 }
 
-void GameManager::enterCombat(BoardManager *_boardManager, int _col, int _row, int& _weGotAWinner){
+void GameManager::enterCombat(int _col, int _row){
 
-	Piece& pieceA = _boardManager->getSquareInfo(_col, _row)->GetCurrentPiece1ByRef();
-	Piece& pieceB = _boardManager->getSquareInfo(_col, _row)->GetCurrentPiece2ByRef();
+	Piece& pieceA = boardManager.getSquareInfo(_col, _row)->GetCurrentPiece1ByRef();
+	Piece& pieceB = boardManager.getSquareInfo(_col, _row)->GetCurrentPiece2ByRef();
 
 	if (pieceA == Piece::pieceType::JOKER) {
 		
@@ -290,10 +289,11 @@ void GameManager::enterCombat(BoardManager *_boardManager, int _col, int _row, i
 
 	if (pieceA == pieceB || pieceA == Piece::pieceType::BOMB || pieceB == Piece::pieceType::BOMB) {
 
-		_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-		_boardManager->decreaseMovingPiecesPlayer1();
-		_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-		_boardManager->decreaseMovingPiecesPlayer2();
+		boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece1();
+		boardManager.decreaseMovingPiecesPlayer1();
+		boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece2();
+		boardManager.decreaseMovingPiecesPlayer2();
+		checkIfMoveWin();
 		return;
 	}
 
@@ -301,65 +301,34 @@ void GameManager::enterCombat(BoardManager *_boardManager, int _col, int _row, i
 		
 		if (pieceA == Piece::pieceType::FLAG) {
 
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			_boardManager->decreaseMovingPiecesPlayer1();
+			boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece1();
+			boardManager.decreaseMovingPiecesPlayer1();
 		}
 
 		else {
 
-			_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			_boardManager->decreaseMovingPiecesPlayer2();
+			boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece2();
+			boardManager.decreaseMovingPiecesPlayer2();
 		}
 
+		checkIfMoveWin();
 		return;
 	}
 
 	if (pieceA > pieceB) {
 
-		_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece2();
-		_boardManager->decreaseMovingPiecesPlayer2();
+		boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece2();
+		boardManager.decreaseMovingPiecesPlayer2();
 	}
 
 	else {
 
-		_boardManager->getSquareInfo(_col, _row)->deleteCurrentPiece1();
-		_boardManager->decreaseMovingPiecesPlayer1();
+		boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece1();
+		boardManager.decreaseMovingPiecesPlayer1();
 	}
 
-if (_weGotAWinner == -1){
-
-		if ((_boardManager->getMovingPiecesCounterPlayer1() == 0) && (_boardManager->getMovingPiecesCounterPlayer2() == 0))
-		{
-			_weGotAWinner = 0;
-			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
-		}
-		else if (_boardManager->getMovingPiecesCounterPlayer2() == 0)
-		{
-			_weGotAWinner = 1;
-			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
-		}
-		else if (_boardManager->getMovingPiecesCounterPlayer1() == 0)
-		{
-			_weGotAWinner = 2;
-			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
-		}
-	}
-
-if (_weGotAWinner == -1) {
-
-		if (_boardManager->getFlagCounterPlayer1() == 0 && _boardManager->getFlagCounterPlayer1()) {
-			_weGotAWinner = 0;
-			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
-		}
-		else if (_boardManager->getFlagCounterPlayer1() == 0) {
-			_weGotAWinner = 2;
-			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
-		}
-		else if (_boardManager->getFlagCounterPlayer2() == 0) {
-			_weGotAWinner = 1;
-			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
-		}
-	}
+	checkIfMoveWin();
+	return;
 }
 
 GameManager::~GameManager()
@@ -403,4 +372,42 @@ void GameManager::EndManager(BoardManager _boardManager, int Winner, int reasonO
 int GameManager::getWeGotAWinner()
 {
 	return weGotAWinner;
+}
+
+void GameManager::checkIfMoveWin(){
+
+	if (weGotAWinner == -1) {
+
+		if ((boardManager.getMovingPiecesCounterPlayer1() == 0) && (boardManager.getMovingPiecesCounterPlayer2() == 0))
+		{
+			weGotAWinner = 0;
+			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
+		}
+		else if (boardManager.getMovingPiecesCounterPlayer2() == 0)
+		{
+			weGotAWinner = 1;
+			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
+		}
+		else if (boardManager.getMovingPiecesCounterPlayer1() == 0)
+		{
+			weGotAWinner = 2;
+			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
+		}
+	}
+
+	if (weGotAWinner == -1) {
+
+		if (boardManager.getFlagCounterPlayer1() == 0 && boardManager.getFlagCounterPlayer1()) {
+			weGotAWinner = 0;
+			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
+		}
+		else if (boardManager.getFlagCounterPlayer1() == 0) {
+			weGotAWinner = 2;
+			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
+		}
+		else if (boardManager.getFlagCounterPlayer2() == 0) {
+			weGotAWinner = 1;
+			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
+		}
+	}
 }

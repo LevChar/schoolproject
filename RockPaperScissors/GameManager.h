@@ -34,11 +34,12 @@ public:
 	~GameManager();
 	void startTheGame();
 	void loadFromConsole(BoardManager *_boardManager);
-	void FightAfterLoad(BoardManager* _boardManager, int& _weGotAWinner);
-	void enterCombat(BoardManager* _boardManager, int _col, int _row, int& _weGotAWinner);
+	void enterCombat(int _col, int _row);
 	void printToScreenError(int resultsFile, int player);
 	void EndManager(BoardManager _boardManager, int Winner, int reasonOfEnd, int problemPlayer1, int problemPlayer2, int UseOption);
 	void setWinReason(int reason);
+	void checkIfMoveWin();
+	void FightAfterLoad();
 	bool CheckPorperlyLoadedAndPrintInfo(int _loadedPosProperly, int _loadedMovProperly);
 	bool LoadMovesToBoard(BoardManager* _boardManager);
 	int getWeGotAWinner();

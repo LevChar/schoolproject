@@ -5,8 +5,8 @@
 //#include <iostream>
 // test
 
-BoardManager::BoardManager(GameConfig _gameRunSettings)
-{
+BoardManager::BoardManager(GameConfig _gameRunSettings){
+
 	i_gameRunSettings = _gameRunSettings;
 	movingPiecesCounterPlayer1 = 0;
 	movingPiecesCounterPlayer2 = 0;
@@ -15,8 +15,8 @@ BoardManager::BoardManager(GameConfig _gameRunSettings)
 	flagCounterPlayer2 = 0;
 }
 
-void BoardManager::InitializeBoard()
-{
+void BoardManager::InitializeBoard(){
+
 	Piece emptyPiece;
 	
 	for (int i = 0; i < BOARD_ROW_COUNT; i++)
@@ -66,8 +66,6 @@ BoardSquareInfo * BoardManager::getSquareInfo(int _col, int _row)
 {
 	return &gameBoard[_col][_row];
 }
-
-
 
 BoardManager::~BoardManager()
 {
@@ -139,6 +137,7 @@ int BoardManager::getMovingPiecesCounterPlayer2()
 {
 	return movingPiecesCounterPlayer2;
 }
+
 int BoardManager::getMovingPiecesCounterPlayer1()
 {
 	return movingPiecesCounterPlayer1;
@@ -148,19 +147,21 @@ void BoardManager::setMovingPiecesCounterPlayer1(int amountOfPieces)
 {
 	movingPiecesCounterPlayer1 = amountOfPieces;
 }
+
 void BoardManager::setMovingPiecesCounterPlayer2(int amountOfPieces)
 {
 	movingPiecesCounterPlayer2 = amountOfPieces;
 }
+
 void BoardManager::decreaseMovingPiecesPlayer1()
 {
 	movingPiecesCounterPlayer1--;
 }
+
 void BoardManager::decreaseMovingPiecesPlayer2()
 {
 	movingPiecesCounterPlayer2--;
 }
-
 
 int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, int & i_weGotAWinner)
 {
@@ -414,7 +415,6 @@ Piece BoardManager::convertCharToPiece(char _piece, int playerNumber, int _isJok
 	}
 	return tempPiece;
 }
-
 
 //test
 //void BoardManager::printBoard()

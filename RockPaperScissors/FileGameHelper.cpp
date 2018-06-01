@@ -1,15 +1,8 @@
 #include "FileGameHelper.h"
 
+FileGameHelper::FileGameHelper(){}
 
-
-FileGameHelper::FileGameHelper()
-{
-}
-
-
-FileGameHelper::~FileGameHelper()
-{
-}
+FileGameHelper::~FileGameHelper(){}
 
 bool FileGameHelper::validateFileOpened(ifstream& file, string filename) {
 
