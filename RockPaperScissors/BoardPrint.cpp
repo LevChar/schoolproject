@@ -42,8 +42,8 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 
 		for (int col = 0; col < M; col++) {
 
-			bool piece1Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getIsJoker();
-			bool piece2Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getIsJoker();
+			bool piece1Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
+			bool piece2Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
 
 			//case of empty square
 			if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber() == 0 &&
@@ -131,8 +131,8 @@ void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 
 		for (int col = 0; col < M; col++) {
 
-			bool piece1Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getIsJoker();
-			bool piece2Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getIsJoker();
+			bool piece1Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
+			bool piece2Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
 
 			//case of empty square
 			if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber() == 0 &&

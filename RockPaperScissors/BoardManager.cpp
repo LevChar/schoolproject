@@ -203,7 +203,7 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 				
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
-					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1().getIsJoker() == 1) {
+					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER) {
 						movePiece(arr, playerNumber, jokerNewForm);
 					}
 				}
@@ -218,7 +218,7 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 			else { // Just move the piece regullary.
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
-					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1().getIsJoker() == 1) {
+					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER) {
 						movePiece(arr, playerNumber,jokerNewForm);
 						issue = HEY_ALL_IS_FINE;
 					}
@@ -253,7 +253,7 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
-					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2().getIsJoker() == 1) {
+					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER) {
 						movePiece(arr, playerNumber, jokerNewForm);
 					}
 				}
@@ -268,7 +268,7 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 			else {// Just move the piece regullary.
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
-					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2().getIsJoker() == 1) {
+					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER) {
 						movePiece(arr, playerNumber, jokerNewForm);
 						issue = HEY_ALL_IS_FINE;
 					}
@@ -277,17 +277,12 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 					movePiece(arr, playerNumber);
 					issue = HEY_ALL_IS_FINE;
 				}
-
 			}
-
 		}
 	}
 
-	
 	return issue;
-
 }
-*/
 
 void BoardManager::movePiece(int * arr, int _playerNumber,char jokerNewForm)
 {
@@ -708,4 +703,3 @@ int BoardManager::getFlagCounterPlayer2()
 {
 	return flagCounterPlayer2;
 }
-
