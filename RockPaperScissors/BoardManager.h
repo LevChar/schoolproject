@@ -29,7 +29,7 @@ public:
 	// Couldnt create player and piece that hold each other from loadPosFromFile as the GM holds the players.
 
 	int checkMovePiece(int* arr, int playerNumber, char jokerNewForm, int & i_weGotAWinner);
-	void movePiece(int *arr, int _playerNumber, bool moveBeforeFight = false ,char jokerNewForm = 'N');
+	void movePiece(int *arr, int _playerNumber, int& winnerTocheck, bool moveBeforeFight = false ,char jokerNewForm = 'N');
 	char getCurrentPieceInChar(int col, int row);
 	
 	bool loadPosFromFile(char _piece, int _col, int _row, Player& playa, char _pieceValidation);

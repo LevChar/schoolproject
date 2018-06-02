@@ -11,7 +11,8 @@ class BoardSquareInfo{
 
 public:
 
-	enum  eSquareType :int {EMPTY, PLAYERA, PLAYERB, BOTHPLAYERS};
+	enum  eSquareCapacity :int { EMPTY, ONEPLAYER, BOTHPLAYERS };
+	enum  eSquareType :int {EMPTYZ, PLAYERA, PLAYERB, BOTHPLAYERSZ};
 	
 	void SetSquareType(BoardSquareInfo::eSquareType i_SqureType);
 	void SetDisplayName(const char* i_DisplayName);

@@ -27,7 +27,7 @@ public:
 	void drawWithColor(eSquareType Ctype, int curr_player, Piece::pieceType Ptype, int backroundColor, bool iAmJoker = false);
 	void printBoard(BoardManager gameBoard);
 	void printBoardInSpecial(BoardManager gameBoard, int playerNumber = 0);
-	void PrintMove(int col, int row, eSquareType Ctype, int player1, Piece::pieceType Ptype1, int player2, Piece::pieceType Ptype2, bool iAmJoker = false);
+	void PrintMove(int col, int row, eSquareCapacity Ctype, int player1, Piece::pieceType Ptype1, int player2, Piece::pieceType Ptype2, bool iAmJoker = false);
 	void eraseFromBoard(int col, int row);
 };
 

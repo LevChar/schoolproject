@@ -238,7 +238,7 @@ void BoardPrint::drawWithColor(eSquareType Ctype, int curr_player, Piece::pieceT
 //Ctype = EMPTY - no players, PLAYERA or PLAYERB - one player, BOTHPLAYERS - both of the players
 //player1 value = 1 if its only him or both players, -1 if its not him, Ptype1 - the piece type of player 1
 //player1 value = 2 if its only him or both players, -1 if its not him, Ptype1 - the piece type of player 2
-void BoardPrint::PrintMove(int col, int row, eSquareType Ctype, int pl1, Piece::pieceType Ptype1, int pl2, Piece::pieceType Ptype2, bool iAmJoker) {
+void BoardPrint::PrintMove(int col, int row, eSquareCapacity Ctype, int pl1, Piece::pieceType Ptype1, int pl2, Piece::pieceType Ptype2, bool iAmJoker) {
 
 	char printPiece1;
 

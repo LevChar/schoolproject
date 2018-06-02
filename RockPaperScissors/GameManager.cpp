@@ -272,8 +272,8 @@ void GameManager::FightAfterLoad()
 	{
 		for (int j = 0; j < M; j++)
 		{
-			if ((boardManager.getSquareInfo(j, i)->GetCurrentPiece1().getPlayerNumber() == 1) &&
-				(boardManager.getSquareInfo(j, i)->GetCurrentPiece2().getPlayerNumber() == 2))
+			if ((boardManager.getSquareInfo(j, i)->GetCurrentPiece1().getPlayer().getplayerNumber() == 1) &&
+				(boardManager.getSquareInfo(j, i)->GetCurrentPiece2().getPlayer().getplayerNumber() == 2))
 			{
 				boardManager.enterCombat(j, i,weGotAWinner);
 			}

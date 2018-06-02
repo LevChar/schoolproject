@@ -18,7 +18,6 @@ public:
 	pieceType getPieceType() const;
 	pieceType getLastKnownRep() const;
 
-	int getPlayerNumber();								//TODO - delete after player class implementation
 	bool getIsMoveable();
 	bool getIsJoker();
 	bool getIsAlive();
@@ -27,7 +26,6 @@ public:
 	bool getTimesJokerExsposed();
 	Player& getPlayer();
 	void deleteMySelf();
-	void setPlyaerNumber(int _playerNumber);
 	void setPieceTypeFromChar(char _CharPieceType);
 	void setPieceType(pieceType i_pieceType);
 	void setIsFlag(bool _isFlag);

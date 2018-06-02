@@ -3,7 +3,6 @@
 Piece::Piece()
 {
 	_last_known_rep = _pieceType = Piece::pieceType::NONE;
-	playerNumber = 0;			//TODO - delete after player class implementation
 	timesJokerExposed = 0;
 	isMoveable = false;
 	isAlive = false;
@@ -14,8 +13,6 @@ Piece::Piece()
 
 Piece::~Piece() {}
 
-//TODO - delete after player class implementation
-int Piece::getPlayerNumber() { return playerNumber; }
 Piece::pieceType Piece::getPieceType() const { return _pieceType; }
 Piece::pieceType Piece::getLastKnownRep() const { return _last_known_rep; }
 bool Piece::getIsMoveable() { return isMoveable; }
@@ -25,8 +22,6 @@ bool Piece::getIsFlag() { return isFlag; }
 bool Piece::getTimesJokerExsposed() { return timesJokerExposed; }
 Player& Piece::getPlayer() { return *player; }
 
-//TODO - delete after player class implementation
-void Piece::setPlyaerNumber(int _playerNumber) { playerNumber = _playerNumber; }
 void Piece::setPieceType(pieceType i_pieceType) { _pieceType = i_pieceType; }
 void Piece::setLastKnownPieceType(pieceType LastKnown_pieceType) { _last_known_rep = LastKnown_pieceType; }
 void Piece::setisMoveable(bool _isMoveable) { isMoveable = _isMoveable; }
