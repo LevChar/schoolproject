@@ -245,20 +245,21 @@ bool ConsoleGameHelper::validatePieceChar(char _validationPiece, int _playerNumb
 		}
 	}
 
-	for (int i = 0; i <= 5; i++) {
-		if (downCounterOfPiecesPlayer1[i] < 0 || downCounterOfPiecesPlayer2[i] < 0) {
-			cout << "Too many pieces of the same kind, please try again" << endl;
-			cout << endl;
-			if (downCounterOfPiecesPlayer1[i] <= 0) {
-				downCounterOfPiecesPlayer1[i]++;
-			}
-			else if (downCounterOfPiecesPlayer1[i] <= 0) {
-				downCounterOfPiecesPlayer2[i]++;
-			}
-			status = 0;
-		}
 
-	}
+		for (int i = 0; i <= 5; i++) {
+			if (downCounterOfPiecesPlayer1[i] < 0 || downCounterOfPiecesPlayer2[i] < 0) {
+				cout << "Too many pieces of the same kind, please try again" << endl;
+				cout << endl;
+				if (downCounterOfPiecesPlayer1[i] <= 0) {
+					downCounterOfPiecesPlayer1[i]++;
+				}
+				else if (downCounterOfPiecesPlayer1[i] <= 0) {
+					downCounterOfPiecesPlayer2[i]++;
+				}
+				status = 0;
+			}
+
+		}
 	return status;
 }
 
@@ -372,7 +373,7 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 			}
 			system("cls");
 			if (completedPlayer == 0) {
-				GamePlayHelper::setCurrentPlayer(2);
+				GamePlayHelper::setCurrentPlayer(1);
 			}
 			else {
 				cout << "Error" << endl;
@@ -384,14 +385,26 @@ bool ConsoleGameHelper::validataeMoveConsole(int * _arr, char _jokerPresentation
 {
 	bool status = 1;
 	
-	if (validatePieceConsole('R', _arr[0], _arr[1], GamePlayHelper::getCurrentPlayer()) || validatePieceConsole('R', _arr[2], _arr[3], GamePlayHelper::getCurrentPlayer())) {
+	if (!((_arr[0] <= 10 && _arr[0] >= 1) && (_arr[1] <= 10 && _arr[1] >= 1))) {
+		cout << "Incorrect colum or row inserted, please try again." << endl;
 		status = 0;
 	}
+
+	if (!((_arr[3] <= 10 && _arr[3] >= 1) && (_arr[2] <= 10 && _arr[2] >= 1))) {
+		cout << "Incorrect colum or row inserted, please try again." << endl;
+		status = 0;
+	}
+
 	if (!(GamePlayHelper::checkMoveApplicable(_arr))) {
 		status = 0;
 	}
+
 	if (_jokerPresentationChange == 'Y') {
-		if (validatePieceConsole(_jokerNewPres, _arr[4], _arr[5], GamePlayHelper::getCurrentPlayer())) {
+		if (!((_arr[4] <= 10 && _arr[4] >= 1) && (_arr[5] <= 10 && _arr[5] >= 1))) {
+			cout << "Incorrect colum or row inserted, please try again." << endl;
+			status = 0;
+		}
+		if (!checkPiece(_jokerNewPres)) {
 			status = 0;
 		}
 	}
@@ -399,4 +412,14 @@ bool ConsoleGameHelper::validataeMoveConsole(int * _arr, char _jokerPresentation
 		status = 0;
 	}
 	return status;
+}
+
+
+bool ConsoleGameHelper::checkPiece(char piece) {
+
+	if (piece == 'R' || piece == 'B' || piece == 'P' || piece == 'S') {
+		return true;
+	}
+	else
+		return false;
 }
