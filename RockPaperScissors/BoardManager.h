@@ -36,7 +36,7 @@ public:
 	Piece convertCharToPiece(char _piece, Player& player, int _isJokerOrFlag, bool _isMoveable);
 	void setWinReason(int reason);
 	int enterCombat(int _col, int _row, int& weGotAWinner);
-	void checkIfMoveWin(int _col, int _row, int& weGotAWinner);
+	void checkIfMoveWin(Player* pl1, Player* pl2, int& weGotAWinner);
 	BoardPrint getBoardPrint();
 	
 	//void printBoard();

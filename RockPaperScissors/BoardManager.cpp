@@ -482,10 +482,15 @@ void BoardManager::setWinReason(int reason) { winReason = reason; }
 
 int BoardManager::enterCombat(int _col, int _row, int& weGotAWinner) {
 
+	Player* p1, *p2;
+
 	int winnerOfThisMove = 0;
 
-	Piece& pieceA = gameBoard[_col, _row]->GetCurrentPiece1ByRef();
-	Piece& pieceB = gameBoard[_col, _row]->GetCurrentPiece2ByRef();
+	Piece& pieceA = gameBoard[_col][_row].GetCurrentPiece1ByRef();
+	Piece& pieceB = gameBoard[_col][_row].GetCurrentPiece2ByRef();
+
+	p1 = &pieceA.getPlayer();
+	p2 = &pieceB.getPlayer();
 
 	if (pieceA == Piece::pieceType::JOKER) { pieceA.incTimesJokerExsposed();}
 
@@ -493,11 +498,11 @@ int BoardManager::enterCombat(int _col, int _row, int& weGotAWinner) {
 
 	if (pieceA == pieceB || pieceA == Piece::pieceType::BOMB || pieceB == Piece::pieceType::BOMB) {
 
-		gameBoard[_col, _row]->deleteCurrentPiece1();
-		gameBoard[_col, _row]->deleteCurrentPiece2();
 		pieceA.getPlayer().decreaseMovingPieces();
 		pieceB.getPlayer().decreaseMovingPieces(); 
-		checkIfMoveWin(_col,_row, weGotAWinner);
+		gameBoard[_col][_row].deleteCurrentPiece1();
+		gameBoard[_col][_row].deleteCurrentPiece2();
+		checkIfMoveWin(p1,p2, weGotAWinner);
 		return winnerOfThisMove;
 	}
 
@@ -505,57 +510,56 @@ int BoardManager::enterCombat(int _col, int _row, int& weGotAWinner) {
 
 		if (pieceA == Piece::pieceType::FLAG) {
 
-			gameBoard[_col, _row]->deleteCurrentPiece1();
 			pieceA.getPlayer().decreaseMovingPieces();
+			gameBoard[_col][_row].deleteCurrentPiece1();
 			winnerOfThisMove = 2;
 		}
 
 		else {
 
-			gameBoard[_col, _row]->deleteCurrentPiece2();
 			pieceB.getPlayer().decreaseMovingPieces();
+			gameBoard[_col][_row].deleteCurrentPiece2();
 			winnerOfThisMove = 1;
 		}
 
-		checkIfMoveWin(_col, _row, weGotAWinner);
+		checkIfMoveWin(p1, p2, weGotAWinner);
 		return winnerOfThisMove;
 	}
 
 	if (pieceA > pieceB) {
 
-		gameBoard[_col, _row]->deleteCurrentPiece2();
 		pieceB.getPlayer().decreaseMovingPieces();
+		gameBoard[_col][_row].deleteCurrentPiece2();
 		winnerOfThisMove = 1;
 	}
 
 	else {
 
-		gameBoard[_col, _row]->deleteCurrentPiece1();
 		pieceA.getPlayer().decreaseMovingPieces();
+		gameBoard[_col][_row].deleteCurrentPiece1();
 		winnerOfThisMove = 2;
 	}
 
-	checkIfMoveWin(_col, _row, weGotAWinner);
+	checkIfMoveWin(p1, p2, weGotAWinner);
 	return winnerOfThisMove;
 }
 
-void BoardManager::checkIfMoveWin(int _col, int _row, int& weGotAWinner) {
+void BoardManager::checkIfMoveWin(Player* pl1, Player* pl2, int& weGotAWinner) {
 
 	if (weGotAWinner == -1) {
 
-		if ((gameBoard[_col, _row]->GetCurrentPiece1ByRef().getPlayer().getmovingPiecesCounter() == 0) &&
-			(gameBoard[_col, _row]->GetCurrentPiece2ByRef().getPlayer().getmovingPiecesCounter() == 0)) {
+		if(pl1->getmovingPiecesCounter() == 0 && pl2->getmovingPiecesCounter() == 0){
 
 			weGotAWinner = 0;
 			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
 		}
 
-		else if (gameBoard[_col, _row]->GetCurrentPiece2ByRef().getPlayer().getmovingPiecesCounter() == 0)
+		else if (pl2->getmovingPiecesCounter() == 0)
 		{
 			weGotAWinner = 1;
 			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
 		}
-		else if (gameBoard[_col, _row]->GetCurrentPiece1ByRef().getPlayer().getmovingPiecesCounter() == 0)
+		else if (pl1->getmovingPiecesCounter() == 0)
 		{
 			weGotAWinner = 2;
 			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
@@ -564,18 +568,17 @@ void BoardManager::checkIfMoveWin(int _col, int _row, int& weGotAWinner) {
 
 	if (weGotAWinner == -1) {
 
-		if ((gameBoard[_col, _row]->GetCurrentPiece1ByRef().getPlayer().getflagCounter() == 0) &&
-			(gameBoard[_col, _row]->GetCurrentPiece2ByRef().getPlayer().getflagCounter() == 0)) {
+		if (pl1->getflagCounter() == 0 && pl2->getflagCounter() == 0) {
 
 			weGotAWinner = 0;
 			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
 		}
 
-		else if (gameBoard[_col, _row]->GetCurrentPiece1ByRef().getPlayer().getflagCounter() == 0) {
+		else if (pl1->getflagCounter() == 0) {
 			weGotAWinner = 2;
 			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
 		}
-		else if (gameBoard[_col, _row]->GetCurrentPiece2ByRef().getPlayer().getflagCounter() == 0) {
+		else if (pl2->getflagCounter() == 0) {
 			weGotAWinner = 1;
 			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
 		}
