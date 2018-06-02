@@ -99,7 +99,6 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 
 }
 
-
 // REUSAGE OF CODE, will change with the new design.
 void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 {
@@ -191,24 +190,12 @@ void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 			std::cout << "-";
 
 		cout << endl;
-
-
-
 	}
-
 }
 
 void BoardPrint::drawWithColor(eSquareType Ctype, int curr_player, Piece::pieceType Ptype, int backroundColor, bool iAmJoker) {
 
-	char printPiece;
-
-	if (iAmJoker) {
-		printPiece = tolower(pices[(int)Ptype]);
-	}
-	else
-	{
-		printPiece = pices[(int)Ptype];
-	}
+	char printPiece = iAmJoker ? tolower(pices[(int)Ptype]) : pices[(int)Ptype];
 
 	if (Ctype == EMPTY) {
 		setTextColor(BLACK);
@@ -223,7 +210,6 @@ void BoardPrint::drawWithColor(eSquareType Ctype, int curr_player, Piece::pieceT
 			std::cout << printPiece;
 			setTextColor(WHITE, WHITE);
 			std::cout << "  ";
-
 		}
 
 		else if (curr_player == PLAYERB) {
@@ -253,7 +239,6 @@ void BoardPrint::drawWithColor(eSquareType Ctype, int curr_player, Piece::pieceT
 		}
 	}
 }
-
 
 //base col - 0, base row - 0, 
 //Ctype = EMPTY - no players, PLAYERA or PLAYERB - one player, BOTHPLAYERS - both of the players

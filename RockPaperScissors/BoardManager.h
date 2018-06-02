@@ -7,8 +7,8 @@
 #include <Windows.h>
 #include "GameConfig.h"
 
-class BoardManager
-{
+class BoardManager{
+
 public:
 
 	static const int BOARD_ROW_START_INDEX = 1;
@@ -33,7 +33,7 @@ public:
 	void decreaseMovingPiecesPlayer1();
 	void decreaseMovingPiecesPlayer2();
 	int checkMovePiece(int* arr, int playerNumber, char jokerNewForm, int & i_weGotAWinner);
-	void movePiece(int *arr, int _playerNumber ,char jokerNewForm = 'N');
+	void movePiece(int *arr, int _playerNumber, bool moveBeforeFight = false ,char jokerNewForm = 'N');
 	char getCurrentPieceInChar(int col, int row);
 
 	~BoardManager();

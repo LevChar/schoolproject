@@ -1,9 +1,7 @@
 #include "BoardManager.h"
-
 // test
-//using namespace std;
-//#include <iostream>
-// test
+#include <iostream>
+using namespace std;
 
 BoardManager::BoardManager(GameConfig _gameRunSettings){
 
@@ -163,16 +161,16 @@ void BoardManager::decreaseMovingPiecesPlayer2()
 	movingPiecesCounterPlayer2--;
 }
 
-int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, int & i_weGotAWinner)
-{
+int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, int & i_weGotAWinner) {
+
 	int issue = HEY_ALL_IS_FINE;
-	
+
 	// Making the user format to suit the board format.
-	for (int i = 0; i < 6; i++) {  arr[i]--; }
+	for (int i = 0; i < 6; i++) { arr[i]--; }
 
 	if ((gameBoard[arr[0]][arr[1]].GetCurrentPiece1().getPlayerNumber() == 0) && (gameBoard[arr[0]][arr[1]].GetCurrentPiece2().getPlayerNumber() == 0)) {
-		
-		issue = HEY_YOU_DONT_HAVE_A_PIECE_HERE;	
+
+		issue = HEY_YOU_DONT_HAVE_A_PIECE_HERE;
 		i_weGotAWinner = playerNumber == 1 ? 2 : 1;
 		return issue;
 	}
@@ -184,19 +182,19 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 			issue = HEY_THIS_IS_NOT_YOUR_PIECE;
 			i_weGotAWinner = 2;
 		}
-		else if (!(gameBoard[arr[0]][arr[1]].GetCurrentPiece1().getIsMoveable()) ) {
+		else if (!(gameBoard[arr[0]][arr[1]].GetCurrentPiece1().getIsMoveable())) {
 			issue = HEY_THIS_PIECE_IS_NOT_MOVEABLE;
 			i_weGotAWinner = 2;
 		}
 
 		else {
-			
+
 			if (gameBoard[arr[2]][arr[3]].GetCurrentPiece1().getPlayerNumber() == 1) {
 				issue = HEY_YOU_ARE_TRYING_TO_MOVE_INTO_YOUR_OWN_PIECE;
 				i_weGotAWinner = 2;
 			}
 			else if (gameBoard[arr[2]][arr[3]].GetCurrentPiece2().getPlayerNumber() == 2) {
-				
+
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
 					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER) {
@@ -213,19 +211,19 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 				innerComabat(arr[2], arr[3], i_weGotAWinner);
 				// to handle - EnterComabt TODO
 			}
-			
+
 			else { // Just move the piece regullary.
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
 					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER) {
-						movePiece(arr, playerNumber,jokerNewForm);
+						movePiece(arr, playerNumber, jokerNewForm);
 						issue = HEY_ALL_IS_FINE;
 					}
 				}
 				else {
 					movePiece(arr, playerNumber);
 					issue = HEY_ALL_IS_FINE;
-				}				
+				}
 			}
 		}
 	}
@@ -246,23 +244,26 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 				issue = HEY_YOU_ARE_TRYING_TO_MOVE_INTO_YOUR_OWN_PIECE;
 				i_weGotAWinner = 1;
 			}
+
 			else if (gameBoard[arr[2]][arr[3]].GetCurrentPiece1().getPlayerNumber() == 1) {
 
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
 					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER) {
-						movePiece(arr, playerNumber, jokerNewForm);
+						movePiece(arr, playerNumber, jokerNewForm,TRUE);
 					}
 				}
+
 				else {
-					movePiece(arr, playerNumber);
+					movePiece(arr, playerNumber,TRUE);
 				}
 
 				innerComabat(arr[2], arr[3], i_weGotAWinner);
 				// to handle - EnterComabt TODO
 			}
 
-			else {// Just move the piece regullary.
+			// Just move the piece regullary.
+			else {
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
 					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER) {
@@ -281,113 +282,187 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 	return issue;
 }
 
-void BoardManager::movePiece(int * arr, int _playerNumber,char jokerNewForm)
-{
+void BoardManager::movePiece(int * arr, int _playerNumber, bool moveBeforeFight, char jokerNewForm) {
+
 	bool pieceJoker;
 	Piece tempPiece;
 
-	if (_playerNumber == 1)
-	{
-		pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
-		tempPiece = gameBoard[arr[0]][arr[1]].GetCurrentPiece1();
-		gameBoard[arr[0]][arr[1]].deleteCurrentPiece1();
-		gameBoard[arr[2]][arr[3]].SetCurrentPiece1(tempPiece);
+	if (moveBeforeFight) {
 
-		if (i_gameRunSettings.getIsQuiteMode() != 1) {
+		if (_playerNumber == 1)
+		{
+			pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
+			tempPiece = gameBoard[arr[0]][arr[1]].GetCurrentPiece1();
+			gameBoard[arr[0]][arr[1]].deleteCurrentPiece1();
+			gameBoard[arr[2]][arr[3]].SetCurrentPiece1(tempPiece);
+
 			Sleep(i_gameRunSettings.getDelay());
 			bp.eraseFromBoard(arr[0], arr[1]);
 			Sleep(i_gameRunSettings.getDelay());
-			if (i_gameRunSettings.getShowMode() == 1) {
-				bp.PrintMove(arr[2], arr[3], (eSquareType)1, 1, Piece::pieceType::UNKNOWN, -1, (Piece::pieceType)(-1), pieceJoker);
-			}
-			else if (i_gameRunSettings.getShowMode() == 2) {
-				if (i_gameRunSettings.getSlected_Player() == 1) {
-					bp.PrintMove(arr[2], arr[3], (eSquareType)1, 1, tempPiece.getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
+			
+			bp.PrintMove(arr[2], arr[3], BOTHPLAYERS, 1, gameBoard[arr[2]][arr[3]].GetCurrentPiece1().getPieceType(), 2, gameBoard[arr[2]][arr[3]].GetCurrentPiece2().getPieceType(), pieceJoker);
+
+			if (jokerNewForm != 'N')
+			{
+				pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
+				tempPiece = gameBoard[arr[4]][arr[5]].GetCurrentPiece1();
+				tempPiece.setPieceTypeFromChar(jokerNewForm);
+				gameBoard[arr[4]][arr[5]].deleteCurrentPiece1();
+				gameBoard[arr[4]][arr[5]].SetCurrentPiece1(tempPiece);
+
+				if (jokerNewForm == 'B') {
+
+					tempPiece.setisMoveable(0);
 				}
-				else {
-					bp.PrintMove(arr[2], arr[3], (eSquareType)1, 1, Piece::pieceType::UNKNOWN, -1, (Piece::pieceType)(-1), pieceJoker);
-				}
-			}
-			else {
-				bp.PrintMove(arr[2], arr[3], (eSquareType)1, 1, tempPiece.getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
+
+				Sleep(i_gameRunSettings.getDelay());
+				bp.eraseFromBoard(arr[4], arr[5]);
+				Sleep(i_gameRunSettings.getDelay());
+				bp.PrintMove(arr[4], arr[5], eSquareType(1), 1, gameBoard[arr[4]][arr[5]].GetCurrentPiece1().getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
+
 			}
 		}
-	
 
-		if (jokerNewForm != 'N')
+		else if (_playerNumber == 2)
 		{
-			pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
-			tempPiece = gameBoard[arr[4]][arr[5]].GetCurrentPiece1();
-			tempPiece.setPieceTypeFromChar(jokerNewForm);
-			gameBoard[arr[4]][arr[5]].deleteCurrentPiece1();
-			gameBoard[arr[4]][arr[5]].SetCurrentPiece1(tempPiece);
+			pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
+			tempPiece = gameBoard[arr[0]][arr[1]].GetCurrentPiece2();
+			gameBoard[arr[0]][arr[1]].deleteCurrentPiece2();
+			gameBoard[arr[2]][arr[3]].SetCurrentPiece2(tempPiece);
 
-			if (jokerNewForm == 'B') {
+			Sleep(i_gameRunSettings.getDelay());
+			bp.eraseFromBoard(arr[0], arr[1]);
+			Sleep(i_gameRunSettings.getDelay());
 
-				tempPiece.setisMoveable(0);
+			bp.PrintMove(arr[2], arr[3], BOTHPLAYERS, 1, gameBoard[arr[2]][arr[3]].GetCurrentPiece1().getPieceType(), 2, gameBoard[arr[2]][arr[3]].GetCurrentPiece2().getPieceType(), pieceJoker);
+
+			if (jokerNewForm != 'N')
+			{
+				pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
+				tempPiece = gameBoard[arr[4]][arr[5]].GetCurrentPiece2();
+				tempPiece.setPieceTypeFromChar(jokerNewForm);
+
+				if (jokerNewForm == 'B') {
+
+					tempPiece.setisMoveable(0);
+
+				}
+
+				gameBoard[arr[4]][arr[5]].deleteCurrentPiece2();
+				gameBoard[arr[4]][arr[5]].SetCurrentPiece2(tempPiece);
+				Sleep(i_gameRunSettings.getDelay());
+				bp.eraseFromBoard(arr[4], arr[5]);
+				Sleep(i_gameRunSettings.getDelay());
+				bp.PrintMove(arr[4], arr[5], eSquareType(2), 011, (Piece::pieceType)(-1), 2, gameBoard[arr[4]][arr[5]].GetCurrentPiece2().getPieceType(), pieceJoker);
 
 			}
-			Sleep(i_gameRunSettings.getDelay());
-			bp.eraseFromBoard(arr[4], arr[5]);
-			Sleep(i_gameRunSettings.getDelay());
-			bp.PrintMove(arr[4], arr[5], eSquareType(1), 1, gameBoard[arr[4]][arr[5]].GetCurrentPiece1().getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
-
 		}
 	}
-	else if (_playerNumber == 2)
-	{
-		pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
-		tempPiece = gameBoard[arr[0]][arr[1]].GetCurrentPiece2();
-		gameBoard[arr[0]][arr[1]].deleteCurrentPiece2();
-		gameBoard[arr[2]][arr[3]].SetCurrentPiece2(tempPiece);
+	else {
 
-		if (i_gameRunSettings.getIsQuiteMode() != 1) {
-			Sleep(i_gameRunSettings.getDelay());
-			bp.eraseFromBoard(arr[0], arr[1]);
-			Sleep(i_gameRunSettings.getDelay());
+		if (_playerNumber == 1)
+		{
+			pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
+			tempPiece = gameBoard[arr[0]][arr[1]].GetCurrentPiece1();
+			gameBoard[arr[0]][arr[1]].deleteCurrentPiece1();
+			gameBoard[arr[2]][arr[3]].SetCurrentPiece1(tempPiece);
 
-			if (i_gameRunSettings.getShowMode() == 1) {
-				bp.PrintMove(arr[2], arr[3], (eSquareType)2, -1, (Piece::pieceType)(-1), 2, Piece::pieceType::UNKNOWN, pieceJoker);
-			}
-			else if (i_gameRunSettings.getShowMode() == 2) {
-				if (i_gameRunSettings.getSlected_Player() == 1) {
-					bp.PrintMove(arr[2], arr[3], (eSquareType)2, -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
-				}
-				else {
+			if (i_gameRunSettings.getIsQuiteMode() != 1) {
+				Sleep(i_gameRunSettings.getDelay());
+				bp.eraseFromBoard(arr[0], arr[1]);
+				Sleep(i_gameRunSettings.getDelay());
+				if (i_gameRunSettings.getShowMode() == 1) {
 					bp.PrintMove(arr[2], arr[3], (eSquareType)1, 1, Piece::pieceType::UNKNOWN, -1, (Piece::pieceType)(-1), pieceJoker);
 				}
+				else if (i_gameRunSettings.getShowMode() == 2) {
+					if (i_gameRunSettings.getSlected_Player() == 1) {
+						bp.PrintMove(arr[2], arr[3], (eSquareType)1, 1, tempPiece.getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
+					}
+					else {
+						bp.PrintMove(arr[2], arr[3], (eSquareType)1, 1, Piece::pieceType::UNKNOWN, -1, (Piece::pieceType)(-1), pieceJoker);
+					}
+				}
+				else {
+					bp.PrintMove(arr[2], arr[3], (eSquareType)1, 1, tempPiece.getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
+				}
 			}
-			else {
-				bp.PrintMove(arr[2], arr[3], (eSquareType)2, -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
+
+
+			if (jokerNewForm != 'N')
+			{
+				pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
+				tempPiece = gameBoard[arr[4]][arr[5]].GetCurrentPiece1();
+				tempPiece.setPieceTypeFromChar(jokerNewForm);
+				gameBoard[arr[4]][arr[5]].deleteCurrentPiece1();
+				gameBoard[arr[4]][arr[5]].SetCurrentPiece1(tempPiece);
+
+				if (jokerNewForm == 'B') {
+
+					tempPiece.setisMoveable(0);
+
+				}
+				Sleep(i_gameRunSettings.getDelay());
+				bp.eraseFromBoard(arr[4], arr[5]);
+				Sleep(i_gameRunSettings.getDelay());
+				bp.PrintMove(arr[4], arr[5], eSquareType(1), 1, gameBoard[arr[4]][arr[5]].GetCurrentPiece1().getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
+
 			}
 		}
-
-		if (jokerNewForm != 'N')
+		else if (_playerNumber == 2)
 		{
-			pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
-			tempPiece = gameBoard[arr[4]][arr[5]].GetCurrentPiece2();
-			tempPiece.setPieceTypeFromChar(jokerNewForm);
-			
-			
+			pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
+			tempPiece = gameBoard[arr[0]][arr[1]].GetCurrentPiece2();
+			gameBoard[arr[0]][arr[1]].deleteCurrentPiece2();
+			gameBoard[arr[2]][arr[3]].SetCurrentPiece2(tempPiece);
 
-			if (jokerNewForm == 'B') {
+			if (i_gameRunSettings.getIsQuiteMode() != 1) {
+				Sleep(i_gameRunSettings.getDelay());
+				bp.eraseFromBoard(arr[0], arr[1]);
+				Sleep(i_gameRunSettings.getDelay());
 
-				tempPiece.setisMoveable(0);
+				if (i_gameRunSettings.getShowMode() == 1) {
+					bp.PrintMove(arr[2], arr[3], (eSquareType)2, -1, (Piece::pieceType)(-1), 2, Piece::pieceType::UNKNOWN, pieceJoker);
+				}
+				else if (i_gameRunSettings.getShowMode() == 2) {
+					if (i_gameRunSettings.getSlected_Player() == 1) {
+						bp.PrintMove(arr[2], arr[3], (eSquareType)2, -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
+					}
+					else {
+						bp.PrintMove(arr[2], arr[3], (eSquareType)1, 1, Piece::pieceType::UNKNOWN, -1, (Piece::pieceType)(-1), pieceJoker);
+					}
+				}
+				else {
+					bp.PrintMove(arr[2], arr[3], (eSquareType)2, -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
+				}
+			}
+
+			if (jokerNewForm != 'N')
+			{
+				pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
+				tempPiece = gameBoard[arr[4]][arr[5]].GetCurrentPiece2();
+				tempPiece.setPieceTypeFromChar(jokerNewForm);
+
+
+
+				if (jokerNewForm == 'B') {
+
+					tempPiece.setisMoveable(0);
+
+				}
+				gameBoard[arr[4]][arr[5]].deleteCurrentPiece2();
+				gameBoard[arr[4]][arr[5]].SetCurrentPiece2(tempPiece);
+				Sleep(i_gameRunSettings.getDelay());
+				bp.eraseFromBoard(arr[4], arr[5]);
+				Sleep(i_gameRunSettings.getDelay());
+				bp.PrintMove(arr[4], arr[5], eSquareType(2), 011, (Piece::pieceType)(-1), 2, gameBoard[arr[4]][arr[5]].GetCurrentPiece2().getPieceType(), pieceJoker);
 
 			}
-			gameBoard[arr[4]][arr[5]].deleteCurrentPiece2();
-			gameBoard[arr[4]][arr[5]].SetCurrentPiece2(tempPiece);
-			Sleep(i_gameRunSettings.getDelay());
-			bp.eraseFromBoard(arr[4], arr[5]);
-			Sleep(i_gameRunSettings.getDelay());
-			bp.PrintMove(arr[4], arr[5], eSquareType(2), 011, (Piece::pieceType)(-1), 2, gameBoard[arr[4]][arr[5]].GetCurrentPiece2().getPieceType(), pieceJoker);
-
 		}
 	}
 }
 
-char BoardManager::getCurrentPieceInChar(int col, int row)
-{
+char BoardManager::getCurrentPieceInChar(int col, int row){
+
 	if (gameBoard[col][row].GetCurrentPiece1().getPlayerNumber() != 0) {
 		return gameBoard[col][row].GetCurrentPiece1().getCharFromMyPiece();
 	}
