@@ -128,8 +128,8 @@ void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 			bool piece2Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
 
 			//case of empty square
-			if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber() == 0 &&
-				gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayerNumber() == 0) {
+			if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber() == 0 &&
+				gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber() == 0) {
 
 
 				std::cout << "    ";
@@ -139,8 +139,8 @@ void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 			else {
 				// NOT RELEAVNT AS WE WILL DO THE FIGHT AFTER LOAD BEFORE PRINTING TO SCREEN SO ALWAYS ONE WILL BE LEFT.
 				//case both players @ the square
-				if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber() != 0 &&
-					gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayerNumber() != 0) {
+				if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber() != 0 &&
+					gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber() != 0) {
 
 					drawWithColor(BOTHPLAYERS, PLAYERA, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPieceType(), BLACK, piece1Joker);
 					drawWithColor(BOTHPLAYERS, PLAYERB, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPieceType(), BLACK, piece2Joker);
@@ -150,9 +150,9 @@ void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 
 					int current_player;
 
-					if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber()) {
+					if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber()) {
 
-						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber();
+						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber();
 						if (playerNumber == 1) {
 							drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPieceType(), BLACK, piece1Joker);
 						}
@@ -163,7 +163,7 @@ void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 
 					else {
 
-						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayerNumber();
+						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber();
 						if (playerNumber == 2) {
 							drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPieceType(), BLACK, piece2Joker);
 						}
