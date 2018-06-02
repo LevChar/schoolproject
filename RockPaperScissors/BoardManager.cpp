@@ -184,7 +184,7 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 			issue = HEY_THIS_IS_NOT_YOUR_PIECE;
 			i_weGotAWinner = 2;
 		}
-		else if (!(gameBoard[arr[0]][arr[1]].GetCurrentPiece1().getisMoveable()) ) {
+		else if (!(gameBoard[arr[0]][arr[1]].GetCurrentPiece1().getIsMoveable()) ) {
 			issue = HEY_THIS_PIECE_IS_NOT_MOVEABLE;
 			i_weGotAWinner = 2;
 		}
@@ -236,7 +236,7 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 			issue = HEY_THIS_IS_NOT_YOUR_PIECE;
 			i_weGotAWinner = 1;
 		}
-		else if (!(gameBoard[arr[0]][arr[1]].GetCurrentPiece2().getisMoveable())) {
+		else if (!(gameBoard[arr[0]][arr[1]].GetCurrentPiece2().getIsMoveable())) {
 			issue = HEY_THIS_PIECE_IS_NOT_MOVEABLE;
 			i_weGotAWinner = 1;
 		}
