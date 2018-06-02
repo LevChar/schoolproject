@@ -16,10 +16,5 @@ Fixed:
 Bugs:
 - Show-only-known-info and show-player are not working properly.
 - Even though there was a fight and someone won the presentiation will still not be shown.
-- Close of files is not being performed on all cases. ~~
-- ifndef i snot verfied and properly set (we are doing includes in CPP). ~~~~
-- Static const is being used in CPP. ~~~~
-
-TESTS:
-5. To check input (File and Console) where we want to change Joker presentiation however there is no joker inside. ~
+- When we are trying to change a presentiation of piece which is not Joker the game does not end [FILE Game]
 
