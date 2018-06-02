@@ -623,7 +623,7 @@ void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1
 
 void FileGameHelper::printConsoleResults(int winner, int reason)
 {
-	cout << "Player " << winner << "won becasue:";
+	cout << "Player " << winner << " won becasue:";
 	switch (reason)
 	{
 	case (ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED):

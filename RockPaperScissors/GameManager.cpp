@@ -103,7 +103,7 @@ void GameManager::startTheGame() {
 		while (weGotAWinner == -1) {
 			LoadMovesToBoard();	
 			bp.printBoard(boardManager);
-			fp.printConsoleResults(weGotAWinner, winReason);
+			fp.printConsoleResults(weGotAWinner, boardManager.getWinReason());
 		}
 	}
 }
