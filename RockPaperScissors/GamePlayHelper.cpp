@@ -120,7 +120,7 @@ GamePlayHelper::~GamePlayHelper()
 bool GamePlayHelper::checkMoveApplicable(int * arr)
 {
 
-	if ((abs(arr[0] - arr[2]) + abs(arr[1] - arr[3])) ==1)
+	if ((abs(arr[0] - arr[2]) + abs(arr[1] - arr[3])) == 1)
 		return true;
 
 	return false;

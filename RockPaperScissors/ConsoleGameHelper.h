@@ -22,5 +22,6 @@ public:
 	bool validatePieceChar(char _validationPiece, int _playerNumber);
 	bool checkIfFinsihedLoading();
 	int readMoveFileFromConsole(BoardManager& boardManager, int & _weGotAWinner);
+	bool validataeMoveConsole(int *_arr, char _jokerPresentationChange, char _jokerNewPres);
 };
 

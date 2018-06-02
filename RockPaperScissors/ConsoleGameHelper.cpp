@@ -275,6 +275,106 @@ bool ConsoleGameHelper::checkIfFinsihedLoading()
 
 int ConsoleGameHelper::readMoveFileFromConsole(BoardManager & boardManager, int & _weGotAWinner)
 {
-	//////
-	return 0;
+	int moveAndJockerData[6] = { -1,-1,-1,-1,-1,-1 };
+	char jokerPresentationChange = 'G';
+	int completedPlayer = 0;
+	int input_validation;
+	char jokerNewPres = -1;
+
+	while (_weGotAWinner == -1 || !completedPlayer) {
+		if (GamePlayHelper::getCurrentPlayer() == 1) {
+
+			cout << "Player1, Do you want to change Joker presentiation? Y/N: ";
+			while (jokerPresentationChange != 'N' || jokerPresentationChange != 'Y') {
+				cout << "Invalid Input!" << endl;
+				cout << "Player1, Do you want to change Joker presentiation? Y/N: ";
+				cin >> jokerPresentationChange;
+			}
+			cout << endl;
+			cout << "Player 1, please move... ";
+			cin >> moveAndJockerData[0];
+			cin >> moveAndJockerData[1];
+			cin >> moveAndJockerData[2];
+			cin >> moveAndJockerData[3];
+			if (jokerPresentationChange == 'N') {
+				moveAndJockerData[4] = -1;
+				moveAndJockerData[5] = -1;
+			}
+			else {
+				cin >> jokerNewPres;
+				cin >> jokerNewPres;
+				cin >> moveAndJockerData[4];
+				cin >> moveAndJockerData[5];
+				cin >> jokerNewPres;
+			}
+
+			input_validation = validataeMoveConsole(moveAndJockerData, jokerPresentationChange, jokerNewPres);
+
+			completedPlayer = boardManager.checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer(), jokerNewPres, _weGotAWinner);
+			system("cls");
+			if (completedPlayer == 0) {
+				GamePlayHelper::setCurrentPlayer(2);
+			}
+			else {
+				cout << "Error" << endl;
+			}
+		}
+		else {
+
+			cout << "Player2, Do you want to change Joker presentiation? Y/N: ";
+			while (jokerPresentationChange != 'N' || jokerPresentationChange != 'Y') {
+				cout << "Invalid Input!" << endl;
+				cout << "Player2, Do you want to change Joker presentiation? Y/N: ";
+				cin >> jokerPresentationChange;
+			}
+			cout << endl;
+			cout << "Player 2, please move... ";
+			cin >> moveAndJockerData[0];
+			cin >> moveAndJockerData[1];
+			cin >> moveAndJockerData[2];
+			cin >> moveAndJockerData[3];
+			if (jokerPresentationChange == 'N') {
+				moveAndJockerData[4] = -1;
+				moveAndJockerData[5] = -1;
+			}
+			else {
+				cin >> jokerNewPres;
+				cin >> jokerNewPres;
+				cin >> moveAndJockerData[4];
+				cin >> moveAndJockerData[5];
+				cin >> jokerNewPres;
+			}
+
+			input_validation = validataeMoveConsole(moveAndJockerData, jokerPresentationChange, jokerNewPres);
+
+			completedPlayer = boardManager.checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer(), jokerNewPres, _weGotAWinner);
+			system("cls");
+			if (completedPlayer == 0) {
+				GamePlayHelper::setCurrentPlayer(2);
+			}
+			else {
+				cout << "Error" << endl;
+			}
+		}
+	}
+}
+bool ConsoleGameHelper::validataeMoveConsole(int * _arr, char _jokerPresentationChange, char _jokerNewPres)
+{
+	bool status = 1;
+	
+	if (validatePieceConsole('R', _arr[0], _arr[1], GamePlayHelper::getCurrentPlayer()) || validatePieceConsole('R', _arr[2], _arr[3], GamePlayHelper::getCurrentPlayer())) {
+		status = 0;
+	}
+	if (!(GamePlayHelper::checkMoveApplicable(_arr))) {
+		status = 0;
+	}
+	if (_jokerPresentationChange == 'Y') {
+		if (validatePieceConsole(_jokerNewPres, _arr[4], _arr[5], GamePlayHelper::getCurrentPlayer())) {
+			status = 0;
+		}
+	}
+	if ( !(GamePlayHelper::checkMoveApplicable(_arr))) {
+		status = 0;
+	}
+	return status;
 }

@@ -95,7 +95,17 @@ void GameManager::startTheGame() {
 		else {
 			int finishedOrPlayerNumber = 1;
 			cp.setCurrentPlayer(1);
-			LoadMovesToBoard();
+			while (weGotAWinner == -1) {
+				 // WE NEED TO PRINT TO THE BOARD! WHO WILL DO THAT?
+				LoadMovesToBoard();
+				if (cp.getCurrentPlayer() == 1) {
+					cp.setCurrentPlayer(2);
+				}
+				else {
+					cp.setCurrentPlayer(1);
+				}
+			}
+
 		}
 	}
 }
@@ -260,7 +270,7 @@ void GameManager::LoadMovesToBoard()
 		innerFile1Read = fp.readMoveFileFromDirectory(movFileNameA, movFileNameB, playerNumberWithIssue, boardManager, innerMoveFileIssue, weGotAWinner);
 	}
 	else {
-		innerFile1Read = cp.readMoveFileFromConsole(boardManager, weGotAWinner);
+		cp.readMoveFileFromConsole(boardManager, weGotAWinner);
 	}
 }
 
