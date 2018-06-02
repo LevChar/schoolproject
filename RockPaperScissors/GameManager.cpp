@@ -9,8 +9,8 @@ GameManager::GameManager(GameConfig i_GameRunSettings) :
 	weGotAWinner(-1),
 	winReason(-2),
 	gameRunSettings(i_GameRunSettings),
-	boardManager(i_GameRunSettings)
-{
+	boardManager(i_GameRunSettings){
+
 	if (!i_GameRunSettings.getIsConsoleMode()) {
 
 		//boardFactory = new BoardFactory(&boardManager, players);
@@ -116,16 +116,16 @@ int GameManager::CheckForWinners(int &_reason)
 
 					 // Can be both dead flag and dead moving pieces as this is the load file we will call it for flags.
 
-	if (boardManager.getMovingPiecesCounterPlayer1() == 0 && boardManager.getMovingPiecesCounterPlayer2() == 0) {
+	if (p1.getmovingPiecesCounter() == 0 && p2.getmovingPiecesCounter() == 0) {
 		Winner = 0;
 		_reason = ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN;
 	}
-	else if (boardManager.getMovingPiecesCounterPlayer1() == 0)
+	else if (p1.getmovingPiecesCounter()==0)
 	{
 		Winner = 2;
 		_reason = ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN;
 	}
-	else if (boardManager.getMovingPiecesCounterPlayer2() == 0) {
+	else if (p2.getmovingPiecesCounter() == 0) {
 		Winner = 1;
 		_reason = ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN;
 	}
@@ -208,7 +208,7 @@ int GameManager::LoadToBoard()
 {
 	int loadStatus = 0;
 
-	innerFile1Read = fp.readPositioningFileFromDirectory(posFileNameA, p1.getplayerNumber(), boardManager);
+	innerFile1Read = fp.readPositioningFileFromDirectory(posFileNameA, p1, boardManager);
 
 	//read of first file returned error
 	if (innerFile1Read < 0) {
@@ -217,7 +217,7 @@ int GameManager::LoadToBoard()
 		loadStatus = innerFile1Read;
 	}
 
-	innerFile2Read = fp.readPositioningFileFromDirectory(posFileNameB, p2.getplayerNumber(), boardManager);
+	innerFile2Read = fp.readPositioningFileFromDirectory(posFileNameB, p2, boardManager);
 	
 	//read of second file returned error
 	if (innerFile2Read < 0) {
@@ -283,69 +283,10 @@ void GameManager::FightAfterLoad()
 			if ((boardManager.getSquareInfo(j, i)->GetCurrentPiece1().getPlayerNumber() == 1) &&
 				(boardManager.getSquareInfo(j, i)->GetCurrentPiece2().getPlayerNumber() == 2))
 			{
-				enterCombat(j, i);
+				boardManager.enterCombat(j, i,weGotAWinner);
 			}
 		}
 	}
-}
-
-void GameManager::enterCombat(int _col, int _row){
-
-	Piece& pieceA = boardManager.getSquareInfo(_col, _row)->GetCurrentPiece1ByRef();
-	Piece& pieceB = boardManager.getSquareInfo(_col, _row)->GetCurrentPiece2ByRef();
-
-	if (pieceA == Piece::pieceType::JOKER) {
-		
-		pieceA.incTimesJokerExsposed();
-	}
-
-	if (pieceB == Piece::pieceType::JOKER) {
-
-		pieceB.incTimesJokerExsposed();
-	}
-
-	if (pieceA == pieceB || pieceA == Piece::pieceType::BOMB || pieceB == Piece::pieceType::BOMB) {
-
-		boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece1();
-		boardManager.decreaseMovingPiecesPlayer1();
-		boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece2();
-		boardManager.decreaseMovingPiecesPlayer2();
-		checkIfMoveWin();
-		return;
-	}
-
-	if (pieceA == Piece::pieceType::FLAG || pieceB == Piece::pieceType::FLAG) {
-		
-		if (pieceA == Piece::pieceType::FLAG) {
-
-			boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece1();
-			boardManager.decreaseMovingPiecesPlayer1();
-		}
-
-		else {
-
-			boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece2();
-			boardManager.decreaseMovingPiecesPlayer2();
-		}
-
-		checkIfMoveWin();
-		return;
-	}
-
-	if (pieceA > pieceB) {
-
-		boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece2();
-		boardManager.decreaseMovingPiecesPlayer2();
-	}
-
-	else {
-
-		boardManager.getSquareInfo(_col, _row)->deleteCurrentPiece1();
-		boardManager.decreaseMovingPiecesPlayer1();
-	}
-
-	checkIfMoveWin();
-	return;
 }
 
 GameManager::~GameManager()
@@ -384,42 +325,4 @@ void GameManager::printToScreenError(int resultsFile, int player)
 int GameManager::getWeGotAWinner()
 {
 	return weGotAWinner;
-}
-
-void GameManager::checkIfMoveWin(){
-
-	if (weGotAWinner == -1) {
-
-		if ((boardManager.getMovingPiecesCounterPlayer1() == 0) && (boardManager.getMovingPiecesCounterPlayer2() == 0))
-		{
-			weGotAWinner = 0;
-			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
-		}
-		else if (boardManager.getMovingPiecesCounterPlayer2() == 0)
-		{
-			weGotAWinner = 1;
-			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
-		}
-		else if (boardManager.getMovingPiecesCounterPlayer1() == 0)
-		{
-			weGotAWinner = 2;
-			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
-		}
-	}
-
-	if (weGotAWinner == -1) {
-
-		if (boardManager.getFlagCounterPlayer1() == 0 && boardManager.getFlagCounterPlayer1()) {
-			weGotAWinner = 0;
-			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
-		}
-		else if (boardManager.getFlagCounterPlayer1() == 0) {
-			weGotAWinner = 2;
-			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
-		}
-		else if (boardManager.getFlagCounterPlayer2() == 0) {
-			weGotAWinner = 1;
-			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
-		}
-	}
 }

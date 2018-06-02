@@ -45,3 +45,23 @@ void Player::setreadInputStatus(int status)
 {
 	readInputStatus = status;
 }
+
+void Player::decreaseMovingPieces(){
+
+	movingPiecesCounter--;
+}
+
+void Player::decreaseFlagCounter(){
+
+	flagCounter--;
+}
+
+void Player::increaseMovingPieces(){
+
+	movingPiecesCounter++;
+}
+
+void Player::increaseFlagCounter(){
+
+	flagCounter++;
+}

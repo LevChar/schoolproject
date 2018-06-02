@@ -6,11 +6,7 @@ using namespace std;
 BoardManager::BoardManager(GameConfig _gameRunSettings){
 
 	i_gameRunSettings = _gameRunSettings;
-	movingPiecesCounterPlayer1 = 0;
-	movingPiecesCounterPlayer2 = 0;
 	InitializeBoard();
-	flagCounterPlayer1 = 0;
-	flagCounterPlayer2 = 0;
 }
 
 void BoardManager::InitializeBoard(){
@@ -69,96 +65,67 @@ BoardManager::~BoardManager()
 {
 }
 
-int BoardManager::loadPosFromFile(char _piece, int _col, int _row, int playerNumber, char _pieceValidation)
-{
+bool BoardManager::loadPosFromFile(char _piece, int _col, int _row, Player& player, char _pieceValidation){
+
 	Piece tempPiece;
 	int jokerOrFlag = 0;
-	int proceed = 1;
+	int proceed = true;
 	int reason = 0; // 1 = 
 	bool isMoveable = 0;
 
-	if (_pieceValidation == 'J')
-	{
+	if (_pieceValidation == 'J'){
+
 		jokerOrFlag = 1;
 		isMoveable = 1;
 		_piece = _tolower(_piece);
 	}
-	else if (_pieceValidation == 'R' || _pieceValidation == 'P' || _pieceValidation == 'S') {
+
+	else if (_pieceValidation == 'R' || _pieceValidation == 'P' || _pieceValidation == 'S') 
 		isMoveable = 1;
-	}
+
 	else if (_pieceValidation == 'F')
-	{
-		increaseFlagCounter(playerNumber);
 		jokerOrFlag = 2;
-	}
 
-	tempPiece = convertCharToPiece(_piece, playerNumber, jokerOrFlag, isMoveable);
+	tempPiece = convertCharToPiece(_piece, player, jokerOrFlag, isMoveable);
 
-	if (playerNumber == 1) {
+	if (player.getplayerNumber() == 1) {
 
-		if (gameBoard[_col - 1][_row - 1].GetCurrentPiece1().getPlayerNumber() == 0)
-		{
+		if (gameBoard[_col - 1][_row - 1].GetCurrentPiece1().getPlayerNumber() == 0){
 			gameBoard[_col - 1][_row - 1].SetCurrentPiece1(tempPiece);
+			
+			if(jokerOrFlag==2)
+				gameBoard[_col - 1][_row - 1].GetCurrentPiece1ByRef().getPlayer().increaseFlagCounter();
 		}
+
 		else {
-			std::cout << "Player " << playerNumber << " placed two pieces in the same location!" << std::endl;
-			proceed = 0;
+			std::cout << "Player " << player.getplayerNumber() << " placed two pieces in the same location!" << std::endl;
+			proceed = false;
 		}
 	}
-	else if (gameBoard[_col - 1][_row - 1].GetCurrentPiece2().getPlayerNumber() == 0)
-	{
-		gameBoard[_col - 1][_row - 1].SetCurrentPiece2(tempPiece);
+
+	else if (gameBoard[_col - 1][_row - 1].GetCurrentPiece2().getPlayerNumber() == 0){
+			gameBoard[_col - 1][_row - 1].SetCurrentPiece2(tempPiece);
+
+			if (jokerOrFlag == 2)
+				gameBoard[_col - 1][_row - 1].GetCurrentPiece2ByRef().getPlayer().increaseFlagCounter();
 	}
+
 	else {
-		std::cout << "Player " << playerNumber << " placed two pieces in the same location!" << std::endl;
-		proceed = 0;
+		std::cout << "Player " << player.getplayerNumber() << " placed two pieces in the same location!" << std::endl;
+		proceed = false;
 	}
 		
-
-	if (proceed != 0) {
+	if (proceed != false) {
 		if (_pieceValidation != 'F' && _pieceValidation != 'B') {
 
-			if (playerNumber == 1) {
-				movingPiecesCounterPlayer1++;
-			}
+			if (player.getplayerNumber() == 1)
+				gameBoard[_col - 1][_row - 1].GetCurrentPiece1ByRef().getPlayer().increaseMovingPieces();
 			else
-			{
-				movingPiecesCounterPlayer2++;
-			}
+				gameBoard[_col - 1][_row - 1].GetCurrentPiece2ByRef().getPlayer().increaseMovingPieces();
 		}
 	}
 
 	return proceed;
-}
-
-int BoardManager::getMovingPiecesCounterPlayer2()
-{
-	return movingPiecesCounterPlayer2;
-}
-
-int BoardManager::getMovingPiecesCounterPlayer1()
-{
-	return movingPiecesCounterPlayer1;
-}
-
-void BoardManager::setMovingPiecesCounterPlayer1(int amountOfPieces)
-{
-	movingPiecesCounterPlayer1 = amountOfPieces;
-}
-
-void BoardManager::setMovingPiecesCounterPlayer2(int amountOfPieces)
-{
-	movingPiecesCounterPlayer2 = amountOfPieces;
-}
-
-void BoardManager::decreaseMovingPiecesPlayer1()
-{
-	movingPiecesCounterPlayer1--;
-}
-
-void BoardManager::decreaseMovingPiecesPlayer2()
-{
-	movingPiecesCounterPlayer2--;
 }
 
 int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, int & i_weGotAWinner) {
@@ -181,10 +148,12 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 		if (gameBoard[arr[0]][arr[1]].GetCurrentPiece2().getPlayerNumber() == 2) {
 			issue = HEY_THIS_IS_NOT_YOUR_PIECE;
 			i_weGotAWinner = 2;
+			return issue;
 		}
 		else if (!(gameBoard[arr[0]][arr[1]].GetCurrentPiece1().getIsMoveable())) {
 			issue = HEY_THIS_PIECE_IS_NOT_MOVEABLE;
 			i_weGotAWinner = 2;
+			return issue;
 		}
 
 		else {
@@ -193,38 +162,31 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 				issue = HEY_YOU_ARE_TRYING_TO_MOVE_INTO_YOUR_OWN_PIECE;
 				i_weGotAWinner = 2;
 			}
+
 			else if (gameBoard[arr[2]][arr[3]].GetCurrentPiece2().getPlayerNumber() == 2) {
 
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
-					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER) {
-						movePiece(arr, playerNumber, jokerNewForm);
-					}
+					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER)
+						movePiece(arr, playerNumber, TRUE, jokerNewForm);
 				}
-				else {
-
-					innerComabat(arr[2], arr[3], i_weGotAWinner);
-					movePiece(arr, i_weGotAWinner);
-					//movePiece(arr, playerNumber);
+				else 
+					movePiece(arr, playerNumber,TRUE);		
 				}
 
-				innerComabat(arr[2], arr[3], i_weGotAWinner);
-				// to handle - EnterComabt TODO
-			}
-
-			else { // Just move the piece regullary.
+			// Just move the piece regullary.
+			else { 
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
-					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER) {
-						movePiece(arr, playerNumber, jokerNewForm);
-						issue = HEY_ALL_IS_FINE;
-					}
+					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER)
+						movePiece(arr, playerNumber,FALSE, jokerNewForm);
+						
 				}
-				else {
+				else 
 					movePiece(arr, playerNumber);
-					issue = HEY_ALL_IS_FINE;
-				}
 			}
+
+			return issue;
 		}
 	}
 
@@ -233,10 +195,12 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 		if (gameBoard[arr[0]][arr[1]].GetCurrentPiece1().getPlayerNumber() == 1) {
 			issue = HEY_THIS_IS_NOT_YOUR_PIECE;
 			i_weGotAWinner = 1;
+			return issue;
 		}
 		else if (!(gameBoard[arr[0]][arr[1]].GetCurrentPiece2().getIsMoveable())) {
 			issue = HEY_THIS_PIECE_IS_NOT_MOVEABLE;
 			i_weGotAWinner = 1;
+			return issue;
 		}
 		else {
 
@@ -249,33 +213,25 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
-					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER) {
-						movePiece(arr, playerNumber, jokerNewForm,TRUE);
-					}
+					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER)
+						movePiece(arr, playerNumber,TRUE, jokerNewForm);
 				}
-
-				else {
+				else
 					movePiece(arr, playerNumber,TRUE);
-				}
-
-				innerComabat(arr[2], arr[3], i_weGotAWinner);
-				// to handle - EnterComabt TODO
 			}
 
 			// Just move the piece regullary.
 			else {
 				if (jokerNewForm == 'R' || jokerNewForm == 'P' || jokerNewForm == 'S' || jokerNewForm == 'B')
 				{
-					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER) {
-						movePiece(arr, playerNumber, jokerNewForm);
-						issue = HEY_ALL_IS_FINE;
-					}
+					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER)
+						movePiece(arr, playerNumber,FALSE, jokerNewForm);
 				}
-				else {
+				else 
 					movePiece(arr, playerNumber);
-					issue = HEY_ALL_IS_FINE;
-				}
 			}
+
+			return issue;
 		}
 	}
 
@@ -289,8 +245,8 @@ void BoardManager::movePiece(int * arr, int _playerNumber, bool moveBeforeFight,
 
 	if (moveBeforeFight) {
 
-		if (_playerNumber == 1)
-		{
+		if (_playerNumber == 1) {
+
 			pieceJoker = gameBoard[arr[0]][arr[1]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
 			tempPiece = gameBoard[arr[0]][arr[1]].GetCurrentPiece1();
 			gameBoard[arr[0]][arr[1]].deleteCurrentPiece1();
@@ -301,19 +257,17 @@ void BoardManager::movePiece(int * arr, int _playerNumber, bool moveBeforeFight,
 			Sleep(i_gameRunSettings.getDelay());
 			
 			bp.PrintMove(arr[2], arr[3], BOTHPLAYERS, 1, gameBoard[arr[2]][arr[3]].GetCurrentPiece1().getPieceType(), 2, gameBoard[arr[2]][arr[3]].GetCurrentPiece2().getPieceType(), pieceJoker);
+			
+			if (jokerNewForm != 'N'){
 
-			if (jokerNewForm != 'N')
-			{
 				pieceJoker = gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
 				tempPiece = gameBoard[arr[4]][arr[5]].GetCurrentPiece1();
 				tempPiece.setPieceTypeFromChar(jokerNewForm);
 				gameBoard[arr[4]][arr[5]].deleteCurrentPiece1();
 				gameBoard[arr[4]][arr[5]].SetCurrentPiece1(tempPiece);
 
-				if (jokerNewForm == 'B') {
-
+				if (jokerNewForm == 'B')
 					tempPiece.setisMoveable(0);
-				}
 
 				Sleep(i_gameRunSettings.getDelay());
 				bp.eraseFromBoard(arr[4], arr[5]);
@@ -463,191 +417,133 @@ void BoardManager::movePiece(int * arr, int _playerNumber, bool moveBeforeFight,
 
 char BoardManager::getCurrentPieceInChar(int col, int row){
 
-	if (gameBoard[col][row].GetCurrentPiece1().getPlayerNumber() != 0) {
+	if (gameBoard[col][row].GetCurrentPiece1().getPlayerNumber() != 0)
 		return gameBoard[col][row].GetCurrentPiece1().getCharFromMyPiece();
-	}
-	else if (gameBoard[col][row].GetCurrentPiece2().getPlayerNumber() != 0) {
+
+	else if (gameBoard[col][row].GetCurrentPiece2().getPlayerNumber() != 0) 
 		return gameBoard[col][row].GetCurrentPiece2().getCharFromMyPiece();
-	}
+
 	else
 		return ' ';
 }
 
 // 0 regular 1 Joker 2 Flag
-Piece BoardManager::convertCharToPiece(char _piece, int playerNumber, int _isJokerOrFlag, bool _isMoveable) 
-{
+Piece BoardManager::convertCharToPiece(char _piece, Player& player, int _isJokerOrFlag, bool _isMoveable) {
+	
 	Piece tempPiece;
 
 	tempPiece.setPieceTypeFromChar(_piece);
-	tempPiece.setPlyaerNumber(playerNumber);
+	tempPiece.setPlayer(player);
 	tempPiece.setisMoveable(_isMoveable);
+
 	if (_isJokerOrFlag == 1) 
-	{
 		tempPiece.setLastKnownPieceType(Piece::pieceType::JOKER);
-	}
 	else if (_isJokerOrFlag == 2) 
-	{
 		tempPiece.setIsFlag(_isJokerOrFlag);
-	}
+
 	return tempPiece;
 }
 
-//test
-//void BoardManager::printBoard()
-//{
-//	for (int i = 0; i < N; i++)
-//	{
-//		for (int j = 0; j < M; j++)
-//		{
-//			cout << gameBoard[i][j].GetCurrentPiece1().getPlayerNumber();
-//			cout << gameBoard[i][j].GetCurrentPiece2().getPlayerNumber();
-//			cout << " ";
-//		}
-//		cout << endl;
-//	}
-//	
-//}
+void BoardManager::setWinReason(int reason) { winReason = reason; }
 
-void BoardManager::innerComabat(int _col, int _row, int& _weGotAWinner){
+int BoardManager::enterCombat(int _col, int _row, int& weGotAWinner) {
 
-	Piece& pieceA = gameBoard[_col][_row].GetCurrentPiece1ByRef();
-	Piece& pieceB = gameBoard[_col][_row].GetCurrentPiece2ByRef();
+	int winnerOfThisMove = 0;
 
-	if (pieceA == Piece::pieceType::JOKER) {
+	Piece& pieceA = gameBoard[_col, _row]->GetCurrentPiece1ByRef();
+	Piece& pieceB = gameBoard[_col, _row]->GetCurrentPiece2ByRef();
 
-		pieceA.incTimesJokerExsposed();
-	}
+	if (pieceA == Piece::pieceType::JOKER) { pieceA.incTimesJokerExsposed();}
 
-	if (pieceB == Piece::pieceType::JOKER) {
-
-		pieceB.incTimesJokerExsposed();
-	}
+	if (pieceB == Piece::pieceType::JOKER) { pieceB.incTimesJokerExsposed();}
 
 	if (pieceA == pieceB || pieceA == Piece::pieceType::BOMB || pieceB == Piece::pieceType::BOMB) {
 
-		gameBoard[_col][_row].deleteCurrentPiece1();
-		decreaseMovingPiecesPlayer1();
-		gameBoard[_col][_row].deleteCurrentPiece2();
-		decreaseMovingPiecesPlayer2();
-		bp.eraseFromBoard(_col, _row);
-		return;
+		gameBoard[_col, _row]->deleteCurrentPiece1();
+		gameBoard[_col, _row]->deleteCurrentPiece2();
+		pieceA.getPlayer().decreaseMovingPieces();
+		pieceB.getPlayer().decreaseMovingPieces(); 
+		checkIfMoveWin(_col,_row, weGotAWinner);
+		return winnerOfThisMove;
 	}
 
 	if (pieceA == Piece::pieceType::FLAG || pieceB == Piece::pieceType::FLAG) {
 
 		if (pieceA == Piece::pieceType::FLAG) {
 
-			gameBoard[_col][_row].deleteCurrentPiece1();
-			decreaseMovingPiecesPlayer1();
+			gameBoard[_col, _row]->deleteCurrentPiece1();
+			pieceA.getPlayer().decreaseMovingPieces();
+			winnerOfThisMove = 2;
 		}
 
 		else {
 
-			gameBoard[_col][_row].deleteCurrentPiece2();
-			decreaseMovingPiecesPlayer2();
+			gameBoard[_col, _row]->deleteCurrentPiece2();
+			pieceB.getPlayer().decreaseMovingPieces();
+			winnerOfThisMove = 1;
 		}
 
-		return;
+		checkIfMoveWin(_col, _row, weGotAWinner);
+		return winnerOfThisMove;
 	}
 
 	if (pieceA > pieceB) {
 
-		gameBoard[_col][_row].deleteCurrentPiece2();
-		decreaseMovingPiecesPlayer2();
-		return;
+		gameBoard[_col, _row]->deleteCurrentPiece2();
+		pieceB.getPlayer().decreaseMovingPieces();
+		winnerOfThisMove = 1;
 	}
 
 	else {
 
-		gameBoard[_col][_row].deleteCurrentPiece1();
-		decreaseMovingPiecesPlayer1();
-		return;
+		gameBoard[_col, _row]->deleteCurrentPiece1();
+		pieceA.getPlayer().decreaseMovingPieces();
+		winnerOfThisMove = 2;
 	}
 
-	if (_weGotAWinner == -1)
-	{
-		if ((getMovingPiecesCounterPlayer1() == 0) && (getMovingPiecesCounterPlayer2() == 0))
-		{
-			_weGotAWinner = 0;
+	checkIfMoveWin(_col, _row, weGotAWinner);
+	return winnerOfThisMove;
+}
+
+void BoardManager::checkIfMoveWin(int _col, int _row, int& weGotAWinner) {
+
+	if (weGotAWinner == -1) {
+
+		if ((gameBoard[_col, _row]->GetCurrentPiece1ByRef().getPlayer().getmovingPiecesCounter() == 0) &&
+			(gameBoard[_col, _row]->GetCurrentPiece2ByRef().getPlayer().getmovingPiecesCounter() == 0)) {
+
+			weGotAWinner = 0;
 			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
 		}
-		else if (getMovingPiecesCounterPlayer2() == 0)
+
+		else if (gameBoard[_col, _row]->GetCurrentPiece2ByRef().getPlayer().getmovingPiecesCounter() == 0)
 		{
-			_weGotAWinner = 1;
+			weGotAWinner = 1;
 			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
 		}
-		else if (getMovingPiecesCounterPlayer1() == 0)
+		else if (gameBoard[_col, _row]->GetCurrentPiece1ByRef().getPlayer().getmovingPiecesCounter() == 0)
 		{
-			_weGotAWinner = 2;
+			weGotAWinner = 2;
 			setWinReason(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN);
 		}
 	}
 
-	if (_weGotAWinner == -1) {
-		if (getFlagCounterPlayer1() == 0 && getFlagCounterPlayer1()) {
-			_weGotAWinner = 0;
+	if (weGotAWinner == -1) {
+
+		if ((gameBoard[_col, _row]->GetCurrentPiece1ByRef().getPlayer().getflagCounter() == 0) &&
+			(gameBoard[_col, _row]->GetCurrentPiece2ByRef().getPlayer().getflagCounter() == 0)) {
+
+			weGotAWinner = 0;
 			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
 		}
-		else if (getFlagCounterPlayer1() == 0) {
-			_weGotAWinner = 2;
+
+		else if (gameBoard[_col, _row]->GetCurrentPiece1ByRef().getPlayer().getflagCounter() == 0) {
+			weGotAWinner = 2;
 			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
 		}
-		else if (getFlagCounterPlayer2() == 0) {
-			_weGotAWinner = 1;
+		else if (gameBoard[_col, _row]->GetCurrentPiece2ByRef().getPlayer().getflagCounter() == 0) {
+			weGotAWinner = 1;
 			setWinReason(ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED);
 		}
 	}
-
-}
-
-void BoardManager::setWinReason(int reason)
-{
-	winReason = reason;
-}
-
-void BoardManager::decreaseFlagCounter(int _playerNumber)
-{
-	if (_playerNumber == 1)
-	{
-		flagCounterPlayer1--;
-	}
-	else if (_playerNumber == 2) {
-		flagCounterPlayer2--;
-	}
-}
-
-void BoardManager::increaseFlagCounter(int _playerNumber)
-{
-	if (_playerNumber == 1)
-	{
-		flagCounterPlayer1++;
-	}
-	else if (_playerNumber == 2) {
-		flagCounterPlayer2++;
-	}
-}
-
-void BoardManager::setFlagCounterPlayer1(int _flagCounterPlayer1)
-{
-	flagCounterPlayer1 = _flagCounterPlayer1;
-}
-
-void BoardManager::setFlagCounterPlayer2(int _flagCounterPlayer2)
-{
-	flagCounterPlayer2 = _flagCounterPlayer2;
-}
-
-int BoardManager::getFlagCounterPlayer1()
-{
-	return flagCounterPlayer1;
-}
-
-int BoardManager::getFlagCounterPlayer2()
-{
-	return flagCounterPlayer2;
-}
-
-BoardPrint BoardManager::getBoardPrint()
-{
-	return bp;
 }

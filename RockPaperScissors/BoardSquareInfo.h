@@ -4,13 +4,10 @@
 #include "BoardPoint.h"
 #include "Piece.h"
 
-class BoardSquareInfo
-{
+class BoardSquareInfo{
 
 	//enum eSquareType :int;
 	char displayName[MAX_DISPLAY_NAME_LEN];
-
-
 
 public:
 

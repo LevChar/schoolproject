@@ -36,10 +36,8 @@ public:
 	~GameManager();
 	void startTheGame();
 	void loadFromConsole(BoardManager *_boardManager);
-	void enterCombat(int _col, int _row);
 	void printToScreenError(int resultsFile, int player);
 	void setWinReason(int reason);
-	void checkIfMoveWin();
 	void FightAfterLoad();
 	bool CheckPorperlyLoadedAndPrintInfo(int _loadedPosProperly, int _loadedMovProperly);
 	void LoadMovesToBoard();

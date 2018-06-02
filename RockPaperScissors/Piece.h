@@ -36,7 +36,7 @@ public:
 	void setisMoveable(bool _isMoveable);
 	void setLastKnownPieceType(pieceType LastKnown_pieceType);
 	void incTimesJokerExsposed();
-	void setPlayer(Player * pl);
+	void setPlayer(Player& pl);
 
 	friend bool operator==(const Piece& piece1, const Piece& piece2);
 	friend bool operator==(const Piece& piece, const Piece::pieceType type);

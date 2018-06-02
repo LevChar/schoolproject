@@ -29,7 +29,7 @@ char FileGameHelper::readchar(ifstream& file) {
 		return THIS_IS_NOT_A_LETTER;
 }
 
-int FileGameHelper::readPositioningFileFromDirectory(string fileName, int playerNumber, BoardManager& boardManager) {
+int FileGameHelper::readPositioningFileFromDirectory(string fileName, Player& player, BoardManager& boardManager) {
 
 	char piece, pieceValidation;
 	bool searchJockerRep = false;
@@ -121,7 +121,7 @@ int FileGameHelper::readPositioningFileFromDirectory(string fileName, int player
 			if (!input_validation) {
 
 				//if player try to put 2 pices @ the same square we will get false here
-				continueReadingFile = boardManager.loadPosFromFile(piece, col, row, playerNumber, pieceValidation);
+				continueReadingFile = boardManager.loadPosFromFile(piece, col, row, player, pieceValidation);
 
 				if (!continueReadingFile) {
 

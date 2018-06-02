@@ -34,7 +34,7 @@ void Piece::setIsJoker(bool _isJoker) { isJoker = _isJoker; }
 void Piece::setIsAlive(bool _isAlive) { isAlive = _isAlive; }
 void Piece::setIsFlag(bool _isFlag) { isFlag = _isFlag; }
 void Piece::incTimesJokerExsposed() { timesJokerExposed++; }
-void Piece::setPlayer(Player * pl) { player = pl; }
+void Piece::setPlayer(Player& pl) { player = &pl; }
 
 
 bool operator==(const Piece& piece, const Piece::pieceType type) {

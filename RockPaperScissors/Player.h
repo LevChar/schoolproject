@@ -22,9 +22,12 @@ public:
 	int getflagCounter();
 	int getmovingPiecesCounter();
 	int getreadInputStatus();
-	
 	void setplayerNumber(int Pnum);
 	void setflagCounter(int fCounter);
 	void setmovingPiecesCounter(int MPCounter);
 	void setreadInputStatus(int status);
+	void decreaseMovingPieces();
+	void increaseMovingPieces();
+	void increaseFlagCounter();
+	void decreaseFlagCounter();
 };

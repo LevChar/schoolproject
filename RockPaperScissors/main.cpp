@@ -11,8 +11,6 @@
 #include <iostream>
 using namespace std;
 
-
-
 int main(int argc, const char *argv[])
 {
 
@@ -26,7 +24,5 @@ int main(int argc, const char *argv[])
 		gm.startTheGame();
 	}
 	
-
-	system("pause");
-	
+	system("pause");	
 }
