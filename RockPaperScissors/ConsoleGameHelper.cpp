@@ -273,7 +273,7 @@ bool ConsoleGameHelper::checkIfFinsihedLoading()
 	return counter == 6 ? TRUE:FALSE;
 }
 
-int ConsoleGameHelper::readMoveFileFromConsole(BoardManager & boardManager, int & _weGotAWinner)
+void ConsoleGameHelper::readMoveFileFromConsole(BoardManager & boardManager, int & _weGotAWinner)
 {
 	int moveAndJockerData[6] = { -1,-1,-1,-1,-1,-1 };
 	char jokerPresentationChange = 'G';
