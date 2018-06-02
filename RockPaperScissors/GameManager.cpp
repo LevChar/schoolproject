@@ -243,11 +243,11 @@ int GameManager::LoadToBoard()
 	}
 
 	else if (innerFile1Read > 0) {
-		weGotAWinner = p1.getplayerNumber();
+		weGotAWinner = p2.getplayerNumber();
 		loadStatus = BAD_POSITIONING_INPUT_FILE_FOR_PLAYER_LINE;
 	}
 	else if (innerFile2Read > 0) {
-		weGotAWinner = p2.getplayerNumber();
+		weGotAWinner = p1.getplayerNumber();
 		loadStatus = BAD_POSITIONING_INPUT_FILE_FOR_PLAYER_LINE;
 	}
 

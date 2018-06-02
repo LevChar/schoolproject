@@ -28,8 +28,6 @@ public:
 	void printGameFinalResults(int winner, int reason, int badposPl1Row, int badposPl2Row, BoardManager boardManager, int _UseOption);
 	void printConsoleResults(int winner, int reason);
 
-
 	FileGameHelper();
 	~FileGameHelper();
 };
-
