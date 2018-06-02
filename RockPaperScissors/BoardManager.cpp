@@ -404,16 +404,16 @@ void BoardManager::movePiece(int * arr, int _playerNumber, int& winnerTocheck, b
 				Sleep(i_gameRunSettings.getDelay());
 
 				if (i_gameRunSettings.getShowMode() == 1) {
-					bp.PrintMove(arr[2], arr[3], eSquareCapacity(BOTHPLAYERS), -1, (Piece::pieceType)(-1), 2, Piece::pieceType::UNKNOWN, pieceJoker);
+					bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), -1, (Piece::pieceType)(-1), 2, Piece::pieceType::UNKNOWN, pieceJoker);
 				}
 				else if (i_gameRunSettings.getShowMode() == 2) {
 					if (i_gameRunSettings.getSlected_Player() == 1)
-						bp.PrintMove(arr[2], arr[3], eSquareCapacity(BOTHPLAYERS), -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
+						bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
 					else
 						bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), 1, Piece::pieceType::UNKNOWN, -1, (Piece::pieceType)(-1), pieceJoker);
 				}
 				else
-					bp.PrintMove(arr[2], arr[3], eSquareCapacity(BOTHPLAYERS), -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
+					bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
 
 			}
 
@@ -433,7 +433,7 @@ void BoardManager::movePiece(int * arr, int _playerNumber, int& winnerTocheck, b
 				Sleep(i_gameRunSettings.getDelay());
 				bp.eraseFromBoard(arr[4], arr[5]);
 				Sleep(i_gameRunSettings.getDelay());
-				bp.PrintMove(arr[4], arr[5], eSquareCapacity(BOTHPLAYERS), -1, (Piece::pieceType)(-1), 2, gameBoard[arr[4]][arr[5]].GetCurrentPiece2().getPieceType(), pieceJoker);
+				bp.PrintMove(arr[4], arr[5], eSquareCapacity(ONEPLAYER), -1, (Piece::pieceType)(-1), 2, gameBoard[arr[4]][arr[5]].GetCurrentPiece2().getPieceType(), pieceJoker);
 
 			}
 		}
