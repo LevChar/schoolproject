@@ -620,3 +620,31 @@ void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1
 	}
 	outFile.close();
 }
+
+void FileGameHelper::printConsoleResults(int winner, int reason)
+{
+	cout << "Player " << winner << "won becasue:";
+	switch (reason)
+	{
+	case (ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED):
+		cout << "ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED";
+		break;
+	case(ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN):
+		cout << "ALL_MOVING_PIECES_OF_THE_OPPONENT_ARE_EATEN";
+		break;
+	case (A_TIE_BOTH_MOVES_INPUT_FILES_DONE_WITHOUT_A_WINNER):
+		cout << "A_TIE_BOTH_MOVES_INPUT_FILES_DONE_WITHOUT_A_WINNER";
+		break;
+	case(BAD_POSITIONING_INPUT_FILE_FOR_PLAYER_LINE):
+		cout << "BAD_POSITIONING_INPUT_FILE_FOR_PLAYER_LINE";
+		break;
+	case(BAD_POSITIONING_INPUT_FOR_BOTH_PLAYERS):
+		cout << "BAD_POSITIONING_INPUT_FOR_BOTH_PLAYERS";
+		break;
+	case (BAD_MOVE_FILE_FOR_PLAYER_LINE):
+		cout << "BAD_MOVE_FILE_FOR_PLAYER_LINE";
+		break;
+	default:
+		break;
+	}
+}

@@ -102,6 +102,8 @@ void GameManager::startTheGame() {
 		cp.setCurrentPlayer(p1);
 		while (weGotAWinner == -1) {
 			LoadMovesToBoard();	
+			bp.printBoard(boardManager);
+			fp.printConsoleResults(weGotAWinner, winReason);
 		}
 	}
 }

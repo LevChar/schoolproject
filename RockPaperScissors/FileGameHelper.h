@@ -26,6 +26,7 @@ public:
 	int readMoveFileFromDirectory(string _fileName1, string _fileName2, int& playerWithError, BoardManager& boardManager, int& innerIssue, int & _weGotAWinner);
 	int CheckMovesCanOpen(string _fileName1, string _fileName2);
 	void printGameFinalResults(int winner, int reason, int badposPl1Row, int badposPl2Row, BoardManager boardManager, int _UseOption);
+	void printConsoleResults(int winner, int reason);
 
 
 	FileGameHelper();
