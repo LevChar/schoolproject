@@ -6,6 +6,7 @@
 #include "BoardPrint.h"
 #include "FileGameHelper.h"
 #include "ConsoleGameHelper.h"
+#include "Player.h"
 
 class GameManager{
 
@@ -14,7 +15,8 @@ class GameManager{
 	ConsoleGameHelper cp;
 	GameConfig gameRunSettings;
 	BoardManager boardManager;
-	int innerFile1Error, innerFile2Error;
+	Player p1,p2;
+	int innerFile1Read, innerFile2Read;
 	int weGotAWinner;
 	int winReason;
 	int loadedPosProperly;
@@ -32,25 +34,25 @@ public:
 
 	GameManager(GameConfig i_GameRunSettings);
 	~GameManager();
+	void InitializePlayers();
 	void startTheGame();
 	void loadFromConsole(BoardManager *_boardManager);
 	void enterCombat(int _col, int _row);
 	void printToScreenError(int resultsFile, int player);
-	void EndManager(BoardManager _boardManager, int Winner, int reasonOfEnd, int problemPlayer1, int problemPlayer2, int UseOption);
 	void setWinReason(int reason);
 	void checkIfMoveWin();
 	void FightAfterLoad();
 	bool CheckPorperlyLoadedAndPrintInfo(int _loadedPosProperly, int _loadedMovProperly);
-	bool LoadMovesToBoard(BoardManager* _boardManager);
+	void LoadMovesToBoard();
 	int getWeGotAWinner();
 	int getWinReason();
 	int getLoadedMovProperly();
 	int getLoadedPosProperly();
 	int CheckForWinners(int &_reason);
-	int LoadToBoard(BoardManager* _boardManager);
-
+	int LoadToBoard();
+	
 	//void printBoard(BoardManager boardManager);
-	// void InitializePlayers(); //We will be used later on when the game will hold the players.
+	
 };
 
 #endif // !__GameManager_H

@@ -2,31 +2,41 @@
 #define __Piece_H
 
 #include "BoardPoint.h"
+#include "Player.h"
+
+class Player;
 
 class Piece{
 
 public:
 
-	enum class pieceType { ROCK, PAPER, SCISSORS, BOMB, JOKER, FLAG, NONE,UNKNOWN	 };
+	enum class pieceType { ROCK, PAPER, SCISSORS, BOMB, JOKER, FLAG, NONE, UNKNOWN };
 	enum class moveDirections : int { NONE, LEFT, RIGHT, UP, DOWN };
 	
 	Piece();
 	~Piece();
 	pieceType getPieceType() const;
 	pieceType getLastKnownRep() const;
-	int getPlayerNumber();
-	int getPieceTypeInInt(pieceType i_pieceType);
-	bool getisMoveable();
+
+	int getPlayerNumber();								//TODO - delete after player class implementation
+	bool getIsMoveable();
+	bool getIsJoker();
+	bool getIsAlive();
+	bool getIsFlag();
 	char getCharFromMyPiece();
 	bool getTimesJokerExsposed();
+	Player& getPlayer();
 	void deleteMySelf();
 	void setPlyaerNumber(int _playerNumber);
 	void setPieceTypeFromChar(char _CharPieceType);
 	void setPieceType(pieceType i_pieceType);
-	void setIsFlag(int _isFlag);
+	void setIsFlag(bool _isFlag);
+	void setIsJoker(bool _isJoker);
+	void setIsAlive(bool _isAlive);
 	void setisMoveable(bool _isMoveable);
 	void setLastKnownPieceType(pieceType LastKnown_pieceType);
 	void incTimesJokerExsposed();
+	void setPlayer(Player * pl);
 
 	friend bool operator==(const Piece& piece1, const Piece& piece2);
 	friend bool operator==(const Piece& piece, const Piece::pieceType type);
@@ -38,14 +48,13 @@ private:
 	pieceType _pieceType;
 	pieceType _last_known_rep;
 	moveDirections moveDirection;
+	Player* player;
 	bool isMoveable;
 	bool isFlag;
 	bool isAlive;
+	bool isJoker;
 	int playerNumber;
 	int timesJokerExposed;
-
-	//PlayerProperties *myPlayer;
-	//BoardPoint pieceBoardPoint;
 };
 
 #endif // !__Piece_H

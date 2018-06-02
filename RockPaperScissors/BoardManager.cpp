@@ -166,22 +166,19 @@ void BoardManager::decreaseMovingPiecesPlayer2()
 int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, int & i_weGotAWinner)
 {
 	int issue = HEY_ALL_IS_FINE;
-
+	
 	// Making the user format to suit the board format.
-	for (int i = 0; i < 6; i++) {
-		arr[i]--;
-	}
+	for (int i = 0; i < 6; i++) {  arr[i]--; }
 
 	if ((gameBoard[arr[0]][arr[1]].GetCurrentPiece1().getPlayerNumber() == 0) && (gameBoard[arr[0]][arr[1]].GetCurrentPiece2().getPlayerNumber() == 0)) {
-		issue = HEY_YOU_DONT_HAVE_A_PIECE_HERE;
-		if (playerNumber == 1) {
-			i_weGotAWinner = 2;
-		}
-		else {
-			i_weGotAWinner = 0;
-		}
+		
+		issue = HEY_YOU_DONT_HAVE_A_PIECE_HERE;	
+		i_weGotAWinner = playerNumber == 1 ? 2 : 1;
+		return issue;
 	}
-	else if (playerNumber == 1) {
+
+
+	if (playerNumber == 1) {
 
 		if (gameBoard[arr[0]][arr[1]].GetCurrentPiece2().getPlayerNumber() == 2) {
 			issue = HEY_THIS_IS_NOT_YOUR_PIECE;
@@ -191,6 +188,7 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 			issue = HEY_THIS_PIECE_IS_NOT_MOVEABLE;
 			i_weGotAWinner = 2;
 		}
+
 		else {
 			
 			if (gameBoard[arr[2]][arr[3]].GetCurrentPiece1().getPlayerNumber() == 1) {
@@ -206,7 +204,10 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 					}
 				}
 				else {
-					movePiece(arr, playerNumber);
+
+					innerComabat(arr[2], arr[3], i_weGotAWinner);
+					movePiece(arr, i_weGotAWinner);
+					//movePiece(arr, playerNumber);
 				}
 
 				innerComabat(arr[2], arr[3], i_weGotAWinner);

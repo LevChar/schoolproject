@@ -119,6 +119,12 @@ GamePlayHelper::~GamePlayHelper()
 
 bool GamePlayHelper::checkMoveApplicable(int * arr)
 {
+
+	if ((abs(arr[0] - arr[2]) + abs(arr[1] - arr[3])) ==1)
+		return true;
+
+	return false;
+	/*
 	bool applicable = 0;
 	if (abs(arr[0] - arr[2]) == 1) {
 		applicable = 1;
@@ -132,6 +138,7 @@ bool GamePlayHelper::checkMoveApplicable(int * arr)
 			applicable = 1;
 	}
 	return applicable;
+	*/
 }
 
 int GamePlayHelper::validateMove(int* arr, char Jrep) {

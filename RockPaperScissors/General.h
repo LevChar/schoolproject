@@ -34,6 +34,7 @@ enum afterMoveWasSentIssues {
 };
 
 enum gameMode{ ALL = 0, KNOWN = 1, PLAYER = 2, TURN_OFF = 4 };
+enum outputMode { FILE_OUTPUT = 1, SCREEN_OUTPUT = 2};
 
 static const int MAX_DISPLAY_NAME_LEN = 5; // the max len of a display name of an object in the board 
 static const int AMOUNT_OF_PLAYERS = 2; // Number of players
@@ -50,6 +51,7 @@ static const int S = 1; // Scissors
 static const int B = 2; // Bomb
 static const int J = 2; // Joker
 static const int F = 1; // Flag
+static const int SUM_OF_ALL_PICES = 13; // sum of all pices
 static const char* posFileNameA = "player1.rps_board";
 static const char* posFileNameB = "player2.rps_board";
 static const char* movFileNameA = "player1.rps_moves";

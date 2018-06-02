@@ -2,54 +2,50 @@
 
 GameManager::GameManager(GameConfig i_GameRunSettings) :
 
-	innerFile1Error(0),
-	innerFile2Error(0),
+	p1(1),
+	p2(2),
 	reason(-1),
 	innerMoveFileIssue(HEY_ALL_IS_FINE),
 	weGotAWinner(-1),
 	winReason(-2),
 	gameRunSettings(i_GameRunSettings),
 	boardManager(i_GameRunSettings)
-
 {
-
 	if (!i_GameRunSettings.getIsConsoleMode()) {
-		// InitializePlayers(); // We will be used later on when the game will hold the players.
+
 		//boardFactory = new BoardFactory(&boardManager, players);
-		loadedPosProperly = LoadToBoard(&boardManager);
+		loadedPosProperly = LoadToBoard();
 		loadedMoveProperly = fp.CheckMovesCanOpen(movFileNameA, movFileNameB);
 
-
-		if (loadedPosProperly == 0 && loadedMoveProperly == 0) { // 0 = Able to open.
+		// 0 == Able to open.
+		if (loadedPosProperly == 0 && loadedMoveProperly == 0) { 
 			weGotAWinner = CheckForWinners(reason);
 		}
 
 		// TODO if we didnt have an issue during the load then we will print the board according to the settings.
 		if (weGotAWinner != -1) {
-			if (innerFile1Error > 0 || innerFile2Error > 0) {
-				EndManager(boardManager, weGotAWinner, loadedPosProperly, innerFile1Error, innerFile2Error, 1);
-			}
-			else if (loadedPosProperly < 0) {
-				EndManager(boardManager, weGotAWinner, loadedPosProperly, innerFile1Error, innerFile2Error, 1);
+
+			if (innerFile1Read != 0 || innerFile2Read != 0 || loadedPosProperly != 0) {
+				fp.printGameFinalResults(weGotAWinner, loadedPosProperly, innerFile1Read, innerFile2Read, boardManager, FILE_OUTPUT);
 			}
 			else {
-				EndManager(boardManager, weGotAWinner, reason, innerFile1Error, innerFile2Error, 1);
+				fp.printGameFinalResults(weGotAWinner, reason, innerFile1Read, innerFile2Read, boardManager, FILE_OUTPUT);
 			}
 		}
 	}
+
 	else {
 		loadFromConsole(&boardManager);
 		weGotAWinner = CheckForWinners(reason);
 		if (weGotAWinner != -1) {
-				EndManager(boardManager, weGotAWinner, reason, 0, 0, 1);
+			fp.printGameFinalResults(weGotAWinner, reason, 0, 0, boardManager, FILE_OUTPUT);
 		}
 	}
 }
 
-void GameManager::startTheGame(){
+void GameManager::startTheGame() {
 
 	FightAfterLoad();
-
 	bp.hidecursor();
 
 	if (gameRunSettings.getShowMode() == 0) {
@@ -64,33 +60,30 @@ void GameManager::startTheGame(){
 		clearScreen();
 		bp.printBoardInSpecial(boardManager, gameRunSettings.getSlected_Player());
 	}
-	
+
 	if (weGotAWinner != -1) {
-		EndManager(boardManager, weGotAWinner, winReason, -1, -1, 1);
+		fp.printGameFinalResults(weGotAWinner, winReason, -1, -1, boardManager, FILE_OUTPUT);
+		return;
 	}
 
-	else {
-		LoadMovesToBoard(&boardManager);
+	LoadMovesToBoard();
 
-		if (innerMoveFileIssue != 0) {
-			EndManager(boardManager, weGotAWinner, innerMoveFileIssue, -1, -1, 2);
-		}
-		else if (innerMoveFileIssue == 0) {
-			if (weGotAWinner == -1) {
-				winReason = A_TIE_BOTH_MOVES_INPUT_FILES_DONE_WITHOUT_A_WINNER;
-				weGotAWinner = 0;
-				EndManager(boardManager, weGotAWinner, winReason, -1, -1, 1);
-			}
-			else if (weGotAWinner != -1) {
+	if (innerMoveFileIssue != 0) {
+		fp.printGameFinalResults(weGotAWinner, innerMoveFileIssue, -1, -1, boardManager, SCREEN_OUTPUT);
+		return;
+	}
 
-			}
-		}
+	if (weGotAWinner == -1) {
+		winReason = A_TIE_BOTH_MOVES_INPUT_FILES_DONE_WITHOUT_A_WINNER;
+		weGotAWinner = 0;
+		fp.printGameFinalResults(weGotAWinner, winReason, -1, -1, boardManager, FILE_OUTPUT);
+		return;
 	}
 }
 
 int GameManager::CheckForWinners(int &_reason)
 {
-	int Winner = -1; // 0 Tie, 1 - Player1, 2- Player2, -1- No Winner yet.
+	int Winner = -1; // 0 Tie, 1 - Player1, 2- Player2, -1 ---- No Winner yet.
 
 					 // Can be both dead flag and dead moving pieces as this is the load file we will call it for flags.
 
@@ -109,7 +102,6 @@ int GameManager::CheckForWinners(int &_reason)
 	}
 
 	return Winner;
-
 }
 
 bool GameManager::CheckPorperlyLoadedAndPrintInfo(int _loadedPosProperly, int _loadedMovProperly)
@@ -183,57 +175,52 @@ int GameManager::getLoadedPosProperly()
 	return loadedPosProperly;
 }
 
-int GameManager::LoadToBoard(BoardManager* boardManager)
+int GameManager::LoadToBoard()
 {
-	int playerNumber1 = 1;
-	int playerNumber2 = 2;
 	int loadStatus = 0;
-	int resultsFile1 = 0;
-	int resultsFile2;
 
-	resultsFile1 = fp.readPositioningFileFromDirectory(posFileNameA, playerNumber1, boardManager);
-	if (resultsFile1 < 0) {
-		printToScreenError(resultsFile1, playerNumber1);
+	innerFile1Read = fp.readPositioningFileFromDirectory(posFileNameA, p1.getplayerNumber(), boardManager);
+
+	//read of first file returned error
+	if (innerFile1Read < 0) {
+ 		printToScreenError(innerFile1Read, p1.getplayerNumber());
 		weGotAWinner = 2;
-		loadStatus = -100;
+		loadStatus = innerFile1Read;
 	}
 
-	resultsFile2 = fp.readPositioningFileFromDirectory(posFileNameB, playerNumber2, boardManager);
-		if (resultsFile2 < 0) {
-		printToScreenError(resultsFile2, playerNumber2);
-		if (weGotAWinner == 2) {
-			weGotAWinner = 0;
-		}
-		else {
-			weGotAWinner = 1;
-		}
-		loadStatus = -100;
+	innerFile2Read = fp.readPositioningFileFromDirectory(posFileNameB, p2.getplayerNumber(), boardManager);
+	
+	//read of second file returned error
+	if (innerFile2Read < 0) {
+		printToScreenError(innerFile2Read, p2.getplayerNumber());
+		weGotAWinner = (weGotAWinner == 2 ? 0 : 1); //if the first loset and the second lost they both loose, or just the second lost
+		loadStatus = innerFile2Read;
 	}
 
-	if (resultsFile1 == -9 && resultsFile2 == -9)
+	if (innerFile1Read == -9 && innerFile2Read == -9)
 	{
 		loadStatus = BOTH_FILES_OPEN_ERROR;
 	}
-	else if (resultsFile1 == -9) {
-		loadStatus = resultsFile1;
+
+	else if (innerFile1Read == -9) {
+		loadStatus = innerFile1Read;
 	}
-	else if (resultsFile2 == -9) {
-		loadStatus = resultsFile2;
+	else if (innerFile2Read == -9) {
+		loadStatus = innerFile2Read;
 	}
-	else if (resultsFile1 > 0 && resultsFile2 > 0) {
-		innerFile1Error = resultsFile1;
-		innerFile2Error = resultsFile2;
+
+	else if (innerFile1Read > 0 && innerFile2Read > 0) {
+
 		weGotAWinner = 0; // tie
 		loadStatus = BAD_POSITIONING_INPUT_FOR_BOTH_PLAYERS;
 	}
-	else if (resultsFile1 > 0) {
-		innerFile1Error = resultsFile1;
-		weGotAWinner = playerNumber2;
+
+	else if (innerFile1Read > 0) {
+		weGotAWinner = p1.getplayerNumber();
 		loadStatus = BAD_POSITIONING_INPUT_FILE_FOR_PLAYER_LINE;
 	}
-	else if (resultsFile2 > 0) {
-		innerFile2Error = resultsFile2;
-		weGotAWinner = playerNumber1;
+	else if (innerFile2Read > 0) {
+		weGotAWinner = p2.getplayerNumber();
 		loadStatus = BAD_POSITIONING_INPUT_FILE_FOR_PLAYER_LINE;
 	}
 
@@ -245,15 +232,11 @@ void GameManager::loadFromConsole(BoardManager * _boardManager)
 	cp.consoleInsertPos(_boardManager);
 }
 
-bool GameManager::LoadMovesToBoard(BoardManager * _boardManager)
+void GameManager::LoadMovesToBoard()
 {
-	int resultsFile1 = 0;
-
 	int playerNumberWithIssue;
-
-	resultsFile1 = fp.readMoveFileFromDirectory(movFileNameA, movFileNameB, playerNumberWithIssue, _boardManager, innerMoveFileIssue, weGotAWinner);
-
-	return true;
+	innerFile1Read = 0;
+	innerFile1Read = fp.readMoveFileFromDirectory(movFileNameA, movFileNameB, playerNumberWithIssue, boardManager, innerMoveFileIssue, weGotAWinner);
 }
 
 void GameManager::FightAfterLoad()
@@ -361,11 +344,6 @@ void GameManager::printToScreenError(int resultsFile, int player)
 	else if (resultsFile == NO_SUCH_PEACE) {
 		cout << "Player " << player << " entered incorrect piece" << endl;
 	}
-}
-
-void GameManager::EndManager(BoardManager _boardManager, int Winner, int reasonOfEnd, int problemPlayer1, int problemPlayer2, int UseOption)
-{
-	fp.printGameFinalResults(Winner, reasonOfEnd, problemPlayer1, problemPlayer2, boardManager, UseOption);
 }
 
 int GameManager::getWeGotAWinner()

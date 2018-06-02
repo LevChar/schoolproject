@@ -29,7 +29,7 @@ char FileGameHelper::readchar(ifstream& file) {
 		return THIS_IS_NOT_A_LETTER;
 }
 
-int FileGameHelper::readPositioningFileFromDirectory(string fileName, int playerNumber, BoardManager* boardManager) {
+int FileGameHelper::readPositioningFileFromDirectory(string fileName, int playerNumber, BoardManager& boardManager) {
 
 	char piece, pieceValidation;
 	bool searchJockerRep = false;
@@ -121,7 +121,7 @@ int FileGameHelper::readPositioningFileFromDirectory(string fileName, int player
 			if (!input_validation) {
 
 				//if player try to put 2 pices @ the same square we will get false here
-				continueReadingFile = boardManager->loadPosFromFile(piece, col, row, playerNumber, pieceValidation);
+				continueReadingFile = boardManager.loadPosFromFile(piece, col, row, playerNumber, pieceValidation);
 
 				if (!continueReadingFile) {
 
@@ -264,7 +264,7 @@ bool FileGameHelper::checkFlagwasSetSon() {
 	return GamePlayHelper::checkFlagwasSet();
 }
 
-int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileName2, int& playerWithError, BoardManager* boardManager, int& innerIssue, int & _weGotAWinner) {
+int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileName2, int& playerWithError, BoardManager& boardManager, int& innerIssue, int & _weGotAWinner) {
 
 	int numOfArgsRd = 0, row1Player = 1, row2Player = 1, current_read_state = READ_PIECE;
 	int moveAndJockerData[6] = { -1,-1,-1,-1,-1,-1 };
@@ -378,12 +378,12 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 
 			if (_weGotAWinner == -1) {
 				if (GamePlayHelper::checkMoveApplicable(moveAndJockerData)) { 
-					
-					// TODO we need to return an error for inapplicable move.
-					//cout << "Player" << FileHelper::current_player << " "  <<moveAndJockerData[0] << " " << moveAndJockerData[1] << " " << moveAndJockerData[2] << " " << moveAndJockerData[3] << " " << moveAndJockerData[4] << " " << moveAndJockerData[5] << " " << moveAndJockerData[6] << endl;
-					innerIssue = boardManager->checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer(), jNewRep, _weGotAWinner);
+						
+					innerIssue = boardManager.checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer(), jNewRep, _weGotAWinner);
 				}
 				else {
+					innerIssue = BAD_MOVE_FILE_FOR_PLAYER_LINE;
+					_weGotAWinner = ((GamePlayHelper::getCurrentPlayer() == 1) ? 2 : 1);
 					return 	GamePlayHelper::getNumOfRowsRead();
 				}
 				// here return the line number and the error.
@@ -399,7 +399,6 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 
 	return SUCCESS;
 }
-
 
 bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstream*& currentFile, int& r_of_p1, int& r_of_p2, bool& switch_player) {
 
@@ -545,6 +544,8 @@ int FileGameHelper::CheckMovesCanOpen(string _fileName1, string _fileName2)
 
 void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1Row, int badposPl2Row, BoardManager boardManager, int _UseOption) {
 
+	int looser = (winner != 0 ? (winner == 1 ? 2 : 1) : 0);
+
 	ofstream outFile("rps.output", ios::trunc);
 
 	outFile << "Winner: " << winner << endl;
@@ -560,13 +561,7 @@ void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1
 			}
 		}
 		else if (reason == ALL_FLAGS_OF_THE_OPPONENT_ARE_CAPTURED) {
-
-			if (winner == 0) {
-				outFile << "All flags of both players are captured." << endl;
-			}
-			else {
-				outFile << "All flags of the opponent are captured." << endl;
-			}
+			outFile << "All flags of the opponent are captured." << endl;
 		}
 		else if (reason == A_TIE_BOTH_MOVES_INPUT_FILES_DONE_WITHOUT_A_WINNER) {
 			outFile << "A tie - both Moves input files done without a winner." << endl;
@@ -582,28 +577,31 @@ void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1
 		else if (reason == BAD_POSITIONING_INPUT_FOR_BOTH_PLAYERS) {
 			outFile << "Bad Positioning input file for both players - player1: line " << badposPl1Row << ", player 2: line " << badposPl2Row << endl;
 		}
-
 		else if (reason == BAD_MOVE_FILE_FOR_PLAYER_LINE) {
-			outFile << "Bad Moves input file for player" <<  <<"-line " << badposPl1Row << ", player 2: line " << badposPl2Row << endl;
+			//TODO - send move errors only through badposPl1Row
+			outFile << "Bad Moves input file for player " << looser << " -line " << badposPl1Row << endl;
 		}
-
 		else {
 			outFile << endl;
 		}
-		// bad moves input file for player another else if.
 	}
+
 	else if (_UseOption == 2) {
 		if (reason == HEY_THIS_IS_NOT_YOUR_PIECE) {
-			cout << "Player" << winner << "won because the opponent tried to move a piece which is not his." << endl;
+			cout << "Player " << winner << " won because the opponent tried to move a piece which is not his." << endl;
 		}
 		else if (reason == HEY_YOU_DONT_HAVE_A_PIECE_HERE) {
-			cout << "Player" << winner << "'won because the opponent tried nothing (pieceless location)." << endl;
+			cout << "Player " << winner << " won because the opponent tried to move a peice in not existent location." << endl;
 		}
 		else if (reason == HEY_YOU_ARE_TRYING_TO_MOVE_INTO_YOUR_OWN_PIECE) {
-			cout << "Player" << winner << "'won because the opponent moved into his own piece." << endl;
+			cout << "Player " << winner << " won because the opponent moved into his own piece." << endl;
 		}
 		else if (reason == HEY_THIS_PIECE_IS_NOT_MOVEABLE) {
-			cout << "Player" << winner << "'won because the opponent moved unmoveable piece." << endl;
+			cout << "Player " << winner << " won because the opponent tryed to move unmoveable piece." << endl;
+		}
+		else if (reason == BAD_MOVE_FILE_FOR_PLAYER_LINE) {
+			//TODO - send move errors only through badposPl1Row
+			outFile << "Bad Moves input file for player " << looser << " -line " << badposPl1Row << endl;
 		}
 	}
 
@@ -618,5 +616,4 @@ void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1
 		outFile << endl;
 	}
 	outFile.close();
-
 }
