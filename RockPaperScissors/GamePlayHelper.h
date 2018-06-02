@@ -5,12 +5,15 @@ using namespace std;
 #include <fstream>
 #include <string>
 #include "BoardManager.h"
-class GamePlayHelper
-{
+#include "Player.h"
+
+class Player;
+
+class GamePlayHelper{
+
 	int count_of_pices[6] = {};
 	int numOfRowsRead = 1;
-	int current_player;
-	
+	Player* player;
 	
 public:
 
@@ -24,12 +27,11 @@ public:
 	void increaseNumOfRowsRead();
 	void setNumOfRowsRead(int rows);
 	int getNumOfRowsRead();
-	int getCurrentPlayer();
-	void setCurrentPlayer(int playerNumber);
+	Player& getCurrentPlayer();
+	void setCurrentPlayer(Player& _player);
 
 	virtual void f() = 0; // for testing
 
 	GamePlayHelper();
 	~GamePlayHelper();
 };
-

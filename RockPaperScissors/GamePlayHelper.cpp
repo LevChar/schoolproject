@@ -1,7 +1,5 @@
 #include "GamePlayHelper.h"
 
-
-
 void GamePlayHelper::reset()
 {
 	for (int i = 0; i < 6; i++) {
@@ -98,24 +96,19 @@ int GamePlayHelper::getNumOfRowsRead()
 	return numOfRowsRead;
 }
 
-int GamePlayHelper::getCurrentPlayer()
-{
-	return current_player;
+Player& GamePlayHelper::getCurrentPlayer(){
+
+	return *player;
 }
 
-void GamePlayHelper::setCurrentPlayer(int playerNumber)
-{
-	current_player = playerNumber;
+void GamePlayHelper::setCurrentPlayer(Player& _player){
+
+	player = &_player;
 }
 
-GamePlayHelper::GamePlayHelper()
-{
-}
+GamePlayHelper::GamePlayHelper(){}
 
-
-GamePlayHelper::~GamePlayHelper()
-{
-}
+GamePlayHelper::~GamePlayHelper(){}
 
 bool GamePlayHelper::checkMoveApplicable(int * arr)
 {
@@ -124,21 +117,6 @@ bool GamePlayHelper::checkMoveApplicable(int * arr)
 		return true;
 
 	return false;
-	/*
-	bool applicable = 0;
-	if (abs(arr[0] - arr[2]) == 1) {
-		applicable = 1;
-	}
-
-	if (abs(arr[1] - arr[3]) == 1) {
-		if (applicable == 1) {
-			applicable = 0;
-		}
-		else
-			applicable = 1;
-	}
-	return applicable;
-	*/
 }
 
 int GamePlayHelper::validateMove(int* arr, char Jrep) {

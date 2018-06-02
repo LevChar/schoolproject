@@ -15,13 +15,13 @@ class ConsoleGameHelper : public GamePlayHelper
 public:
 	
 	void f() override {}; // for testing
-	void consoleInsertPos(BoardManager * _boardManager);
+	void consoleInsertPos(BoardManager * _boardManager, Player& p1, Player& p2);
 	ConsoleGameHelper();
 	~ConsoleGameHelper();
 	bool validatePieceConsole(char _validationPiece, int pCol, int pRow, int playNumber);
 	bool validatePieceChar(char _validationPiece, int _playerNumber);
 	bool checkIfFinsihedLoading();
-	void readMoveFileFromConsole(BoardManager * boardManager, int & _weGotAWinner);
+	void readMoveFileFromConsole(BoardManager * boardManager, int & _weGotAWinner, Player& p1, Player& p2);
 	bool validataeMoveConsole(int *_arr, char _jokerPresentationChange, char _jokerNewPres);
 	bool checkPiece(char piece);
 };

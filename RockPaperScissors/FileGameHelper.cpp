@@ -379,11 +379,11 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 			if (_weGotAWinner == -1) {
 				if (GamePlayHelper::checkMoveApplicable(moveAndJockerData)) { 
 						
-					innerIssue = boardManager.checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer(), jNewRep, _weGotAWinner);
+					innerIssue = boardManager.checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer().getplayerNumber(), jNewRep, _weGotAWinner);
 				}
 				else {
 					innerIssue = BAD_MOVE_FILE_FOR_PLAYER_LINE;
-					_weGotAWinner = ((GamePlayHelper::getCurrentPlayer() == 1) ? 2 : 1);
+					_weGotAWinner = ((GamePlayHelper::getCurrentPlayer().getplayerNumber() == 1) ? 2 : 1);
 					return 	GamePlayHelper::getNumOfRowsRead();
 				}
 				// here return the line number and the error.
@@ -405,13 +405,16 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 	//The function was called but switch_player is set to false (no actual need to change player). 
 	//-----------> 3 options: 1. EOF 2. need to set the first player 3. continue input <----------
 
+	Player temp1(1);
+	Player temp2(2);
+
 	if (!switch_player) {
 
 		//1.set the first time
 		if (currentFile == nullptr) {
 
 			if (!file1.eof()) {
-				GamePlayHelper::setCurrentPlayer(1);
+				GamePlayHelper::setCurrentPlayer(temp1);
 				r_of_p2 = GamePlayHelper::getNumOfRowsRead();;
 				GamePlayHelper::setNumOfRowsRead(r_of_p1);
 				currentFile = &file1;
@@ -419,7 +422,7 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 			}
 
 			else {
-				GamePlayHelper::setCurrentPlayer(2);
+				GamePlayHelper::setCurrentPlayer(temp2);
 				r_of_p1 = GamePlayHelper::getNumOfRowsRead();
 				GamePlayHelper::setNumOfRowsRead(r_of_p2);
 				
@@ -442,7 +445,7 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 
 				else {
 
-					GamePlayHelper::setCurrentPlayer(2);
+					GamePlayHelper::setCurrentPlayer(temp2);
 					r_of_p1 = GamePlayHelper::getNumOfRowsRead();
 					GamePlayHelper::setNumOfRowsRead(r_of_p2);
 					currentFile = &file2;
@@ -456,7 +459,7 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 
 				else {
 
-					GamePlayHelper::setCurrentPlayer(1);
+					GamePlayHelper::setCurrentPlayer(temp1);
 					r_of_p2 = GamePlayHelper::getNumOfRowsRead();
 					GamePlayHelper::setNumOfRowsRead(r_of_p1);
 					currentFile = &file1;
@@ -487,7 +490,7 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 		//switch from 1 to 2
 		if (currentFile == &file1 && file2.good()) {
 
-			GamePlayHelper::setCurrentPlayer(2);
+			GamePlayHelper::setCurrentPlayer(temp2);
 			r_of_p1 = GamePlayHelper::getNumOfRowsRead();
 			GamePlayHelper::setNumOfRowsRead(r_of_p2);
 			currentFile = &file2;
@@ -499,7 +502,7 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 		//switch from 2 to 1
 		if (currentFile == &file2 && file1.good()) {
 
-			GamePlayHelper::setCurrentPlayer(1);
+			GamePlayHelper::setCurrentPlayer(temp1);
 			r_of_p2 = GamePlayHelper::getNumOfRowsRead();
 			GamePlayHelper::setNumOfRowsRead(r_of_p1);
 			currentFile = &file1;

@@ -547,3 +547,5 @@ void BoardManager::checkIfMoveWin(int _col, int _row, int& weGotAWinner) {
 		}
 	}
 }
+
+BoardPrint BoardManager::getBoardPrint() { return bp;}

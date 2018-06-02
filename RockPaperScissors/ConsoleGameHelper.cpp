@@ -1,8 +1,6 @@
 #include "ConsoleGameHelper.h"
 
-
 //boardManager->loadPosFromFile(piece, col, row, playerNumber, pieceValidation);
-
 
 void ConsoleGameHelper::increasePieceArray(char _validationPiece, int playerNumber)
 {
@@ -58,7 +56,7 @@ void ConsoleGameHelper::increasePieceArray(char _validationPiece, int playerNumb
 	}
 }
 
-void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
+void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager, Player& p1, Player& p2)
 {
 	cout << "Both players, please enter.... " << endl;
 
@@ -70,13 +68,13 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 
 	int completed = 0;
 	int completedPlayer = 0;
-	GamePlayHelper::setCurrentPlayer(1);
+	GamePlayHelper::setCurrentPlayer(p1);
 
 	// We need to move from one player to the other, inserting the peices, all of them deduing whatever he entred from the array and one he reaches zero he finish i can also print to the screen after each intercation how many pices of each kind he needs to put.
 	while (!completed || !completedPlayer) {
 
-		if (GamePlayHelper::getCurrentPlayer() == 1) {
-			_boardManager->getBoardPrint().printBoardInSpecial(*_boardManager, GamePlayHelper::getCurrentPlayer());
+		if (GamePlayHelper::getCurrentPlayer().getplayerNumber() == 1) {
+			_boardManager->getBoardPrint().printBoardInSpecial(*_boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			cout << "Player1, please enter one of the following pieces left." << endl;
 			cout << "Rocks left: " << downCounterOfPiecesPlayer1[0] << "." << endl;
 			cout << "Papers left: " << downCounterOfPiecesPlayer1[1] << "." << endl;
@@ -99,10 +97,11 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 			if (input_validation) {
 
 				//if player try to put 2 pices @ the same square we will get false here
-				completedPlayer = _boardManager->loadPosFromFile(presentationPiece, pCol, pRow, 1, validationPiece);
+
+				completedPlayer = _boardManager->loadPosFromFile(presentationPiece, pCol, pRow, GamePlayHelper::getCurrentPlayer(), validationPiece);
 
 				if (completedPlayer == 1) {
-					GamePlayHelper::setCurrentPlayer(2);
+					GamePlayHelper::setCurrentPlayer(p2);
 				}
 				else {
 					increasePieceArray(presentationPiece, 1);
@@ -110,7 +109,7 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 			}
 		}
 		else {
-			_boardManager->getBoardPrint().printBoardInSpecial(*_boardManager, GamePlayHelper::getCurrentPlayer());
+			_boardManager->getBoardPrint().printBoardInSpecial(*_boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			cout << "Player2, please enter one of the following pieces left." << endl;
 			cout << "Rocks left: " << downCounterOfPiecesPlayer2[0] << "." << endl;
 			cout << "Papers left: " << downCounterOfPiecesPlayer2[1] << "." << endl;
@@ -133,10 +132,10 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 			if (input_validation) {
 
 				//if player try to put 2 pices @ the same square we will get false here
-				completedPlayer = _boardManager->loadPosFromFile(presentationPiece, pCol, pRow, 2, validationPiece);
+				completedPlayer = _boardManager->loadPosFromFile(presentationPiece, pCol, pRow, GamePlayHelper::getCurrentPlayer(), validationPiece);
 
 				if (completedPlayer == 1) {
-					GamePlayHelper::setCurrentPlayer(1);
+					GamePlayHelper::setCurrentPlayer(p1);
 				}
 				else {
 					increasePieceArray(presentationPiece, 2);
@@ -149,10 +148,7 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 	}
 }
 
-	ConsoleGameHelper::ConsoleGameHelper()
-{
-}
-
+ConsoleGameHelper::ConsoleGameHelper(){}
 
 ConsoleGameHelper::~ConsoleGameHelper()
 {
@@ -276,7 +272,7 @@ bool ConsoleGameHelper::checkIfFinsihedLoading()
 	return counter == 6 ? TRUE:FALSE;
 }
 
-void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int & _weGotAWinner)
+void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int & _weGotAWinner, Player& p1, Player& p2)
 {
 	int moveAndJockerData[6] = { -1,-1,-1,-1,-1,-1 };
 	char jokerPresentationChange;
@@ -286,11 +282,11 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 	bool continoue;
 
 	while (_weGotAWinner == -1 || completedPlayer) {
-		if (GamePlayHelper::getCurrentPlayer() == 1) {
+		if (GamePlayHelper::getCurrentPlayer().getplayerNumber() == 1) {
 			jokerPresentationChange = 'G';
 			continoue = 1;
 			completedPlayer = 1;
-			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer());
+			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			while (continoue) {
 				cout << "Player1, Do you want to change Joker presentiation? Y/N: ";
 				cin >> jokerPresentationChange;
@@ -302,7 +298,7 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 				}
 			}
 			system("cls");
-			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer());
+			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			cout << "Player 1, please move... ";
 			cin >> moveAndJockerData[0];
 			cin >> moveAndJockerData[1];
@@ -322,11 +318,11 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 
 			input_validation = validataeMoveConsole(moveAndJockerData, jokerPresentationChange, jokerNewPres);
 			if (input_validation) {
-				completedPlayer = boardManager->checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer(), jokerNewPres, _weGotAWinner);
+				completedPlayer = boardManager->checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer().getplayerNumber(), jokerNewPres, _weGotAWinner);
 			}
 			system("cls");
 			if (completedPlayer == 0) {
-				GamePlayHelper::setCurrentPlayer(2);
+				GamePlayHelper::setCurrentPlayer(p2);
 			}
 			else {
 				cout << "Error" << endl;
@@ -336,7 +332,7 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 			jokerPresentationChange = 'G';
 			continoue = 1;
 			completedPlayer = 1;
-			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer());
+			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			while (continoue) {
 				cout << "Player2, Do you want to change Joker presentiation? Y/N: ";
 				cin >> jokerPresentationChange;
@@ -348,7 +344,7 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 				}
 			}
 			system("cls");
-			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer());
+			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			cout << "Player 2, please move... ";
 			cin >> moveAndJockerData[0];
 			cin >> moveAndJockerData[1];
@@ -369,11 +365,11 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 			input_validation = validataeMoveConsole(moveAndJockerData, jokerPresentationChange, jokerNewPres);
 
 			if (input_validation) {
-				completedPlayer = boardManager->checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer(), jokerNewPres, _weGotAWinner);
+				completedPlayer = boardManager->checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer().getplayerNumber(), jokerNewPres, _weGotAWinner);
 			}
 			system("cls");
 			if (completedPlayer == 0) {
-				GamePlayHelper::setCurrentPlayer(1);
+				GamePlayHelper::setCurrentPlayer(p1);
 			}
 			else {
 				cout << "Error" << endl;
@@ -385,6 +381,7 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 		}
 	}
 }
+
 bool ConsoleGameHelper::validataeMoveConsole(int * _arr, char _jokerPresentationChange, char _jokerNewPres)
 {
 	bool status = 1;
@@ -417,7 +414,6 @@ bool ConsoleGameHelper::validataeMoveConsole(int * _arr, char _jokerPresentation
 	}
 	return status;
 }
-
 
 bool ConsoleGameHelper::checkPiece(char piece) {
 

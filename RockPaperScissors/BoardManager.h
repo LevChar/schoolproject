@@ -37,9 +37,12 @@ public:
 	void setWinReason(int reason);
 	int enterCombat(int _col, int _row, int& weGotAWinner);
 	void checkIfMoveWin(int _col, int _row, int& weGotAWinner);
+	BoardPrint getBoardPrint();
+	
 	//void printBoard();
 	//Piece::pieceType convertCharToPieceType(char _piece);
 	//BoardSquareInfo getSquareInfo(int _col, int _row);
+	
 
 private:
 
