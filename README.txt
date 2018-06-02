@@ -29,3 +29,4 @@ Bugs:
 1. default delay for console mode set to 50 ms as in excercise 1
 2. To check input same location Example: R 5 5 then P 5 5 same player.
 3. To check input (File and Console) where we want to change Joker presentiation however there is no joker inside.
+4. We need to print to screen the board when they are placing the pieces.
