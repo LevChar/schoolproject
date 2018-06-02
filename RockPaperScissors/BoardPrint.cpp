@@ -5,15 +5,14 @@
 
   char pices[] = { 'R', 'P', 'S', 'B', 'J', 'F',' ' , };
 
-void BoardPrint::hidecursor()
-{
+void BoardPrint::hidecursor(){
+
 	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO info;
 	info.dwSize = 100;
 	info.bVisible = FALSE;
 	SetConsoleCursorInfo(consoleHandle, &info);
 }
-
 
 void BoardPrint::printBoard(BoardManager gameBoard) {
 
@@ -46,9 +45,9 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 			bool piece2Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
 
 			//case of empty square
-			if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber() == 0 &&
-				gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayerNumber() == 0) {
-
+			
+			if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber() == 0 &&
+				gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber() == 0) {
 
 				std::cout << "    ";
 			}
@@ -57,8 +56,8 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 			else {
 
 				//case both players @ the square 	// NOT RELEAVNT AS WE WILL DO THE FIGHT AFTER LOAD BEFORE PRINTING TO SCREEN SO ALWAYS ONE WILL BE LEFT.
-				if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber() != 0 &&
-					gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayerNumber() != 0) {
+				if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber() != 0 &&
+					gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber() != 0) {
 
 					drawWithColor(BOTHPLAYERS, PLAYERA, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPieceType(), BLACK, piece1Joker);
 					drawWithColor(BOTHPLAYERS, PLAYERB, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPieceType(), BLACK, piece2Joker);
@@ -68,18 +67,17 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 
 					int current_player;
 
-					if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber()) {
+					if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber()) {
 
-						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayerNumber();
+						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber();
 						drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPieceType(), BLACK, piece1Joker);
 					}
 
 					else {
 
-						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayerNumber();
+						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber();
 						drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPieceType(), BLACK, piece2Joker);
 					}
-
 				}
 			}
 
@@ -92,11 +90,7 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 			std::cout << "-";
 
 		cout << endl;
-
-
-
 	}
-
 }
 
 // REUSAGE OF CODE, will change with the new design.

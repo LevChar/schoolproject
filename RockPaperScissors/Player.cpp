@@ -12,7 +12,10 @@ Player::~Player(){}
 
 int Player::getplayerNumber()
 {
-	return playerNumber;
+	if (this == nullptr)
+		return 0;
+	else
+		return playerNumber;
 }
 
 int Player::getflagCounter()
