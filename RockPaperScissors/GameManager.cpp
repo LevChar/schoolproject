@@ -270,7 +270,7 @@ void GameManager::LoadMovesToBoard()
 		innerFile1Read = fp.readMoveFileFromDirectory(movFileNameA, movFileNameB, playerNumberWithIssue, boardManager, innerMoveFileIssue, weGotAWinner);
 	}
 	else {
-		cp.readMoveFileFromConsole(boardManager, weGotAWinner);
+		cp.readMoveFileFromConsole(&boardManager, weGotAWinner);
 	}
 }
 
