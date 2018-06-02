@@ -17,8 +17,8 @@ public:
 
 	BoardManager(GameConfig _gameRunSettings);
 	~BoardManager();
+
 	void InitializeBoard();
-	
 	static void ParsePointToIndex(BoardPoint i_BoardPoint, int* i_Row, int * i_Col);
 	static void ParseIndexToBoardPoint(int i_Row, int i_Col, BoardPoint* i_BoardPoint);
 	void SetSquareInfo(BoardSquareInfo i_NewInfo);
@@ -34,9 +34,10 @@ public:
 	
 	bool loadPosFromFile(char _piece, int _col, int _row, Player& playa, char _pieceValidation);
 	Piece convertCharToPiece(char _piece, Player& player, int _isJokerOrFlag, bool _isMoveable);
-	void setWinReason(int reason);
 	int enterCombat(int _col, int _row, int& weGotAWinner);
 	void checkIfMoveWin(Player* pl1, Player* pl2, int& weGotAWinner);
+	void setWinReason(int reason);
+	int getWinReason();
 	BoardPrint getBoardPrint();
 	
 	//void printBoard();
@@ -49,8 +50,8 @@ private:
 	GameConfig i_gameRunSettings;
 	BoardPrint bp;
 	BoardSquareInfo gameBoard[BOARD_COLUMN_COUNT][BOARD_ROW_COUNT];
-
 	int winReason;
+
 	//1 - All flags of the opponent are captured
 	//2 - All moving PIECEs of the opponent are eaten
 	//3 - A tie - both Moves input files done without a winner

@@ -278,7 +278,7 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 
 	resetForNewDataSon(moveAndJockerData, numOfArgsRd, jNewRep, current_read_state);
 
-	while (continueReadingFile) {
+	while (continueReadingFile && _weGotAWinner== -1) {
 
 		if (current_read_state != SEND_MOVE_DATA)
 			continueReadingFile = checkAndSetNextRead(inFile1, inFile2, currFile, row1Player, row2Player, switchPlayer);

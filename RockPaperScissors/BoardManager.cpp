@@ -480,6 +480,11 @@ Piece BoardManager::convertCharToPiece(char _piece, Player& player, int _isJoker
 
 void BoardManager::setWinReason(int reason) { winReason = reason; }
 
+int BoardManager::getWinReason()
+{
+	return winReason;
+}
+
 int BoardManager::enterCombat(int _col, int _row, int& weGotAWinner) {
 
 	Player* p1, *p2;

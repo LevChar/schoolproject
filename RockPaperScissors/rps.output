@@ -1,7 +1,7 @@
-Winner: 0
-Reason: A tie - both Moves input files done without a winner.
+Winner: 1
+Reason: All moving PIECEs of the opponent are eaten.
 
-P         
+          
  F        
           
    F      

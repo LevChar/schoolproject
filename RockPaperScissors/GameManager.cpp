@@ -92,7 +92,11 @@ void GameManager::startTheGame() {
 			fp.printGameFinalResults(weGotAWinner, winReason, -1, -1, boardManager, FILE_OUTPUT);
 			return;
 		}
+
+		else 
+			fp.printGameFinalResults(weGotAWinner, boardManager.getWinReason(), -1, -1, boardManager, FILE_OUTPUT);	
 	}
+
 	else {
 		int finishedOrPlayerNumber = 1;
 		cp.setCurrentPlayer(p1);
