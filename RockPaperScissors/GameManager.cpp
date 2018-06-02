@@ -61,39 +61,40 @@ void GameManager::startTheGame() {
 			bp.printBoardInSpecial(boardManager, gameRunSettings.getSlected_Player());
 		}
 
-	if (gameRunSettings.getShowMode() == 0) {
-		clearScreen();
-		bp.printBoard(boardManager);
-	}
-	else if (gameRunSettings.getShowMode() == 1) {
-		clearScreen();
-		bp.printBoardInSpecial(boardManager);
-	}
-	else if (gameRunSettings.getShowMode() == 2) {
-		clearScreen();
-		bp.printBoardInSpecial(boardManager, gameRunSettings.getSlected_Player());
-	}
+		if (gameRunSettings.getShowMode() == 0) {
+			clearScreen();
+			bp.printBoard(boardManager);
+		}
+		else if (gameRunSettings.getShowMode() == 1) {
+			clearScreen();
+			bp.printBoardInSpecial(boardManager);
+		}
+		else if (gameRunSettings.getShowMode() == 2) {
+			clearScreen();
+			bp.printBoardInSpecial(boardManager, gameRunSettings.getSlected_Player());
+		}
 
-	if (weGotAWinner != -1) {
-		fp.printGameFinalResults(weGotAWinner, winReason, -1, -1, boardManager, FILE_OUTPUT);
-		return;
-	}
+		if (weGotAWinner != -1) {
+			fp.printGameFinalResults(weGotAWinner, winReason, -1, -1, boardManager, FILE_OUTPUT);
+			return;
+		}
 
-	LoadMovesToBoard();
+		LoadMovesToBoard();
 
-	if (innerMoveFileIssue != 0) {
-		fp.printGameFinalResults(weGotAWinner, innerMoveFileIssue, -1, -1, boardManager, SCREEN_OUTPUT);
-		return;
-	}
+		if (innerMoveFileIssue != 0) {
+			fp.printGameFinalResults(weGotAWinner, innerMoveFileIssue, -1, -1, boardManager, SCREEN_OUTPUT);
+			return;
+		}
 
-	if (weGotAWinner == -1) {
-		winReason = A_TIE_BOTH_MOVES_INPUT_FILES_DONE_WITHOUT_A_WINNER;
-		weGotAWinner = 0;
-		fp.printGameFinalResults(weGotAWinner, winReason, -1, -1, boardManager, FILE_OUTPUT);
-		return;
-	}
-	else {
+		if (weGotAWinner == -1) {
+			winReason = A_TIE_BOTH_MOVES_INPUT_FILES_DONE_WITHOUT_A_WINNER;
+			weGotAWinner = 0;
+			fp.printGameFinalResults(weGotAWinner, winReason, -1, -1, boardManager, FILE_OUTPUT);
+			return;
+		}
+		else {
 
+		}
 	}
 }
 
