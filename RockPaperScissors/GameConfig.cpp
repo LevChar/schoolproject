@@ -66,7 +66,7 @@ GameConfig::GameConfig() :
 	isQuietMode(false),
 	isConsoleMode(false),
 	showMode(ALL),
-	delay(500)
+	delay(50)
 {}
 
 GameConfig::~GameConfig() {}
