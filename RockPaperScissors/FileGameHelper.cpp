@@ -498,7 +498,6 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 			return true;
 		}
 
-
 		//switch from 2 to 1
 		if (currentFile == &file2 && file1.good()) {
 
@@ -510,6 +509,8 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 			return true;
 		}
 	}
+
+	return true;
 }
 
 void FileGameHelper::resetForNewDataSon(int* result_array, int& argumentCounter, char& jNewRep, int& current_state) {
