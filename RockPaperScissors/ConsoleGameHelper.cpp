@@ -87,12 +87,12 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager, Player& p
 			cin >> pCol;
 			cin >> pRow;
 			validationPiece = presentationPiece;
-			system("cls");
 			if (presentationPiece == 'J') {
 				cin >> validationPiece;
 			}
+			system("cls");
 
-			input_validation = validatePieceConsole(validationPiece, pCol, pRow,1);
+			input_validation = validatePieceConsole(presentationPiece, pCol, pRow,1);
 
 			if (input_validation) {
 
@@ -122,12 +122,12 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager, Player& p
 			cin >> pCol;
 			cin >> pRow;
 			validationPiece = presentationPiece;
-			system("cls");
+
 			if (presentationPiece == 'J') {
 				cin >> validationPiece;
 			}
-
-			input_validation = validatePieceConsole(validationPiece, pCol, pRow, 2);
+			system("cls");
+			input_validation = validatePieceConsole(presentationPiece, pCol, pRow, 2);
 
 			if (input_validation) {
 
