@@ -1,7 +1,7 @@
 #pragma once
 #include "GamePlayHelper.h"
 
-class FileGameHelper:GamePlayHelper
+class FileGameHelper: public GamePlayHelper
 {
 	ifstream inFile1;
 	ifstream inFile2;

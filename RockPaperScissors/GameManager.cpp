@@ -93,7 +93,9 @@ void GameManager::startTheGame() {
 			return;
 		}
 		else {
-
+			int finishedOrPlayerNumber = 1;
+			cp.setCurrentPlayer(1);
+			LoadMovesToBoard();
 		}
 	}
 }
@@ -253,7 +255,13 @@ void GameManager::LoadMovesToBoard()
 {
 	int playerNumberWithIssue;
 	innerFile1Read = 0;
-	innerFile1Read = fp.readMoveFileFromDirectory(movFileNameA, movFileNameB, playerNumberWithIssue, boardManager, innerMoveFileIssue, weGotAWinner);
+	
+	if (!gameRunSettings.getIsConsoleMode()) {
+		innerFile1Read = fp.readMoveFileFromDirectory(movFileNameA, movFileNameB, playerNumberWithIssue, boardManager, innerMoveFileIssue, weGotAWinner);
+	}
+	else {
+		innerFile1Read = cp.readMoveFileFromConsole(boardManager, weGotAWinner);
+	}
 }
 
 void GameManager::FightAfterLoad()

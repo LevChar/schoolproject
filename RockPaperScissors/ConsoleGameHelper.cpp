@@ -272,3 +272,9 @@ bool ConsoleGameHelper::checkIfFinsihedLoading()
 
 	return counter == 6 ? TRUE:FALSE;
 }
+
+int ConsoleGameHelper::readMoveFileFromConsole(BoardManager & boardManager, int & _weGotAWinner)
+{
+	//////
+	return 0;
+}

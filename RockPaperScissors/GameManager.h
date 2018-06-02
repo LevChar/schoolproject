@@ -34,7 +34,6 @@ public:
 
 	GameManager(GameConfig i_GameRunSettings);
 	~GameManager();
-	void InitializePlayers();
 	void startTheGame();
 	void loadFromConsole(BoardManager *_boardManager);
 	void enterCombat(int _col, int _row);

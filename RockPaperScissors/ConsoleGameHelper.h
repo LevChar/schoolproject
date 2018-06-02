@@ -2,7 +2,7 @@
 
 #include "GamePlayHelper.h"
 
-class ConsoleGameHelper : GamePlayHelper
+class ConsoleGameHelper : public GamePlayHelper
 {
 
 	int downCounterOfPiecesPlayer1[6] = { 1,1,0,0,0,1 }; //R = 2 P = 5 S = 1 B = 2 J = 2 F = 1
@@ -21,5 +21,6 @@ public:
 	bool validatePieceConsole(char _validationPiece, int pCol, int pRow, int playNumber);
 	bool validatePieceChar(char _validationPiece, int _playerNumber);
 	bool checkIfFinsihedLoading();
+	int readMoveFileFromConsole(BoardManager& boardManager, int & _weGotAWinner);
 };
 
