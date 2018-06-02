@@ -76,6 +76,7 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager)
 	while (!completed || !completedPlayer) {
 
 		if (GamePlayHelper::getCurrentPlayer() == 1) {
+			
 			cout << "Player1, please enter one of the following pieces left." << endl;
 			cout << "Rocks left: " << downCounterOfPiecesPlayer1[0] << "." << endl;
 			cout << "Papers left: " << downCounterOfPiecesPlayer1[1] << "." << endl;

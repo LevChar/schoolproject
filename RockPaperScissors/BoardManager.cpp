@@ -646,3 +646,8 @@ int BoardManager::getFlagCounterPlayer2()
 {
 	return flagCounterPlayer2;
 }
+
+BoardPrint BoardManager::getBoardPrint()
+{
+	return bp;
+}

@@ -50,7 +50,7 @@ public:
 	void setFlagCounterPlayer2(int _flagCounterPlayer2);
 	int getFlagCounterPlayer1();
 	int getFlagCounterPlayer2();
-
+	BoardPrint getBoardPrint();
 private:
 
 	GameConfig i_gameRunSettings;
