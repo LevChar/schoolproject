@@ -272,7 +272,7 @@ void BoardManager::movePiece(int * arr, int _playerNumber, int& winnerTocheck, b
 
 			case(PLAYERB):
 
-				bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), PLAYERB, gameBoard[arr[2]][arr[3]].GetCurrentPiece2().getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
+				bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), -1, (Piece::pieceType)(-1), PLAYERB, gameBoard[arr[2]][arr[3]].GetCurrentPiece2().getPieceType(), pieceJoker);
 				return;
 			}
 
@@ -325,7 +325,7 @@ void BoardManager::movePiece(int * arr, int _playerNumber, int& winnerTocheck, b
 
 			case(PLAYERB):
 
-				bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), PLAYERB, gameBoard[arr[2]][arr[3]].GetCurrentPiece2().getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
+				bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), -1 , (Piece::pieceType)(-1), PLAYERB, gameBoard[arr[2]][arr[3]].GetCurrentPiece2().getPieceType(), pieceJoker);
 				return;
 			}
 
