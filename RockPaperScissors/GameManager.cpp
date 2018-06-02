@@ -47,6 +47,19 @@ void GameManager::startTheGame() {
 
 	FightAfterLoad();
 	bp.hidecursor();
+	if (!(gameRunSettings.getIsConsoleMode())) {
+		if (gameRunSettings.getShowMode() == 0) {
+			clearScreen();
+			bp.printBoard(boardManager);
+		}
+		else if (gameRunSettings.getShowMode() == 1) {
+			clearScreen();
+			bp.printBoardInSpecial(boardManager);
+		}
+		else if (gameRunSettings.getShowMode() == 2) {
+			clearScreen();
+			bp.printBoardInSpecial(boardManager, gameRunSettings.getSlected_Player());
+		}
 
 	if (gameRunSettings.getShowMode() == 0) {
 		clearScreen();
@@ -78,6 +91,9 @@ void GameManager::startTheGame() {
 		weGotAWinner = 0;
 		fp.printGameFinalResults(weGotAWinner, winReason, -1, -1, boardManager, FILE_OUTPUT);
 		return;
+	}
+	else {
+
 	}
 }
 
