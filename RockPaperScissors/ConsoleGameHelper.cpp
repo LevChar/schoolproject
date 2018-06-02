@@ -279,15 +279,17 @@ bool ConsoleGameHelper::checkIfFinsihedLoading()
 void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int & _weGotAWinner)
 {
 	int moveAndJockerData[6] = { -1,-1,-1,-1,-1,-1 };
-	char jokerPresentationChange = 'G';
-	int completedPlayer = 0;
+	char jokerPresentationChange;
+	int completedPlayer = 1;
 	int input_validation;
 	char jokerNewPres = -1;
-	bool continoue = 1;
+	bool continoue;
 
-	while (_weGotAWinner == -1 || !completedPlayer) {
+	while (_weGotAWinner == -1 || completedPlayer) {
 		if (GamePlayHelper::getCurrentPlayer() == 1) {
-
+			jokerPresentationChange = 'G';
+			continoue = 1;
+			completedPlayer = 1;
 			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer());
 			while (continoue) {
 				cout << "Player1, Do you want to change Joker presentiation? Y/N: ";
@@ -297,8 +299,6 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 				}
 				else {
 					cout << "Invalid Input!" << endl;
-					cout << "Player1, Do you want to change Joker presentiation? Y/N: ";
-					cin >> jokerPresentationChange;
 				}
 			}
 			system("cls");
@@ -333,7 +333,9 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 			}
 		}
 		else {
-
+			jokerPresentationChange = 'G';
+			continoue = 1;
+			completedPlayer = 1;
 			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer());
 			while (continoue) {
 				cout << "Player2, Do you want to change Joker presentiation? Y/N: ";
@@ -343,8 +345,6 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 				}
 				else {
 					cout << "Invalid Input!" << endl;
-					cout << "Player2, Do you want to change Joker presentiation? Y/N: ";
-					cin >> jokerPresentationChange;
 				}
 			}
 			system("cls");
@@ -378,6 +378,10 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 			else {
 				cout << "Error" << endl;
 			}
+		}
+
+		for (int i = 0; i < 6; i++) {
+			moveAndJockerData[i] = -1;
 		}
 	}
 }
