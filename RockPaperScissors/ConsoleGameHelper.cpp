@@ -98,7 +98,7 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager, Player& p
 
 				//if player try to put 2 pices @ the same square we will get false here
 
-				completedPlayer = _boardManager->loadPosFromFile(presentationPiece, pCol, pRow, GamePlayHelper::getCurrentPlayer(), validationPiece);
+				completedPlayer = _boardManager->loadPosFromFile(validationPiece, pCol, pRow, GamePlayHelper::getCurrentPlayer(), presentationPiece);
 
 				if (completedPlayer == 1) {
 					GamePlayHelper::setCurrentPlayer(p2);
@@ -132,7 +132,7 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager, Player& p
 			if (input_validation) {
 
 				//if player try to put 2 pices @ the same square we will get false here
-				completedPlayer = _boardManager->loadPosFromFile(presentationPiece, pCol, pRow, GamePlayHelper::getCurrentPlayer(), validationPiece);
+				completedPlayer = _boardManager->loadPosFromFile(validationPiece, pCol, pRow, GamePlayHelper::getCurrentPlayer(), presentationPiece);
 
 				if (completedPlayer == 1) {
 					GamePlayHelper::setCurrentPlayer(p1);
