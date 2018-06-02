@@ -59,8 +59,8 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 				if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber() != 0 &&
 					gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber() != 0) {
 
-					drawWithColor(BOTHPLAYERS, PLAYERA, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPieceType(), BLACK, piece1Joker);
-					drawWithColor(BOTHPLAYERS, PLAYERB, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPieceType(), BLACK, piece2Joker);
+					drawWithColor(BOTHPLAYERS, PLAYERA, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
+					drawWithColor(BOTHPLAYERS, PLAYERB, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
 				}
 				//case one of the players @ the square
 				else {
@@ -70,13 +70,13 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 					if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber()) {
 
 						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber();
-						drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPieceType(), BLACK, piece1Joker);
+						drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
 					}
 
 					else {
 
 						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber();
-						drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPieceType(), BLACK, piece2Joker);
+						drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
 					}
 				}
 			}
@@ -142,8 +142,8 @@ void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 				if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber() != 0 &&
 					gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber() != 0) {
 
-					drawWithColor(BOTHPLAYERS, PLAYERA, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPieceType(), BLACK, piece1Joker);
-					drawWithColor(BOTHPLAYERS, PLAYERB, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPieceType(), BLACK, piece2Joker);
+					drawWithColor(BOTHPLAYERS, PLAYERA, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
+					drawWithColor(BOTHPLAYERS, PLAYERB, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
 				}
 				//case one of the players @ the square
 				else {
@@ -154,7 +154,7 @@ void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 
 						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber();
 						if (playerNumber == 1) {
-							drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPieceType(), BLACK, piece1Joker);
+							drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
 						}
 						else {
 							drawWithColor(PLAYERA, current_player, Piece::pieceType::UNKNOWN, BLACK, piece1Joker);
@@ -165,7 +165,7 @@ void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
 
 						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber();
 						if (playerNumber == 2) {
-							drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPieceType(), BLACK, piece2Joker);
+							drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
 						}
 						else {
 							drawWithColor(PLAYERB, current_player, Piece::pieceType::UNKNOWN, BLACK, piece2Joker);

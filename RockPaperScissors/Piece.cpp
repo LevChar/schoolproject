@@ -127,19 +127,19 @@ void Piece::setPieceTypeFromChar(char _CharPieceType)
 
 	if ((_CharPieceType == 'r'))
 	{
-		setPieceType(pieceType::ROCK);
+		setPieceType(pieceType::JOKER);
 		setLastKnownPieceType(pieceType::ROCK);
 	}
 
 	if ((_CharPieceType == 'p'))
 	{
-		setPieceType(pieceType::PAPER);
+		setPieceType(pieceType::JOKER);
 		setLastKnownPieceType(pieceType::PAPER);
 	}
 
 	if ((_CharPieceType == 's'))
 	{
-		setPieceType(pieceType::SCISSORS);
+		setPieceType(pieceType::JOKER);
 		setLastKnownPieceType(pieceType::SCISSORS);
 	}
 }

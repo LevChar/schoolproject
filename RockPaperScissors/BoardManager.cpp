@@ -46,21 +46,12 @@ void BoardManager::SetSquareInfo(BoardSquareInfo i_NewInfo)
 	gameBoard[col][row] = i_NewInfo;
 }
 
-/*
-BoardSquareInfo BoardManager::getSquareInfo(int _col, int _row)
-{
-	return gameBoard[_row-1][_col-1];
-}
-*/
-
 BoardSquareInfo * BoardManager::getSquareInfo(int _col, int _row)
 {
 	return &gameBoard[_col][_row];
 }
 
-BoardManager::~BoardManager()
-{
-}
+BoardManager::~BoardManager(){}
 
 bool BoardManager::loadPosFromFile(char _piece, int _col, int _row, Player& player, char _pieceValidation){
 
@@ -470,9 +461,7 @@ Piece BoardManager::convertCharToPiece(char _piece, Player& player, int _isJoker
 	tempPiece.setPlayer(player);
 	tempPiece.setisMoveable(_isMoveable);
 
-	if (_isJokerOrFlag == 1) 
-		tempPiece.setLastKnownPieceType(Piece::pieceType::JOKER);
-	else if (_isJokerOrFlag == 2) 
+	if (_isJokerOrFlag == 2) 
 		tempPiece.setIsFlag(_isJokerOrFlag);
 
 	return tempPiece;
