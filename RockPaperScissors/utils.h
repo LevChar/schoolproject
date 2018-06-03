@@ -1,5 +1,5 @@
-#ifndef  __utils_H
-#define __utlis_H
+#ifndef __UTILS_H
+#define __UTILS_H
 
 #include <windows.h>
 #include <iostream>
@@ -30,4 +30,5 @@ void hidecursor();
 void clearScreen();
 
 bool converStringToInt(int *backInt, const char * str);
-#endif // ! __utils_H
+
+#endif // ! __UTILS_H

@@ -47,9 +47,6 @@ public:
 	int getLoadedPosProperly();
 	int CheckForWinners(int &_reason);
 	int LoadToBoard();
-	
-	//void printBoard(BoardManager boardManager);
-	
 };
 
 #endif // !__GameManager_H

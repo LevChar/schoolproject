@@ -74,7 +74,7 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager, Player& p
 	while (!completed || !completedPlayer) {
 
 		if (GamePlayHelper::getCurrentPlayer().getplayerNumber() == 1) {
-			_boardManager->getBoardPrint().printBoardInSpecial(*_boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
+			_boardManager->getBoardPrint().printBoard(*_boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			cout << "Player1, please enter one of the following pieces left." << endl;
 			cout << "Rocks left: " << downCounterOfPiecesPlayer1[0] << "." << endl;
 			cout << "Papers left: " << downCounterOfPiecesPlayer1[1] << "." << endl;
@@ -109,7 +109,7 @@ void ConsoleGameHelper::consoleInsertPos(BoardManager * _boardManager, Player& p
 			}
 		}
 		else {
-			_boardManager->getBoardPrint().printBoardInSpecial(*_boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
+			_boardManager->getBoardPrint().printBoard(*_boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			cout << "Player2, please enter one of the following pieces left." << endl;
 			cout << "Rocks left: " << downCounterOfPiecesPlayer2[0] << "." << endl;
 			cout << "Papers left: " << downCounterOfPiecesPlayer2[1] << "." << endl;
@@ -286,7 +286,7 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 			jokerPresentationChange = 'G';
 			continoue = 1;
 			completedPlayer = 1;
-			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
+			boardManager->getBoardPrint().printBoard(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			while (continoue) {
 				cout << "Player1, Do you want to change Joker presentiation? Y/N: ";
 				cin >> jokerPresentationChange;
@@ -298,7 +298,7 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 				}
 			}
 			system("cls");
-			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
+			boardManager->getBoardPrint().printBoard(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			cout << "Player 1, please move... ";
 			cin >> moveAndJockerData[0];
 			cin >> moveAndJockerData[1];
@@ -332,7 +332,7 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 			jokerPresentationChange = 'G';
 			continoue = 1;
 			completedPlayer = 1;
-			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
+			boardManager->getBoardPrint().printBoard(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			while (continoue) {
 				cout << "Player2, Do you want to change Joker presentiation? Y/N: ";
 				cin >> jokerPresentationChange;
@@ -344,7 +344,7 @@ void ConsoleGameHelper::readMoveFileFromConsole(BoardManager * boardManager, int
 				}
 			}
 			system("cls");
-			boardManager->getBoardPrint().printBoardInSpecial(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
+			boardManager->getBoardPrint().printBoard(*boardManager, GamePlayHelper::getCurrentPlayer().getplayerNumber());
 			cout << "Player 2, please move... ";
 			cin >> moveAndJockerData[0];
 			cin >> moveAndJockerData[1];

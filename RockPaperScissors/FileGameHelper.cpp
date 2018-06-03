@@ -129,7 +129,7 @@ int FileGameHelper::readPositioningFileFromDirectory(string fileName, Player& pl
 					return GamePlayHelper::getNumOfRowsRead();
 				}
 
-				if (checkEnterBeforeNextLine(inFile)) {
+				if (checkEnterBeforeNextLine(inFile) || inFile.eof()) {
 
 					current_read_state = READ_PIECE;
 					GamePlayHelper::increaseNumOfRowsRead();
@@ -141,7 +141,6 @@ int FileGameHelper::readPositioningFileFromDirectory(string fileName, Player& pl
 					return GamePlayHelper::getNumOfRowsRead();
 
 				}
-
 			}
 
 			else {
@@ -272,10 +271,6 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 	bool switchPlayer = false;
 	ifstream inFile1(_fileName1), inFile2(_fileName2), *currFile = nullptr;
 
-	if (!validateFileOpened(inFile1, _fileName1) || !validateFileOpened(inFile2, _fileName2))
-		return ((!validateFileOpened(inFile1, _fileName1)) && !validateFileOpened(inFile2, _fileName2)) ? BOTH_FILES_OPEN_ERROR :
-		!validateFileOpened(inFile1, _fileName1) ? FILE1_OPEN_ERROR : FILE2_OPEN_ERROR;
-
 	resetForNewDataSon(moveAndJockerData, numOfArgsRd, jNewRep, current_read_state);
 
 	while (continueReadingFile && _weGotAWinner== -1) {
@@ -379,11 +374,11 @@ int FileGameHelper::readMoveFileFromDirectory(string _fileName1, string _fileNam
 			if (_weGotAWinner == -1) {
 				if (GamePlayHelper::checkMoveApplicable(moveAndJockerData)) { 
 						
-					innerIssue = boardManager.checkMovePiece(moveAndJockerData, GamePlayHelper::getCurrentPlayer().getplayerNumber(), jNewRep, _weGotAWinner);
+					innerIssue = boardManager.checkMovePiece(moveAndJockerData, getCurrentPlayer().getplayerNumber(), jNewRep, _weGotAWinner);
 				}
 				else {
 					innerIssue = BAD_MOVE_FILE_FOR_PLAYER_LINE;
-					_weGotAWinner = ((GamePlayHelper::getCurrentPlayer().getplayerNumber() == 1) ? 2 : 1);
+					_weGotAWinner = ((getCurrentPlayer().getplayerNumber() == 1) ? 2 : 1);
 					return 	GamePlayHelper::getNumOfRowsRead();
 				}
 				// here return the line number and the error.
@@ -405,8 +400,8 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 	//The function was called but switch_player is set to false (no actual need to change player). 
 	//-----------> 3 options: 1. EOF 2. need to set the first player 3. continue input <----------
 
-	Player temp1(1);
-	Player temp2(2);
+	Player* temp1 = new Player(1);
+	Player* temp2 = new Player(2);;
 
 	if (!switch_player) {
 
@@ -414,15 +409,14 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 		if (currentFile == nullptr) {
 
 			if (!file1.eof()) {
-				GamePlayHelper::setCurrentPlayer(temp1);
+				FileGameHelper::setCurrentPlayer(*temp1);
 				r_of_p2 = GamePlayHelper::getNumOfRowsRead();;
 				GamePlayHelper::setNumOfRowsRead(r_of_p1);
 				currentFile = &file1;
-
 			}
 
 			else {
-				GamePlayHelper::setCurrentPlayer(temp2);
+				FileGameHelper::setCurrentPlayer(*temp2);
 				r_of_p1 = GamePlayHelper::getNumOfRowsRead();
 				GamePlayHelper::setNumOfRowsRead(r_of_p2);
 				
@@ -445,7 +439,7 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 
 				else {
 
-					GamePlayHelper::setCurrentPlayer(temp2);
+					FileGameHelper::setCurrentPlayer(*temp2);
 					r_of_p1 = GamePlayHelper::getNumOfRowsRead();
 					GamePlayHelper::setNumOfRowsRead(r_of_p2);
 					currentFile = &file2;
@@ -459,7 +453,7 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 
 				else {
 
-					GamePlayHelper::setCurrentPlayer(temp1);
+					FileGameHelper::setCurrentPlayer(*temp1);
 					r_of_p2 = GamePlayHelper::getNumOfRowsRead();
 					GamePlayHelper::setNumOfRowsRead(r_of_p1);
 					currentFile = &file1;
@@ -481,16 +475,14 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 
 		//asked to chenge the file but the other file is finished, stay @ current file
 		if (currentFile == &file1 && !file2.good() || currentFile == &file2 && !file1.good()) {
-
 			switch_player = false;
 			return true;
-
 		}
 
 		//switch from 1 to 2
 		if (currentFile == &file1 && file2.good()) {
 
-			GamePlayHelper::setCurrentPlayer(temp2);
+			FileGameHelper::setCurrentPlayer(*temp2);
 			r_of_p1 = GamePlayHelper::getNumOfRowsRead();
 			GamePlayHelper::setNumOfRowsRead(r_of_p2);
 			currentFile = &file2;
@@ -501,7 +493,7 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 		//switch from 2 to 1
 		if (currentFile == &file2 && file1.good()) {
 
-			GamePlayHelper::setCurrentPlayer(temp1);
+			FileGameHelper::setCurrentPlayer(*temp1);
 			r_of_p2 = GamePlayHelper::getNumOfRowsRead();
 			GamePlayHelper::setNumOfRowsRead(r_of_p1);
 			currentFile = &file1;
@@ -515,8 +507,19 @@ bool FileGameHelper::checkAndSetNextRead(ifstream& file1, ifstream& file2, ifstr
 
 void FileGameHelper::resetForNewDataSon(int* result_array, int& argumentCounter, char& jNewRep, int& current_state) {
 
+
 	GamePlayHelper::resetForNewData(result_array, argumentCounter, jNewRep, current_state);
 	continueReadingFile = true;
+}
+
+void FileGameHelper::setCurrentPlayer(Player& _player) {
+
+	current_ply = &_player;
+}
+
+Player& FileGameHelper::getCurrentPlayer() {
+
+	return *current_ply;
 }
 
 int FileGameHelper::CheckMovesCanOpen(string _fileName1, string _fileName2)
@@ -582,7 +585,6 @@ void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1
 			outFile << "Bad Positioning input file for both players - player1: line " << badposPl1Row << ", player 2: line " << badposPl2Row << endl;
 		}
 		else if (reason == BAD_MOVE_FILE_FOR_PLAYER_LINE) {
-			//TODO - send move errors only through badposPl1Row
 			outFile << "Bad Moves input file for player " << looser << " -line " << badposPl1Row << endl;
 		}
 		else {
@@ -597,6 +599,9 @@ void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1
 		else if (reason == HEY_YOU_DONT_HAVE_A_PIECE_HERE) {
 			cout << "Player " << winner << " won because the opponent tried to move a peice in not existent location." << endl;
 		}
+		else if (reason == HEY_YOU_DONT_HAVE_A_JOKER_HERE) {
+			cout << "Player " << winner << " won because the opponent tried to change a not existent joker." << endl;
+		}
 		else if (reason == HEY_YOU_ARE_TRYING_TO_MOVE_INTO_YOUR_OWN_PIECE) {
 			cout << "Player " << winner << " won because the opponent moved into his own piece." << endl;
 		}
@@ -604,7 +609,6 @@ void FileGameHelper::printGameFinalResults(int winner, int reason, int badposPl1
 			cout << "Player " << winner << " won because the opponent tryed to move unmoveable piece." << endl;
 		}
 		else if (reason == BAD_MOVE_FILE_FOR_PLAYER_LINE) {
-			//TODO - send move errors only through badposPl1Row
 			outFile << "Bad Moves input file for player " << looser << " -line " << badposPl1Row << endl;
 		}
 	}

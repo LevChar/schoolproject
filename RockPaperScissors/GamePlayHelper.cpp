@@ -130,7 +130,6 @@ int GamePlayHelper::validateMove(int* arr, char Jrep) {
 	return SUCCESS;
 }
 
-// TODO ARIE NEED TO CHECK.
 void GamePlayHelper::resetForNewData(int* result_array, int& argumentCounter, char& jNewRep, int& current_state) {
 
 	for (int i = 0; i < 6; i++)
@@ -139,5 +138,4 @@ void GamePlayHelper::resetForNewData(int* result_array, int& argumentCounter, ch
 	argumentCounter = 0;
 	jNewRep = -1;
 	current_state = RS1;
-	
 }

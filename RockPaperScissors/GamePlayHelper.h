@@ -1,6 +1,6 @@
-#pragma once
+#ifndef __GAMEPLAY_HELPER_H
+#define __GAMEPLAY_HELPER_H
 
-using namespace std;
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -17,6 +17,8 @@ class GamePlayHelper{
 	
 public:
 
+	GamePlayHelper();
+	~GamePlayHelper();
 	void resetForNewData(int* result_array, int& argumentCounter, char& jNewRep, int& current_state);	
 	int validateMove(int* arr, char Jrep);
 	bool checkMoveApplicable(int *arr);
@@ -31,7 +33,6 @@ public:
 	void setCurrentPlayer(Player& _player);
 
 	virtual void f() = 0; // for testing
-
-	GamePlayHelper();
-	~GamePlayHelper();
 };
+
+#endif // !__GAMEPLAY_HELPER_H

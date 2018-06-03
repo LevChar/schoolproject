@@ -91,18 +91,21 @@ bool BoardManager::loadPosFromFile(char _piece, int _col, int _row, Player& play
 		}
 	}
 
-	else if (gameBoard[_col - 1][_row - 1].GetCurrentPiece2().getPlayer().getplayerNumber() == 0){
+	else if (player.getplayerNumber() == 2) {
+
+		if (gameBoard[_col - 1][_row - 1].GetCurrentPiece2().getPlayer().getplayerNumber() == 0) {
 			gameBoard[_col - 1][_row - 1].SetCurrentPiece2(tempPiece);
 
 			if (jokerOrFlag == 2)
 				gameBoard[_col - 1][_row - 1].GetCurrentPiece2ByRef().getPlayer().increaseFlagCounter();
+		}
+
+		else {
+			std::cout << "Player " << player.getplayerNumber() << " placed two pieces in the same location!" << std::endl;
+			proceed = false;
+		}
 	}
 
-	else {
-		std::cout << "Player " << player.getplayerNumber() << " placed two pieces in the same location!" << std::endl;
-		proceed = false;
-	}
-		
 	if (proceed != false) {
 		if (_pieceValidation != 'F' && _pieceValidation != 'B') {
 
@@ -157,6 +160,12 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 				{
 					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER)
 						movePiece(arr, playerNumber, i_weGotAWinner, TRUE, jokerNewForm);
+					else {
+
+						issue = HEY_YOU_DONT_HAVE_A_JOKER_HERE;
+						i_weGotAWinner = 2;
+						return issue;
+					}
 				}
 				else 
 					movePiece(arr, playerNumber, i_weGotAWinner, TRUE);
@@ -168,6 +177,12 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 				{
 					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece1() == Piece::pieceType::JOKER)
 						movePiece(arr, playerNumber, i_weGotAWinner, FALSE, jokerNewForm);
+					else {
+
+						issue = HEY_YOU_DONT_HAVE_A_JOKER_HERE;
+						i_weGotAWinner = 2;
+						return issue;
+					}
 						
 				}
 				else 
@@ -203,6 +218,12 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 				{
 					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER)
 						movePiece(arr, playerNumber, i_weGotAWinner, TRUE, jokerNewForm);
+					else {
+
+						issue = HEY_YOU_DONT_HAVE_A_JOKER_HERE;
+						i_weGotAWinner = 2;
+						return issue;
+					}
 				}
 				else
 					movePiece(arr, playerNumber, i_weGotAWinner, TRUE);
@@ -214,6 +235,12 @@ int BoardManager::checkMovePiece(int *arr, int playerNumber, char jokerNewForm, 
 				{
 					if (gameBoard[arr[4]][arr[5]].GetCurrentPiece2() == Piece::pieceType::JOKER)
 						movePiece(arr, playerNumber, i_weGotAWinner, FALSE, jokerNewForm);
+					else {
+
+						issue = HEY_YOU_DONT_HAVE_A_JOKER_HERE;
+						i_weGotAWinner = 2;
+						return issue;
+					}
 				}
 				else 
 					movePiece(arr, playerNumber,i_weGotAWinner);
@@ -359,7 +386,8 @@ void BoardManager::movePiece(int * arr, int _playerNumber, int& winnerTocheck, b
 				}
 				else if (i_gameRunSettings.getShowMode() == 2) {
 					if (i_gameRunSettings.getSlected_Player() == 1) {
-						bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), 1, tempPiece.getPieceType(), -1, (Piece::pieceType)(-1), pieceJoker);
+						clearScreen();
+						bp.printBoard(*this, i_gameRunSettings.getSlected_Player());
 					}
 
 					else
@@ -407,8 +435,10 @@ void BoardManager::movePiece(int * arr, int _playerNumber, int& winnerTocheck, b
 					bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), -1, (Piece::pieceType)(-1), 2, Piece::pieceType::UNKNOWN, pieceJoker);
 				}
 				else if (i_gameRunSettings.getShowMode() == 2) {
-					if (i_gameRunSettings.getSlected_Player() == 1)
-						bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), -1, (Piece::pieceType)(-1), 2, tempPiece.getPieceType(), pieceJoker);
+					if (i_gameRunSettings.getSlected_Player() == 1){	
+						clearScreen();
+						bp.printBoard(*this, i_gameRunSettings.getSlected_Player());
+					}
 					else
 						bp.PrintMove(arr[2], arr[3], eSquareCapacity(ONEPLAYER), 1, Piece::pieceType::UNKNOWN, -1, (Piece::pieceType)(-1), pieceJoker);
 				}

@@ -14,8 +14,9 @@ void BoardPrint::hidecursor(){
 	SetConsoleCursorInfo(consoleHandle, &info);
 }
 
-void BoardPrint::printBoard(BoardManager gameBoard) {
-
+void BoardPrint::printBoard(BoardManager gameBoard, int player) {
+	
+	setTextColor(WHITE);
 	int row = 0;
 	std::cout << "     |";
 	for (int i = 1; i < 11; i++) {
@@ -32,7 +33,6 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 
 	cout << endl;
 	for (int i = 1; i < 11; i++) {
-
 
 		if (i<10)
 			std::cout << "| " << i << "  |";
@@ -55,128 +55,64 @@ void BoardPrint::printBoard(BoardManager gameBoard) {
 			//case of not empty sqaure
 			else {
 
-				//case both players @ the square 	// NOT RELEAVNT AS WE WILL DO THE FIGHT AFTER LOAD BEFORE PRINTING TO SCREEN SO ALWAYS ONE WILL BE LEFT.
-				if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber() != 0 &&
-					gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber() != 0) {
-
-					drawWithColor(BOTHPLAYERS, PLAYERA, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
-					drawWithColor(BOTHPLAYERS, PLAYERB, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
-				}
-				//case one of the players @ the square
-				else {
-
-					int current_player;
-
-					if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber()) {
-
-						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber();
-						drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
-					}
-
-					else {
-
-						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber();
-						drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
-					}
-				}
-			}
-
-			setTextColor(WHITE);  std::cout << "|";
-		}
-		std::cout << std::endl;
-		row++;
-
-		for (int i = 0; i < (11 * 5) + 1; i++)
-			std::cout << "-";
-
-		cout << endl;
-	}
-}
-
-// REUSAGE OF CODE, will change with the new design.
-void BoardPrint::printBoardInSpecial(BoardManager gameBoard, int playerNumber)
-{
-	if (playerNumber != 0) {
-
-	}
-	int row = 0;
-	std::cout << "     |";
-	for (int i = 1; i < 11; i++) {
-
-		if (i<10)
-			std::cout << " " << i << "  |";
-		else
-			std::cout << " " << i << " |";
-	}
-	cout << endl;
-	for (int i = 0; i < (11 * 5) + 1; i++) {
-		std::cout << "-";
-	}
-
-	cout << endl;
-	for (int i = 1; i < 11; i++) {
-
-
-		if (i<10)
-			std::cout << "| " << i << "  |";
-		else
-			std::cout << "| " << i << " |";
-
-		for (int col = 0; col < M; col++) {
-
-			bool piece1Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1() == Piece::pieceType::JOKER ? TRUE : FALSE;
-			bool piece2Joker = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2() == Piece::pieceType::JOKER ? TRUE : FALSE;
-
-			//case of empty square
-			if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber() == 0 &&
-				gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber() == 0) {
-
-
-				std::cout << "    ";
-			}
-
-			//case of not empty sqaure
-			else {
+				//case both players @ the square 	
 				// NOT RELEAVNT AS WE WILL DO THE FIGHT AFTER LOAD BEFORE PRINTING TO SCREEN SO ALWAYS ONE WILL BE LEFT.
-				//case both players @ the square
 				if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber() != 0 &&
 					gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber() != 0) {
 
 					drawWithColor(BOTHPLAYERS, PLAYERA, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
 					drawWithColor(BOTHPLAYERS, PLAYERB, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
 				}
+
 				//case one of the players @ the square
 				else {
 
 					int current_player;
 
+					//if it's the first player
 					if (gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber()) {
 
 						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getPlayer().getplayerNumber();
-						if (playerNumber == 1) {
-							drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
-						}
-						else {
-							drawWithColor(PLAYERA, current_player, Piece::pieceType::UNKNOWN, BLACK, piece1Joker);
-						}
-					}
 
+						switch (player) {
+
+						case(EMPTY):
+							drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
+							break;
+						case(PLAYERA):
+							drawWithColor(PLAYERA, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece1().getLastKnownRep(), BLACK, piece1Joker);
+							break;
+						case(PLAYERB):
+							drawWithColor(PLAYERA, current_player, Piece::pieceType::UNKNOWN, BLACK, piece1Joker);
+							break;
+						}
+						
+					}
+					
+					//if it's the second player
 					else {
 
 						current_player = gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getPlayer().getplayerNumber();
-						if (playerNumber == 2) {
-							drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
-						}
-						else {
-							drawWithColor(PLAYERB, current_player, Piece::pieceType::UNKNOWN, BLACK, piece2Joker);
-						}
-					}
 
+						switch (player) {
+
+						case(EMPTY):
+							drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
+							break;
+						case(PLAYERB):
+							drawWithColor(PLAYERB, current_player, gameBoard.getSquareInfo(col, row)->GetCurrentPiece2().getLastKnownRep(), BLACK, piece2Joker);
+							break;
+						case(PLAYERA):
+							drawWithColor(PLAYERB, current_player, Piece::pieceType::UNKNOWN, BLACK, piece2Joker);
+							break;
+						}	
+					}
 				}
 			}
 
 			setTextColor(WHITE);  std::cout << "|";
 		}
+
 		std::cout << std::endl;
 		row++;
 

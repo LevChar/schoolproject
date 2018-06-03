@@ -1,6 +1,7 @@
 #ifndef __General_H
 #define __General_H
 
+using namespace std;
 #include <string.h>
 
 #define THIS_IS_NOT_A_LETTER -2
@@ -28,6 +29,7 @@ enum afterMoveWasSentIssues {
 	HEY_ALL_IS_FINE, 
 	HEY_THIS_IS_NOT_YOUR_PIECE,
 	HEY_YOU_DONT_HAVE_A_PIECE_HERE,
+	HEY_YOU_DONT_HAVE_A_JOKER_HERE,
 	HEY_THIS_PIECE_IS_NOT_MOVEABLE,
 	HEY_YOU_ARE_TRYING_TO_MOVE_INTO_YOUR_OWN_PIECE,
 	HEY_YOU_ARE_TRYING_TO_MOVE_PIECE_IN_IMPOSSIBLE_WAY
@@ -56,6 +58,5 @@ static const char* posFileNameA = "player1.rps_board";
 static const char* posFileNameB = "player2.rps_board";
 static const char* movFileNameA = "player1.rps_moves";
 static const char* movFileNameB = "player2.rps_moves";
-
 
 #endif // !__General_H

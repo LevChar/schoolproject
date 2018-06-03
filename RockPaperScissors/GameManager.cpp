@@ -22,7 +22,6 @@ GameManager::GameManager(GameConfig i_GameRunSettings) :
 			weGotAWinner = CheckForWinners(reason);
 		}
 
-		// TODO if we didnt have an issue during the load then we will print the board according to the settings.
 		if (weGotAWinner != -1) {
 
 			if (innerFile1Read != 0 || innerFile2Read != 0 || loadedPosProperly != 0) {
@@ -54,11 +53,11 @@ void GameManager::startTheGame() {
 		}
 		else if (gameRunSettings.getShowMode() == 1) {
 			clearScreen();
-			bp.printBoardInSpecial(boardManager);
+			bp.printBoard(boardManager);
 		}
 		else if (gameRunSettings.getShowMode() == 2) {
 			clearScreen();
-			bp.printBoardInSpecial(boardManager, gameRunSettings.getSlected_Player());
+			bp.printBoard(boardManager, gameRunSettings.getSlected_Player());
 		}
 
 		if (gameRunSettings.getShowMode() == 0) {
@@ -67,15 +66,15 @@ void GameManager::startTheGame() {
 		}
 		else if (gameRunSettings.getShowMode() == 1) {
 			clearScreen();
-			bp.printBoardInSpecial(boardManager);
+			bp.printBoard(boardManager);
 		}
 		else if (gameRunSettings.getShowMode() == 2) {
 			clearScreen();
-			bp.printBoardInSpecial(boardManager, gameRunSettings.getSlected_Player());
+			bp.printBoard(boardManager, gameRunSettings.getSlected_Player());
 		}
 
 		if (weGotAWinner != -1) {
-			fp.printGameFinalResults(weGotAWinner, winReason, -1, -1, boardManager, FILE_OUTPUT);
+			fp.printGameFinalResults(weGotAWinner, boardManager.getWinReason(), -1, -1, boardManager, FILE_OUTPUT);
 			return;
 		}
 

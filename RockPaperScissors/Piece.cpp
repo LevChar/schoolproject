@@ -169,7 +169,17 @@ char Piece::getCharFromMyPiece()
 	{
 		return 'F';
 	}
-	else {
-		return 'U';
+	else if (getPieceType() == pieceType::JOKER)
+	{
+		if(getLastKnownRep() == pieceType::ROCK)
+			return 'r';
+		if (getLastKnownRep() == pieceType::PAPER)
+			return 'p';
+		if (getLastKnownRep() == pieceType::SCISSORS)
+			return 's';
+		if (getLastKnownRep() == pieceType::BOMB)
+			return 'b';
 	}
+
+	return 'U';
 }

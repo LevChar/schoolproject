@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __CONSOLE_GAMEPLAY_HELPER_H
+#define __CONSOLE_GAMEPLAY_HELPER_H
 
 #include "GamePlayHelper.h"
 
@@ -23,3 +24,4 @@ public:
 	bool checkPiece(char piece);
 };
 
+#endif // !__CONSOLE_GAMEPLAY_HELPER_H

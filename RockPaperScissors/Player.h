@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __PLAYER_H
+#define __PLAYER_H
+
 #include "Piece.h"
 
 class Piece;
@@ -11,7 +13,7 @@ class Player{
 	int readInputStatus;
 	Piece* pices[SUM_OF_ALL_PICES];
 
-	//todo game result object (lose\win, reason, line)
+	//todo - IDEA FOR CONTINUE AFTER THECORSE - game result object (lose\win, reason, line)
 	
 public:
 
@@ -30,4 +32,7 @@ public:
 	void increaseMovingPieces();
 	void increaseFlagCounter();
 	void decreaseFlagCounter();
+
 };
+
+#endif // !__PLAYER_H

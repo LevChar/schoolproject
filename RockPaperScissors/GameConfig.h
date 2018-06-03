@@ -1,7 +1,6 @@
 #ifndef __GameConfig_H
 #define __GameConfig_H
 
-
 class GameConfig {
 
 	bool isQuietMode;
@@ -27,8 +26,6 @@ public:
 	void setIsConsoleMode(bool isConsoleModeStatus);
 
 	void InitializeSettings(int args_size, const char** arguments);
-
 };
-
 
 #endif // !__GameConfig_H

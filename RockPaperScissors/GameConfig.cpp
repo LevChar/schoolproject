@@ -7,10 +7,6 @@
 using std::cout;
 using std::endl;
 
-//TODO
-//add validation tests
-//check cases of delay without number or player without number
-
 int GameConfig::getShowMode()
 {
 	return showMode;

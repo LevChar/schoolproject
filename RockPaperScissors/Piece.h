@@ -1,5 +1,5 @@
-#ifndef __Piece_H
-#define __Piece_H
+#ifndef __PIECE_H
+#define __PIECE_H
 
 #include "BoardPoint.h"
 #include "Player.h"
@@ -55,4 +55,4 @@ private:
 	int timesJokerExposed;
 };
 
-#endif // !__Piece_H
+#endif // !__PIECE_H

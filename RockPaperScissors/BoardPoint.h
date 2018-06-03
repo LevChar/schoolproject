@@ -11,6 +11,7 @@ private:
 	int column = M;
 
 public:
+
 	BoardPoint(int i_Row = 1, int i_Col = 1);
 
 	int GetRow();
@@ -20,6 +21,4 @@ public:
 	~BoardPoint();
 };
 
-
 #endif // !__BoardPoint_H
-
